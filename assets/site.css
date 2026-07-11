@@ -450,3 +450,41 @@ footer {
     url('img/bg.jpg') center/cover no-repeat,
     var(--bg);
 }
+
+/* Inline screenshots inside docs pages */
+.doc-shot {
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid var(--line2);
+  border-radius: var(--rm);
+  box-shadow: 0 12px 34px rgba(0,0,0,.45);
+  margin: 6px 0 22px;
+}
+.doc-shot-cap { font-size: 12px; color: var(--txt4); margin: -16px 0 22px; }
+
+/* ── Lightbox (click any screenshot to expand) ────────────────────────── */
+img.doc-shot,
+.shots img,
+.project-media img,
+.project-body img { cursor: zoom-in; }
+
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.92);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; padding: 24px; cursor: zoom-out;
+  backdrop-filter: blur(4px);
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 96vw; max-height: 92vh;
+  border-radius: var(--rm);
+  border: 1px solid var(--line2);
+  box-shadow: 0 24px 70px rgba(0,0,0,.7);
+}
+.lightbox .lb-close {
+  position: absolute; top: 18px; right: 24px;
+  color: var(--txt2); font-size: 30px; line-height: 1;
+  background: none; border: 0; cursor: pointer;
+}
+.lightbox .lb-close:hover { color: var(--acc); }

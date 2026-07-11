@@ -32,7 +32,6 @@
     <div class="group">
       <div class="group-lbl">Start here</div>
       <a href="getting-started.html">Getting started</a>
-      <a href="wled-migration.html">Migrating from WLED</a>
       <a href="faq.html">FAQ</a>
     </div>
     <div class="group">
@@ -56,15 +55,20 @@
 
     <h2 id="network">Network</h2>
     <p>Ethernet is primary on boards that have it — plug the cable and DHCP does the rest, or set a static IP. WiFi settings include an SSID scan list; if neither Ethernet nor WiFi comes up, the board falls back to its own <b>SoftAP</b> so it's never unreachable. A connection status badge shows the live link state, and the mDNS hostname (<code>ravXXXX.local</code>) is configured here too.</p>
+    <img class="doc-shot" src="../assets/img/ui/network.png" alt="Web UI — Network section" loading="lazy">
 
     <h2 id="dmx">DMX</h2>
     <p>The source selector switches between <b>Art-Net</b>, <b>sACN</b>, <b>Wired DMX</b>, <b>Auto Scene</b> (recorder playback) and <b>Effects</b> — <b>live, without a reboot</b>. Set the start universe and start channel to match your patch. A live <b>FPS counter</b> shows the incoming frame rate of the active source, which is the quickest sanity check that data is flowing.</p>
+    <img class="doc-shot" src="../assets/img/ui/dmx.png" alt="Web UI — DMX source section" loading="lazy">
 
     <h2 id="fixture">Fixture section</h2>
     <p>Each fixture injects its own accordion: Veyron shows personalities and dimming curves, Elyon shows the per-output table, Orion shows motor status, jog controls and the setup wizard. See the dedicated guides — <a href="fixtures/veyron.html">Veyron</a>, <a href="fixtures/elyon.html">Elyon</a>, <a href="fixtures/orion.html">Orion</a>.</p>
+    <img class="doc-shot" src="../assets/img/ui/motor.png" alt="Web UI — fixture section (Orion motor)" loading="lazy">
+    <p class="doc-shot-cap">Example: Orion's motor section — status, action buttons and configuration cards.</p>
 
     <h2 id="monitor">DMX monitor</h2>
-    <p>A standalone page showing the live DMX buffer as a <b>32×16 grid</b> of channel values with color coding. Channels used by the fixture are highlighted, a universe selector lets you inspect any registered universe, and pause/resume freezes the view for reading values. This is the first place to look when "nothing is moving" — if the grid is live, the network is fine.</p>
+    <p>A standalone page showing the live DMX buffer as a grid of channel values with color coding. Channels used by the fixture are highlighted, a universe selector lets you inspect any registered universe, and pause/resume freezes the view for reading values. This is the first place to look when "nothing is moving" — if the grid is live, the network is fine.</p>
+    <img class="doc-shot" src="../assets/img/ui/dmxmonitor.png" alt="Web UI — live DMX monitor grid" loading="lazy">
 
     <h2 id="effects">Built-in Effects</h2>
     <p>Five fixture-aware effects (Solid, Rainbow, Chase, Fire, Twinkle) render on-device with live preview — color picker, speed and intensity — so a node can produce light with no console attached. Fixtures can add extras (Veyron: white accent, strobe RGB / strobe White).</p>
@@ -79,6 +83,7 @@
       <li><b>Fixture ID</b> — the name used for the SoftAP, mDNS hostname and discovery.</li>
       <li><b>Restart</b> and <b>factory reset</b> actions.</li>
     </ul>
+    <img class="doc-shot" src="../assets/img/ui/settings.png" alt="Web UI — Settings section" loading="lazy">
     <div class="note">The config lives in NVS, not in the filesystem — it survives OTA and filesystem updates. Saving network or ID changes shows a 10-second countdown overlay and redirects to the board's new address automatically.</div>
   </main>
 </div>
@@ -96,5 +101,6 @@
   </div>
 </footer>
 
+<script src="../assets/site.js"></script>
 </body>
 </html>
