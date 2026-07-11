@@ -42,9 +42,9 @@
 
 <section id="features">
   <div class="wrap">
-    <div class="sec-label">Features</div>
-    <h2 class="sec-title">Everything a fixture needs, nothing hardcoded</h2>
-    <p class="sec-sub">Every function is a compile-time module. The core stays lean; fixtures declare what they need.</p>
+    <div class="sec-label">The core</div>
+    <h2 class="sec-title">A modular base you build your fixture on</h2>
+    <p class="sec-sub">RavLight isn't a finished firmware for one product — it's a core of ready-made modules you wire to your hardware. Networking, DMX, effects, the web UI and OTA are done; the fixture layer on top is yours to shape.</p>
     <div class="grid">
       <div class="card">
         <div class="ico">🌐</div>
@@ -85,6 +85,30 @@
         <div class="ico">🔄</div>
         <h3>OTA updates</h3>
         <p>Update firmware and web assets over the network. First install happens right from this site, via USB, in your browser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="configure">
+  <div class="wrap">
+    <div class="showcase">
+      <div class="txt">
+        <div class="sec-label">Configure</div>
+        <h2 class="sec-title">Everything from the browser</h2>
+        <p class="sec-sub">Once a fixture is built on the core, it comes with a full web interface — no app, no cloud. Point a browser at the device and set it up: network, DMX patch, per-fixture parameters, live monitoring.</p>
+        <ul>
+          <li>Network — wired Ethernet, WiFi or SoftAP fallback, mDNS</li>
+          <li>DMX — source (Art-Net / sACN / wired / effects), universe &amp; address, live FPS</li>
+          <li>Fixture — the controls each fixture declares for itself</li>
+          <li>DMX Monitor — live 512-channel grid, fixture channels highlighted</li>
+          <li>OTA updates, config backup/restore, device discovery</li>
+        </ul>
+      </div>
+      <div class="shots">
+        <img src="assets/img/ui/config.png" alt="RavLight web UI — fixture configuration (Orion)" loading="lazy">
+        <img src="assets/img/ui/dmxmonitor.png" alt="RavLight web UI — live DMX monitor" loading="lazy">
+        <div class="shot-cap">Live web UI — Orion configuration &amp; DMX monitor</div>
       </div>
     </div>
   </div>
