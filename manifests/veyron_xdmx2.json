@@ -7,7 +7,7 @@
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/veyron_xdmx2.bin",
+          "path": "../firmware/veyron_xdmx2.bin",
           "offset": 0
         }
       ]

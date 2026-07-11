@@ -7,7 +7,7 @@
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/elyon_quinled_penta_deca.bin",
+          "path": "../firmware/elyon_quinled_penta_deca.bin",
           "offset": 0
         }
       ]
