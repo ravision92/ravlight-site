@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects &amp; collaborations — RavLight</title>
+<meta name="description" content="RavLight fixtures are firmware built for specific hardware — some in-house prototypes, some collaborations with independent builders. Meet the projects.">
+<meta property="og:title" content="RavLight — Projects &amp; collaborations">
+<meta property="og:description" content="Each RavLight fixture is firmware shaped around a specific product. Prototypes and collaborations.">
+<meta property="og:image" content="https://ravlight.com/assets/img/icon.png">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="projects.html">Projects</a>
+      <a href="docs/getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a>
+      <a class="cta" href="install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap" style="max-width:840px">
+    <div class="sec-label">Projects &amp; collaborations</div>
+    <h2 class="sec-title">Firmware shaped around real fixtures</h2>
+    <p class="sec-sub">RavLight isn't a one-size-fits-all firmware. Apart from Elyon — which targets off-the-shelf LED controllers — each fixture is built for a specific piece of hardware: an in-house prototype, or a board designed by an independent builder who wanted proper firmware behind it. If you're making a fixture and want RavLight to drive it, that's exactly the point.</p>
+
+    <!-- Veyron -->
+    <article class="project">
+      <div class="project-media">
+        <img src="assets/img/projects/veyron-hero.jpg" alt="Veyron 1.0 LED pixel bar">
+      </div>
+      <div class="project-body">
+        <span class="status stable">Stable</span>
+        <h2>Veyron 1.0</h2>
+        <div class="role">In-house prototype · Ravision</div>
+        <p>Veyron is where RavLight started: an ultra-bright LED strobe bar with full-color pixel effects, built to prove the platform on a finished product. Smart network control, sync with other devices, and compatibility with the major lighting-management software — designed to sit on a real show, not a workbench.</p>
+        <div class="project-meta">
+          <span><b>Hardware:</b> XDMX rev2.2 (WT32-ETH01)</span>
+          <span><b>Emitters:</b> WS2811 COB + P9813 accents</span>
+          <span><b>Control:</b> Art-Net / sACN / wired DMX</span>
+        </div>
+        <img src="assets/img/projects/veyron-render.jpg" alt="Veyron 1.0 — technical render" style="border-radius:var(--rm);border:1px solid var(--line);margin-top:6px">
+        <div class="project-links">
+          <a class="plink primary" href="docs/fixtures/veyron.html">Technical docs</a>
+          <a class="plink" href="install.html">Install firmware</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Orion / LED Lifter -->
+    <article class="project">
+      <div class="project-media">
+        <div class="placeholder">📷 Photos &amp; video coming soon<br><span style="font-size:12px">LED Lifter hardware by the project's designer</span></div>
+      </div>
+      <div class="project-body">
+        <span class="status alpha">Alpha</span>
+        <h2>Orion — on LED Lifter</h2>
+        <div class="role">Collaboration · hardware by an independent builder (US)</div>
+        <p>Orion is a motorized winch fixture: RavLight firmware driving a TMC2209 stepper with sensorless StallGuard homing, a guided setup wizard and DMX position control. The board — LED Lifter — was designed independently; RavLight was built to run it, and the two are being refined together through real bench testing and field feedback. A working example of the collaboration model: you bring the hardware, RavLight becomes its firmware.</p>
+        <div class="project-meta">
+          <span><b>Hardware:</b> LED Lifter v5</span>
+          <span><b>Motion:</b> TMC2209 + FastAccelStepper</span>
+          <span><b>Homing:</b> sensorless StallGuard4</span>
+        </div>
+        <div class="project-links">
+          <a class="plink primary" href="docs/fixtures/orion.html">Technical docs</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Elyon -->
+    <article class="project">
+      <div class="project-media">
+        <div class="placeholder">🔌 Runs on off-the-shelf boards<br><span style="font-size:12px">QuinLED Dig-Octa, Gledopto Elite, QuinLED Penta…</span></div>
+      </div>
+      <div class="project-body">
+        <span class="status alpha">Alpha</span>
+        <h2>Elyon — the open one</h2>
+        <div class="role">Platform fixture · commercial boards</div>
+        <p>Elyon is the exception: instead of one product, it targets popular commercial ESP32 LED controllers. Up to ten outputs, every common chipset, per-output universe mapping, RMT or I2S parallel backend. If you already own a supported board, Elyon is the fastest way onto RavLight — flash it from the browser and configure.</p>
+        <div class="project-meta">
+          <span><b>Boards:</b> QuinLED Octa, Gledopto Elite 4D/2D, Penta+/Deca</span>
+          <span><b>Outputs:</b> up to 10</span>
+        </div>
+        <div class="project-links">
+          <a class="plink primary" href="docs/fixtures/elyon.html">Technical docs</a>
+          <a class="plink" href="install.html">Install firmware</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Axon -->
+    <article class="project">
+      <div class="project-media">
+        <div class="placeholder">🛠️ In development</div>
+      </div>
+      <div class="project-body">
+        <span class="status alpha">Alpha</span>
+        <h2>Axon — network-to-DMX bridge</h2>
+        <div class="role">In-house · bridge node</div>
+        <p>Axon turns Art-Net or sACN into a physical DMX512 line, with an OLED status display and auxiliary LED outputs. The glue between an Ethernet rig and a classic wired chain.</p>
+        <div class="project-meta">
+          <span><b>Hardware:</b> XDMX v1.4</span>
+          <span><b>Output:</b> RS-485 DMX + 2 × LED</span>
+        </div>
+        <div class="project-links">
+          <a class="plink primary" href="docs/fixtures/axon.html">Technical docs</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Collaborate -->
+    <div class="collab">
+      <h2>Building a fixture? Let's talk.</h2>
+      <p>RavLight is open to collaboration. If you're designing a lighting product — a bar, a mover, a winch, a controller — and want mature firmware behind it (DMX/Art-Net/sACN, a web UI, OTA, effects) instead of writing it from scratch, get in touch. The core is open-source; adapting it to new hardware is what it's made for.</p>
+      <div class="project-links">
+        <a class="plink primary" href="mailto:dav_rav@hotmail.it?subject=RavLight%20collaboration">Propose a collaboration</a>
+        <a class="plink" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">Explore the code</a>
+        <a class="plink" href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Follow @ravlight_</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="mailto:dav_rav@hotmail.it">Contact</a> ·
+      <a href="privacy.html">Privacy</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
