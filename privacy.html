@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy &amp; cookies — RavLight</title>
+<meta name="description" content="Privacy and cookie information for ravlight.com — a static site that sets no cookies and collects no personal data.">
+<meta name="robots" content="all">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="docs/getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell" style="grid-template-columns:1fr;max-width:760px">
+  <main class="docs-body">
+    <h1>Privacy &amp; cookies</h1>
+    <p class="lede">ravlight.com is a static website for an open-source firmware project. It sets no cookies, runs no analytics, and collects no personal data. This page explains the little that does happen.</p>
+
+    <h2>Cookies</h2>
+    <p>This site does <b>not</b> use cookies — no first-party cookies, no analytics, no advertising or profiling. There is nothing to consent to, which is why you don't see a cookie banner.</p>
+
+    <h2>Data we collect</h2>
+    <p>We do not run any server of our own and we do not ask you for, store, or process any personal data. There are no contact forms, no accounts and no newsletter.</p>
+
+    <h2>Third parties &amp; technical logs</h2>
+    <p>Two technical facts are worth stating plainly:</p>
+    <ul>
+      <li><b>Hosting (GitHub Pages).</b> The site is served by GitHub Pages. Like any web server, GitHub processes standard request metadata (including your IP address) to deliver pages and protect the service against abuse. This is handled under GitHub's own privacy practices.</li>
+      <li><b>Installer script (unpkg CDN).</b> The <a href="install.html">Install</a> page loads the open-source <code>esp-web-tools</code> library from the unpkg content-delivery network (operated via Cloudflare). When that page opens, your browser contacts unpkg and your IP address is therefore visible to it, as with any externally hosted script. No other page loads third-party resources.</li>
+    </ul>
+    <p>We receive no data from either of these — no logs, no reports, nothing identifiable reaches us.</p>
+
+    <h2>Flashing firmware</h2>
+    <p>The browser installer talks to your ESP32 board <b>locally over USB</b>, using the Web Serial API built into Chromium-based browsers. The firmware image is downloaded from this site and written straight to the device. Nothing about your board, your network or your configuration is sent back to us or to any third party.</p>
+
+    <h2>Your rights</h2>
+    <p>Since we hold no personal data about you, there is nothing to access, correct or delete on our side. If you believe otherwise, or have any privacy question, write to the contact below and we'll respond.</p>
+
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:dav_rav@hotmail.it">dav_rav@hotmail.it</a></p>
+
+    <h2>Changes</h2>
+    <p>If the site ever starts using cookies, analytics or any form that collects data, this page will be updated first and — where the law requires it — a consent request will be shown at that point.</p>
+
+    <p style="color:var(--txt4);font-size:13px;margin-top:32px">Last updated: July 2026.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="privacy.html">Privacy</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
