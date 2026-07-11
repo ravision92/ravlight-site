@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install RavLight — browser flasher</title>
+<meta name="description" content="Flash RavLight firmware to your ESP32 board directly from the browser — no toolchain required. Pick your fixture and board, connect via USB, install.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+<style>
+  .picker { display: grid; gap: 22px; max-width: 660px; }
+  .step-lbl { color: var(--acc); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    background: var(--s1);
+    border: 1px solid var(--line2);
+    border-radius: var(--rm);
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--txt2);
+    cursor: pointer;
+    transition: all .12s ease;
+  }
+  .opt:hover { border-color: var(--acc); color: var(--txt); }
+  .opt.sel { background: var(--acc-bg); border-color: var(--acc); color: var(--acc); }
+  .flash-box {
+    background: var(--s1);
+    border: 1px solid var(--line2);
+    border-radius: var(--rl);
+    padding: 28px;
+    margin-top: 8px;
+  }
+  .flash-box .fw-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .flash-box .fw-ver  { color: var(--txt3); font-size: 13.5px; margin-bottom: 18px; }
+  esp-web-install-button::part(button) {
+    background: var(--acc);
+    color: #111;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+  }
+  .unsupported { color: var(--orange); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="docs/getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap">
+    <div class="sec-label">Web installer</div>
+    <h2 class="sec-title">Flash RavLight from your browser</h2>
+    <p class="sec-sub">Connect the board via USB, pick fixture and board below, then click Install. The full 4&nbsp;MB image (firmware + web UI) is written in one pass — also the right path when migrating from WLED.</p>
+
+    <div class="picker">
+      <div>
+        <div class="step-lbl">1 · Fixture</div>
+        <div class="opts" id="fixtureOpts"></div>
+      </div>
+      <div id="boardStep" style="display:none">
+        <div class="step-lbl">2 · Board</div>
+        <div class="opts" id="boardOpts"></div>
+      </div>
+      <div class="flash-box" id="flashBox" style="display:none">
+        <div class="fw-name" id="fwName">—</div>
+        <div class="fw-ver" id="fwVer">—</div>
+        <esp-web-install-button id="installBtn">
+          <span slot="unsupported" class="unsupported">
+            ⚠ This browser doesn't support Web Serial. Use Chrome or Edge on desktop —
+            or flash manually with <a href="docs/getting-started.html#esptool">esptool</a>.
+          </span>
+        </esp-web-install-button>
+        <p style="color:var(--txt4);font-size:13px;margin-top:16px">
+          The install dialog also offers <b>Erase device</b> — select it when the board previously ran WLED or another firmware.
+        </p>
+      </div>
+    </div>
+
+    <h2 style="font-size:20px;font-weight:700;margin:56px 0 12px">Before you start</h2>
+    <ul style="color:var(--txt2);font-size:15px;margin-left:22px;line-height:1.8">
+      <li>Use a <b>data</b> USB cable (some charge-only cables have no data lines).</li>
+      <li>If the board doesn't show up in the port dialog, install the USB-serial driver:
+        <a href="https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers" target="_blank" rel="noopener">CP210x</a> or
+        <a href="https://www.wch-ic.com/downloads/CH341SER_ZIP.html" target="_blank" rel="noopener">CH340</a>.</li>
+      <li>Boards without native USB (e.g. WT32-ETH01) need a USB-TTL adapter wired to TX/RX/GND with GPIO0 held low at power-up.</li>
+      <li>After flashing, the board opens a <b>RavLight-XXXX</b> WiFi access point — connect and open <code>http://4.3.2.1</code> to configure the network.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="docs/getting-started.html">Documentation</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+// Two-step picker driven by manifests/index.json — a new board release only
+// needs `python scripts/gen_manifests.py`, no HTML edits.
+let DATA = null;
+let selFixture = null;
+
+fetch('manifests/index.json').then(r => r.json()).then(j => {
+  DATA = j;
+  const fixtures = [...new Set(j.boards.map(b => b.fixture))];
+  const fo = document.getElementById('fixtureOpts');
+  fixtures.forEach(f => {
+    const el = document.createElement('button');
+    el.className = 'opt';
+    el.textContent = f;
+    el.onclick = () => pickFixture(f, el);
+    fo.appendChild(el);
+  });
+});
+
+function pickFixture(f, el) {
+  selFixture = f;
+  document.querySelectorAll('#fixtureOpts .opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  const bo = document.getElementById('boardOpts');
+  bo.innerHTML = '';
+  DATA.boards.filter(b => b.fixture === f).forEach(b => {
+    const e = document.createElement('button');
+    e.className = 'opt';
+    e.textContent = b.board;
+    e.onclick = () => pickBoard(b, e);
+    bo.appendChild(e);
+  });
+  document.getElementById('boardStep').style.display = '';
+  document.getElementById('flashBox').style.display = 'none';
+}
+
+function pickBoard(b, el) {
+  document.querySelectorAll('#boardOpts .opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('fwName').textContent = 'RavLight ' + b.fixture + ' — ' + b.board;
+  document.getElementById('fwVer').textContent  = 'Firmware v' + DATA.version + ' · full 4 MB image (bootloader + firmware + web UI)';
+  document.getElementById('installBtn').setAttribute('manifest', 'manifests/' + b.id + '.json');
+  document.getElementById('flashBox').style.display = '';
+}
+</script>
+
+</body>
+</html>

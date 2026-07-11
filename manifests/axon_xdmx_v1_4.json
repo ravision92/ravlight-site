@@ -1,0 +1,16 @@
+{
+  "name": "RavLight Axon \u2014 XDMX v1.4",
+  "version": "2.21.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/axon_xdmx_v1_4.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

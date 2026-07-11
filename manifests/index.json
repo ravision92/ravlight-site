@@ -1,0 +1,50 @@
+{
+  "version": "2.21.0",
+  "boards": [
+    {
+      "id": "axon_xdmx_v1_4",
+      "fixture": "Axon",
+      "board": "XDMX v1.4"
+    },
+    {
+      "id": "elyon_generic_esp32_test",
+      "fixture": "Elyon",
+      "board": "Generic ESP32 DevKit (test)"
+    },
+    {
+      "id": "elyon_gledopto_elite2d",
+      "fixture": "Elyon",
+      "board": "Gledopto Elite 2D (GL-C-616WL)"
+    },
+    {
+      "id": "elyon_gledopto_elite4d",
+      "fixture": "Elyon",
+      "board": "Gledopto Elite 4D (GL-C-618WL)"
+    },
+    {
+      "id": "elyon_quinled_octa",
+      "fixture": "Elyon",
+      "board": "QuinLED Dig-Octa"
+    },
+    {
+      "id": "elyon_quinled_penta_deca",
+      "fixture": "Elyon",
+      "board": "QuinLED Penta Deca"
+    },
+    {
+      "id": "elyon_quinled_penta_plus",
+      "fixture": "Elyon",
+      "board": "QuinLED Penta+"
+    },
+    {
+      "id": "orion_led_lifter_v5",
+      "fixture": "Orion",
+      "board": "LED Lifter v5"
+    },
+    {
+      "id": "veyron_xdmx2",
+      "fixture": "Veyron",
+      "board": "XDMX rev2.2 (WT32-ETH01)"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Axon — DMX bridge — RavLight docs</title>
+<meta name="description" content="Axon fixture guide: Art-Net/sACN to wired DMX512 bridge node with OLED status display and auxiliary LED outputs.">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="../getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="../getting-started.html">Getting started</a>
+      <a href="../wled-migration.html">Migrating from WLED</a>
+      <a href="../faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="veyron.html">Veyron — pixel bar</a>
+      <a href="elyon.html">Elyon — LED controller</a>
+      <a href="orion.html">Orion — winch</a>
+      <a href="axon.html" class="active">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="../boards.html">Supported boards</a>
+      <a href="../protocols.html">Protocols</a>
+      <a href="../web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Axon — DMX bridge</h1>
+    <p class="lede">Axon turns network lighting protocols into a physical DMX512 line: Art-Net or sACN in, RS-485 out. Add it wherever a classic DMX chain needs to meet an Ethernet rig. Status: alpha.</p>
+
+    <h2 id="hw">Hardware</h2>
+    <p>Axon runs on the <a href="../boards.html">XDMX v1.4</a> board — a QuinLED-ESP32-AE with wired Ethernet, a MAX485 transceiver and a level shifter.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>DMX output</td><td>RS-485 (MAX485), full 512-channel frame, DE/RE on GPIO 16</td></tr>
+        <tr><td>Status display</td><td>SSD1306 OLED (I²C) — shows IP, active source, universe, frame rate</td></tr>
+        <tr><td>Aux LED outputs</td><td>2 × level-shifted pixel outputs (GPIO 12 / 13), Elyon-style per-output config</td></tr>
+        <tr><td>Ethernet</td><td>LAN8720 wired, WiFi + AP fallback</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="bridge">Bridge configuration</h2>
+    <ol>
+      <li>Set the DMX input source (Art-Net or sACN) and the universe to listen to in the <b>DMX</b> section.</li>
+      <li>The <b>DMX1</b> card configures the wired output: enable it and pick the <b>channel offset</b> — the 512-channel slice of the incoming universe that is put on the wire.</li>
+      <li>Wire the RS-485 A/B terminals to your DMX chain (A = Data+, B = Data−, plus signal ground). Terminate the last fixture on the line with 120 Ω.</li>
+    </ol>
+    <div class="note">The output refreshes continuously at DMX line rate even between network packets — receiving fixtures never see a break in signal if the network hiccups.</div>
+
+    <h2 id="oled">OLED status</h2>
+    <p>The display mirrors what the web UI shows: device ID and IP while idle, then per-source stats when traffic arrives — active protocol, universe, and live frame rate. When no DMX is being received it reads <b>NO DMX</b>, matching the web UI badge.</p>
+
+    <h2 id="led">Auxiliary LED outputs</h2>
+    <p>The two pixel outputs are configured exactly like <a href="elyon.html">Elyon</a> outputs: LED type, pixel count, start universe and channel, grouping, brightness and color order — useful for rack lighting or indicator strips next to the bridge itself.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

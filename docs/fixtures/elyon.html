@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elyon — LED controller — RavLight docs</title>
+<meta name="description" content="Elyon fixture guide: multi-output LED controller — per-output chipset, addressing, RMT/I2S backends and supported boards.">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="../getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="../getting-started.html">Getting started</a>
+      <a href="../wled-migration.html">Migrating from WLED</a>
+      <a href="../faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="veyron.html">Veyron — pixel bar</a>
+      <a href="elyon.html" class="active">Elyon — LED controller</a>
+      <a href="orion.html">Orion — winch</a>
+      <a href="axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="../boards.html">Supported boards</a>
+      <a href="../protocols.html">Protocols</a>
+      <a href="../web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Elyon — LED controller</h1>
+    <p class="lede">Elyon turns a multi-output ESP32 board into an N-channel Art-Net/sACN LED node — the number of outputs comes from the board (2 to 15), and every output is configured independently. Status: alpha.</p>
+
+    <h2 id="outputs">Per-output configuration</h2>
+    <p>Each output row in the fixture section sets:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Parameter</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>LED type</td><td>WS281x, SK6812 (RGBW), TM181x, APA102, SK9822, P9813, PWM dimmer, Relay</td></tr>
+        <tr><td>Pixel count</td><td>0 disables the output entirely</td></tr>
+        <tr><td>Start universe + channel</td><td>Where this output's data begins in the DMX space (universes are 0-based)</td></tr>
+        <tr><td>Grouping</td><td>N physical pixels follow one logical pixel — big installs on few channels</td></tr>
+        <tr><td>Invert</td><td>Reverses pixel direction along the strip</td></tr>
+        <tr><td>Brightness</td><td>Per-output master brightness</td></tr>
+        <tr><td>Color order</td><td>RGB / GRB / BGR… per output, so mixed strip stocks coexist</td></tr>
+      </tbody>
+    </table></div>
+    <p>An optional <b>auto-layout</b> checkbox computes universe/channel starts sequentially across outputs; leave it off to keep manual addressing.</p>
+
+    <h2 id="universes">Multi-universe rendering</h2>
+    <p>An output is not confined to one universe: a 300-pixel RGB strip spans 900 channels, and the renderer follows it across universe boundaries with flat channel math. The core registers every universe each output touches (up to 32 in the pool) and renders on each incoming frame. A <b>pixel budget bar</b> in the UI shows how much of the board's capacity your layout consumes.</p>
+
+    <h2 id="backend">RMT vs I2S backend</h2>
+    <p>Two native driving backends are compiled into the same binary, selectable <b>per output at runtime</b> from the UI:</p>
+    <ul>
+      <li><b>RMT</b> — one hardware RMT channel per output; simple and robust for moderate pixel counts.</li>
+      <li><b>I2S parallel</b> — all outputs clocked out simultaneously through one I2S peripheral; the default, and the way to keep frame rates high with many long strips (e.g. 8 × 325 pixels on an Octa).</li>
+    </ul>
+
+    <h2 id="clocked">Clocked chipsets</h2>
+    <p>APA102, SK9822 and P9813 need a clock line as well as data. In Elyon you select a <b>CLOCK partner output</b> in the UI — a second physical output whose pin carries the clock signal. That pin is then consumed by the pair and can't drive its own strip.</p>
+
+    <h2 id="boards">Supported boards</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Board</th><th>Outputs</th><th>Kind</th></tr></thead>
+      <tbody>
+        <tr><td>QuinLED Dig-Octa Brainboard-32-8L</td><td>8</td><td>Pixel/PWM (the reference pixel board)</td></tr>
+        <tr><td>Gledopto Elite 4D-EXMU (GL-C-618WL)</td><td>4</td><td>Pixel/PWM</td></tr>
+        <tr><td>Gledopto Elite 2D-EXMU (GL-C-616WL)</td><td>2</td><td>Pixel/PWM</td></tr>
+        <tr><td>QuinLED AN-Penta Plus</td><td>6 + relay</td><td>Analog PWM (MOSFET)</td></tr>
+        <tr><td>QuinLED AN-Penta Deca</td><td>15</td><td>Analog PWM (MOSFET), WiFi only</td></tr>
+      </tbody>
+    </table></div>
+    <p>Pin maps and Ethernet details are on the <a href="../boards.html">Supported boards</a> page — including the Octa note about CH1/CH2 and serial logging.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

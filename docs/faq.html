@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — RavLight docs</title>
+<meta name="description" content="Frequently asked questions: flashing, drivers, factory reset, Art-Net troubleshooting, mDNS, releases.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="wled-migration.html">Migrating from WLED</a>
+      <a href="faq.html" class="active">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>FAQ</h1>
+    <p class="lede">Short answers to the questions that come up most often.</p>
+
+    <h2 id="browser">Which browser do I need for the web installer?</h2>
+    <p>Chrome or Edge — the installer uses the <b>Web Serial</b> API, which Firefox and Safari don't support. Any OS works as long as the browser is Chromium-based.</p>
+
+    <h2 id="port">The board doesn't show up when I click Connect</h2>
+    <p>Two usual suspects: the USB-serial <b>driver</b> (install CP210x or CH340 drivers depending on the adapter chip) and the <b>cable</b> — many USB cables are charge-only and carry no data. Try another cable before anything else. Also note most QuinLED and Gledopto boards have no onboard USB-serial chip and need an external USB-TTL adapter.</p>
+
+    <h2 id="wt32">How do I flash a WT32-ETH01 (XDMX rev2.2)?</h2>
+    <p>The WT32-ETH01 has no USB port. Connect a USB-TTL adapter to TX0/RX0/GND, tie <b>GPIO0 to GND</b>, then power the board up — it boots into the serial bootloader. Flash normally, remove the GPIO0 strap, and power-cycle.</p>
+
+    <h2 id="reset">How do I factory reset?</h2>
+    <p>Boards with a physical reset button (e.g. XDMX): hold it for 10 seconds — the config is wiped and the defaults from <code>default_config.json</code> are loaded, including a fresh MAC-based device ID. Boards without a button: re-flash the filesystem (<code>_fs_</code> binary) and erase the flash if you also need to clear NVS, or use the restart/reset actions in the web UI Settings while it's still reachable.</p>
+
+    <h2 id="survive">Does my config survive firmware updates?</h2>
+    <p>Yes. The runtime config lives in <b>NVS</b> (flash key-value storage), not in the filesystem — it survives both OTA firmware updates and filesystem (<code>uploadfs</code> / <code>_fs_</code> OTA) updates. Only a full-chip erase or a factory reset clears it. You can also export/import the config as JSON from Settings.</p>
+
+    <h2 id="artnet">Art-Net data isn't arriving</h2>
+    <p>Check in this order:</p>
+    <ol>
+      <li><b>Universe numbering</b> — RavLight universes are 0-based like Art-Net. If your software counts from 1, its universe 1 is RavLight's universe 0.</li>
+      <li><b>Same subnet</b> — sender and board must be on the same IP subnet; check the board's IP in the Network panel.</li>
+      <li><b>Firewall</b> — allow UDP 6454 (Art-Net) or 5568 (sACN) outbound on the sending machine.</li>
+      <li>Open the <b>DMX monitor</b> page — if channels light up there, data is arriving and the issue is patching, not network.</li>
+    </ol>
+
+    <h2 id="mdns">ravXXXX.local doesn't resolve</h2>
+    <p>mDNS works out of the box on Windows, macOS, Linux and iOS, but <b>Android does not resolve .local hostnames</b> in the browser. On Android use the board's IP address directly — it's shown in the Info popup and in your router's DHCP client list.</p>
+
+    <h2 id="binaries">Where do I download release binaries?</h2>
+    <p>From the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">GitHub releases page</a>, grouped per fixture in <code>release/{veyron,elyon,orion}/vX.Y.Z/</code>. Each board gets three files: the <b>merged</b> binary for first flash at <code>0x0</code>, plus <code>_fw_</code> and <code>_fs_</code> binaries for OTA updates.</p>
+
+    <h2 id="ota">Why does OTA need two files?</h2>
+    <p>ElegantOTA flashes one partition at a time: upload <code>_fw_</code> as "Firmware" and <code>_fs_</code> as "Filesystem". Firmware first is recommended so the web UI matches the backend. The board reboots after each upload.</p>
+
+    <h2 id="bugs">How do I report a bug?</h2>
+    <p>Open an issue on <a href="https://github.com/ravision92/ravlight-core/issues" target="_blank" rel="noopener">GitHub</a>. Include the board, fixture, firmware version (Info popup), and what you were sending it (Art-Net/sACN source and universe layout) — that's usually enough to reproduce.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

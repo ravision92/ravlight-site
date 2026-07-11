@@ -1,0 +1,16 @@
+{
+  "name": "RavLight Elyon \u2014 Gledopto Elite 2D (GL-C-616WL)",
+  "version": "2.21.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/elyon_gledopto_elite2d.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

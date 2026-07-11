@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web UI guide — RavLight docs</title>
+<meta name="description" content="Tour of the RavLight web interface: Network, DMX source, fixture section, DMX monitor, Devices panel and Settings.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="wled-migration.html">Migrating from WLED</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html" class="active">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Web UI guide</h1>
+    <p class="lede">Everything is configured from the browser — no app, no cloud. The page is served by the board itself and organized in accordions. Changes to DMX and fixture parameters apply live; only network and ID changes trigger a restart.</p>
+
+    <h2 id="network">Network</h2>
+    <p>Ethernet is primary on boards that have it — plug the cable and DHCP does the rest, or set a static IP. WiFi settings include an SSID scan list; if neither Ethernet nor WiFi comes up, the board falls back to its own <b>SoftAP</b> so it's never unreachable. A connection status badge shows the live link state, and the mDNS hostname (<code>ravXXXX.local</code>) is configured here too.</p>
+
+    <h2 id="dmx">DMX</h2>
+    <p>The source selector switches between <b>Art-Net</b>, <b>sACN</b>, <b>Wired DMX</b>, <b>Auto Scene</b> (recorder playback) and <b>Effects</b> — <b>live, without a reboot</b>. Set the start universe and start channel to match your patch. A live <b>FPS counter</b> shows the incoming frame rate of the active source, which is the quickest sanity check that data is flowing.</p>
+
+    <h2 id="fixture">Fixture section</h2>
+    <p>Each fixture injects its own accordion: Veyron shows personalities and dimming curves, Elyon shows the per-output table, Orion shows motor status, jog controls and the setup wizard. See the dedicated guides — <a href="fixtures/veyron.html">Veyron</a>, <a href="fixtures/elyon.html">Elyon</a>, <a href="fixtures/orion.html">Orion</a>.</p>
+
+    <h2 id="monitor">DMX monitor</h2>
+    <p>A standalone page showing the live DMX buffer as a <b>32×16 grid</b> of channel values with color coding. Channels used by the fixture are highlighted, a universe selector lets you inspect any registered universe, and pause/resume freezes the view for reading values. This is the first place to look when "nothing is moving" — if the grid is live, the network is fine.</p>
+
+    <h2 id="effects">Built-in Effects</h2>
+    <p>Five fixture-aware effects (Solid, Rainbow, Chase, Fire, Twinkle) render on-device with live preview — color picker, speed and intensity — so a node can produce light with no console attached. Fixtures can add extras (Veyron: white accent, strobe RGB / strobe White).</p>
+
+    <h2 id="devices">Devices panel</h2>
+    <p>The <b>Devices</b> button scans the LAN for other RavLight nodes over UDP broadcast and ESP-NOW and lists them with ID, IP and fixture info. From the detail popup you can highlight a device (visual identify), reset it remotely, or push WiFi credentials to it with "Send WiFi".</p>
+
+    <h2 id="settings">Settings</h2>
+    <ul>
+      <li><b>OTA update</b> — upload the <code>_fw_</code> and <code>_fs_</code> binaries from a release; the board reboots after each.</li>
+      <li><b>Backup / restore</b> — export the full configuration as JSON and re-import it later or onto a replacement board.</li>
+      <li><b>Fixture ID</b> — the name used for the SoftAP, mDNS hostname and discovery.</li>
+      <li><b>Restart</b> and <b>factory reset</b> actions.</li>
+    </ul>
+    <div class="note">The config lives in NVS, not in the filesystem — it survives OTA and filesystem updates. Saving network or ID changes shows a 10-second countdown overlay and redirects to the board's new address automatically.</div>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

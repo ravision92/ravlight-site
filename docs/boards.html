@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supported boards — RavLight docs</title>
+<meta name="description" content="Reference of all supported boards: fixture builds, Ethernet configuration and LED output GPIOs.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="wled-migration.html">Migrating from WLED</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html" class="active">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Supported boards</h1>
+    <p class="lede">Every board is one header file in <code>boards/</code>, force-included at compile time. This page lists the shipped boards with their pin maps and Ethernet configuration.</p>
+
+    <h2 id="xdmx2">XDMX rev2.2 — Veyron</h2>
+    <p>Ravision's own modular board built around the <b>WT32-ETH01</b> module (LAN8720 Ethernet onboard) with an HW-519 RS-485 module for physical DMX in/out.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Function</th><th>Pin</th></tr></thead>
+      <tbody>
+        <tr><td>DMX TX / RX (RS-485)</td><td>33 / 35</td></tr>
+        <tr><td>Status LED</td><td>17</td></tr>
+        <tr><td>Reset button</td><td>36</td></tr>
+        <tr><td>ETH PHY power / MDC / MDIO</td><td>16 / 23 / 18</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="octa">QuinLED Dig-Octa Brainboard-32-8L — Elyon</h2>
+    <p>The only true multi-<b>pixel</b> board in the Elyon family: 8 level-shifted LED outputs on GPIO <b>0, 1, 2, 3, 4, 5, 12, 13</b>. LAN8720A Ethernet with <code>ETH_CLOCK_GPIO17_OUT</code>.</p>
+    <div class="note">CH1 and CH2 share UART0 (GPIO 1/3 territory), so serial logging is disabled in the Octa build — LED data and console output can't coexist. If you're debugging over USB during development, start wiring at CH3.</div>
+
+    <h2 id="gledopto">Gledopto Elite 4D / 2D — Elyon</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Board</th><th>Model</th><th>LED outputs (level-shifted)</th><th>Ethernet</th><th>Reset</th></tr></thead>
+      <tbody>
+        <tr><td>Elite 4D-EXMU</td><td>GL-C-618WL</td><td>GPIO 16, 12, 4, 2</td><td>LAN8720, <code>ETH_CLOCK_GPIO0_IN</code></td><td>GPIO 17</td></tr>
+        <tr><td>Elite 2D-EXMU</td><td>GL-C-616WL</td><td>GPIO 16, 2</td><td>Same as 4D</td><td>GPIO 17</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="penta">QuinLED Penta+ / Penta Deca — Elyon (analog)</h2>
+    <p>These are <b>analog PWM boards</b> driving MOSFET channels for 12/24&nbsp;V dumb strips — not pixel boards. Penta+ provides 5 channels (6 PWM + relay layout in current builds), Penta Deca provides 10/15 PWM channels (WiFi only on the Deca). Configure outputs as <b>PWM</b> or <b>Relay</b> type in the Elyon UI.</p>
+
+    <h2 id="lifter">LED Lifter v5 — Orion</h2>
+    <p>ESP32-WROOM-32E with LAN8720 Ethernet, 8&nbsp;MB flash + PSRAM, and a TMC2209 stepper driver for the winch.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Function</th><th>Pin / value</th></tr></thead>
+      <tbody>
+        <tr><td>TMC2209 STEP / DIR / EN</td><td>12 / 13 / 32</td></tr>
+        <tr><td>TMC2209 UART RX / TX</td><td>33 / 14</td></tr>
+        <tr><td>R_SENSE</td><td>0.100 Ω</td></tr>
+        <tr><td>Optional LED outputs (4)</td><td>GPIO 4, 5, 15, 16</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="xdmx14">XDMX v1.4 — Axon</h2>
+    <p>Built on a <b>QuinLED-ESP32-AE</b> base (PHY_ADDR 0, <code>ETH_CLOCK_GPIO17_OUT</code>): Art-Net/sACN → RS-485 DMX bridge with MAX485 DE/RE on <b>GPIO 16</b>, level-shifted outputs, 2 optional accent LED outputs, and an SSD1306 OLED status display over I²C.</p>
+
+    <h2 id="port">Porting to new hardware</h2>
+    <p>A board file defines <code>BOARD_NAME</code>, capability flags (<code>RAVLIGHT_HAS_ETHERNET</code>, <code>RAVLIGHT_HAS_RS485</code>, <code>RAVLIGHT_HAS_RESET_BUTTON</code>…) and fixed pins (<code>HW_PIN_*</code>). Add a header in <code>boards/</code>, add a PlatformIO environment that force-includes it, and pick a fixture flag — no core code changes needed.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

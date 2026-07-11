@@ -1,0 +1,16 @@
+{
+  "name": "RavLight Elyon \u2014 Generic ESP32 DevKit (test)",
+  "version": "2.21.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/elyon_generic_esp32_test.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

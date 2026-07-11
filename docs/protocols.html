@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protocols — RavLight docs</title>
+<meta name="description" content="Art-Net, sACN E1.31 and wired DMX512 in RavLight — ports, universe addressing, and console mapping notes.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="wled-migration.html">Migrating from WLED</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html" class="active">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Protocols</h1>
+    <p class="lede">RavLight receives DMX over the network (Art-Net, sACN) and over the wire (RS-485 DMX512). All network receivers are native lwIP implementations — no external libraries, one socket per protocol across Ethernet, WiFi and SoftAP.</p>
+
+    <h2 id="artnet">Art-Net</h2>
+    <p>The default source. RavLight listens on <b>UDP 6454</b> on all interfaces at once, so a single node keeps receiving whether it's on Ethernet, WiFi STA or its own access point.</p>
+    <ul>
+      <li><b>ArtPoll reply</b> — the node answers ArtPoll, so it appears automatically in the device lists of Resolume, xLights, QLC+, MadMapper and lighting consoles.</li>
+      <li><b>ArtSync</b> — supported: senders can frame-sync multiple universes across nodes.</li>
+      <li><b>Universe pool</b> — up to <b>32 universes</b> can be registered per device; each fixture output subscribes to the universes it spans.</li>
+    </ul>
+
+    <h2 id="sacn">sACN / E1.31</h2>
+    <p>The ESTA standard alternative, on <b>UDP 5568</b>. RavLight joins the standard per-universe multicast group (<code>239.255.u.u</code>) for each registered universe. The multicast membership is bound to the device's current IP, which means <b>sACN works over WiFi too</b>, not just Ethernet.</p>
+
+    <h2 id="dmx512">Wired DMX512 (RS-485)</h2>
+    <p>Boards with an RS-485 port (XDMX family) speak physical DMX512 in both directions:</p>
+    <ul>
+      <li><b>Input</b> — select "Wired DMX" as the source and the board renders straight from the console line.</li>
+      <li><b>Output</b> — enable the output node toggle and the board re-transmits its DMX buffer onto the wire, turning it into an Art-Net/sACN → DMX node. A channel offset supports daisy-chained slice-out setups.</li>
+    </ul>
+
+    <h2 id="addressing">Universe and channel addressing</h2>
+    <p>RavLight universes are <b>0-based</b>, matching raw Art-Net. Channels are 1–512 within a universe. Software differs in how it displays universes:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Software</th><th>Its "universe 1" is RavLight universe…</th></tr></thead>
+      <tbody>
+        <tr><td>Resolume (Art-Net, "Lumiverse 1" → universe 0 by default)</td><td>0</td></tr>
+        <tr><td>xLights / QLC+ (Art-Net, usually 0-based)</td><td>1 = 1 (match numbers directly)</td></tr>
+        <tr><td>sACN senders (E1.31 universes start at 1)</td><td>send universe <i>N</i>, set RavLight to <i>N</i></td></tr>
+      </tbody>
+    </table></div>
+    <p>Rule of thumb: if nothing arrives, try the universe one below what your software shows. The <a href="web-ui.html">DMX monitor</a> page is the fastest way to confirm — it shows the live buffer per universe with fixture channels highlighted.</p>
+
+    <h2 id="other">Supporting protocols</h2>
+    <ul>
+      <li><b>mDNS</b> — every node is reachable as <code>ravXXXX.local</code> (not on Android — use the IP).</li>
+      <li><b>UDP broadcast + ESP-NOW discovery</b> — nodes find each other on the LAN for the Devices panel; "Send WiFi" pushes credentials to a target device.</li>
+    </ul>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

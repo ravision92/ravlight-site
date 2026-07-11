@@ -1,0 +1,16 @@
+{
+  "name": "RavLight Orion \u2014 LED Lifter v5",
+  "version": "2.21.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/orion_led_lifter_v5.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

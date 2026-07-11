@@ -1,0 +1,16 @@
+{
+  "name": "RavLight Veyron \u2014 XDMX rev2.2 (WT32-ETH01)",
+  "version": "2.21.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "https://raw.githubusercontent.com/ravision92/ravlight-core/master/release/latest/veyron_xdmx2.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RavLight — Open-source stage lighting firmware for ESP32</title>
+<meta name="description" content="RavLight is an open-source firmware platform for professional stage lighting fixtures on ESP32 — native DMX512, Art-Net and sACN, multi-fixture architecture, web UI, browser-based installer.">
+<meta property="og:title" content="RavLight — Limitless Creations">
+<meta property="og:description" content="Open-source stage lighting firmware for ESP32. Native DMX512 / Art-Net / sACN, pixel bars, LED controllers, motorized winches.">
+<meta property="og:image" content="https://ravlight.com/assets/img/icon.png">
+<meta property="og:url" content="https://ravlight.com">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#fixtures">Fixtures</a>
+      <a href="#boards">Boards</a>
+      <a href="docs/getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <img class="wordmark" src="assets/img/wordmark.png" alt="RavLight — Limitless Creations">
+  <h1>Open-source stage lighting firmware<br>for <span class="acc">ESP32</span></h1>
+  <p class="sub">Professional DMX fixtures built on affordable hardware. Native DMX512, Art-Net and sACN — pixel bars, multi-output LED controllers, motorized winches. One modular core.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="install.html">⚡ Install from browser</a>
+    <a class="btn btn-ghost" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-label">Features</div>
+    <h2 class="sec-title">Everything a fixture needs, nothing hardcoded</h2>
+    <p class="sec-sub">Every function is a compile-time module. The core stays lean; fixtures declare what they need.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ico">🌐</div>
+        <h3>Native Art-Net &amp; sACN</h3>
+        <p>Raw lwIP UDP receivers — no external libraries. Multi-universe pool up to 32 universes, ArtPoll reply, ArtSync, per-universe multicast.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔌</div>
+        <h3>Physical DMX512</h3>
+        <p>Wired RS-485 in and out. Use fixtures on a classic DMX chain or bridge network protocols to wired DMX with the Axon node.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🧩</div>
+        <h3>Modular fixture architecture</h3>
+        <p>One core, many personalities. Adding a fixture touches zero core files — board pin maps, DMX patch and web UI are all declared per fixture.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🖥️</div>
+        <h3>Built-in web UI</h3>
+        <p>Full configuration from any browser: network, DMX patch, per-output LED settings, live DMX monitor, device discovery — no app required.</p>
+      </div>
+      <div class="card">
+        <div class="ico">⏺️</div>
+        <h3>DMX recorder</h3>
+        <p>Record any incoming DMX source into on-board scene slots and loop playback standalone — no console needed on site.</p>
+      </div>
+      <div class="card">
+        <div class="ico">✨</div>
+        <h3>Built-in effects</h3>
+        <p>Rainbow, chase, fire, twinkle and more, rendered on-device with fixture-aware color handling — run shows without any DMX source.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📡</div>
+        <h3>Ethernet first</h3>
+        <p>LAN8720 wired Ethernet as the primary transport, with WiFi and SoftAP fallback. Boards stay reachable even before configuration.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔄</div>
+        <h3>OTA updates</h3>
+        <p>Update firmware and web assets over the network. First install happens right from this site, via USB, in your browser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fixtures" style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">Fixture family</div>
+    <h2 class="sec-title">Four fixtures, one firmware</h2>
+    <p class="sec-sub">Each fixture is a personality of the same core — pick the one that matches your hardware.</p>
+    <div class="grid">
+      <div class="card fixture-card" style="background: var(--bg);">
+        <span class="status stable">Stable</span>
+        <h3>Veyron</h3>
+        <p>Professional pixel bar — WS2811 COB strip plus P9813 accent channels, five DMX personalities, dimming curves, strobe and highlight.</p>
+        <div class="chips"><span class="chip">XDMX rev2.2</span><span class="chip">40+2 px</span><span class="chip">5 personalities</span></div>
+      </div>
+      <div class="card fixture-card" style="background: var(--bg);">
+        <span class="status alpha">Alpha</span>
+        <h3>Elyon</h3>
+        <p>Multi-output LED controller — up to 10 outputs, WS281x / SK6812 / APA102 / PWM / relay, per-output universe mapping, RMT or I2S parallel backend.</p>
+        <div class="chips"><span class="chip">QuinLED Octa</span><span class="chip">Gledopto</span><span class="chip">up to 10 outputs</span></div>
+      </div>
+      <div class="card fixture-card" style="background: var(--bg);">
+        <span class="status alpha">Alpha</span>
+        <h3>Orion</h3>
+        <p>Motorized winch fixture — TMC2209 with sensorless StallGuard homing, guided setup wizard, DMX position control with safety watchdogs.</p>
+        <div class="chips"><span class="chip">LED Lifter v5</span><span class="chip">16-bit position</span><span class="chip">StallGuard</span></div>
+      </div>
+      <div class="card fixture-card" style="background: var(--bg);">
+        <span class="status alpha">Alpha</span>
+        <h3>Axon</h3>
+        <p>Network-to-DMX bridge node — Art-Net/sACN in, wired RS-485 DMX out, OLED status display, plus two auxiliary LED outputs.</p>
+        <div class="chips"><span class="chip">XDMX v1.4</span><span class="chip">RS-485 out</span><span class="chip">OLED</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="boards">
+  <div class="wrap">
+    <div class="sec-label">Hardware</div>
+    <h2 class="sec-title">Supported boards</h2>
+    <p class="sec-sub">Off-the-shelf controllers and open RavLight boards — all ESP32 based.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Board</th><th>Fixture</th><th>Ethernet</th><th>Outputs</th></tr></thead>
+        <tbody>
+          <tr><td>XDMX rev2.2 (WT32-ETH01)</td><td>Veyron</td><td>LAN8720</td><td>WS2811 + P9813, RS-485 DMX</td></tr>
+          <tr><td>QuinLED Dig-Octa</td><td>Elyon</td><td>LAN8720A</td><td>8 × LED</td></tr>
+          <tr><td>Gledopto Elite 4D (GL-C-618WL)</td><td>Elyon</td><td>LAN8720</td><td>4 × LED</td></tr>
+          <tr><td>Gledopto Elite 2D (GL-C-616WL)</td><td>Elyon</td><td>LAN8720</td><td>2 × LED</td></tr>
+          <tr><td>QuinLED Penta+ / Penta Deca</td><td>Elyon</td><td>optional</td><td>5 / 10 × analog PWM</td></tr>
+          <tr><td>LED Lifter v5</td><td>Orion</td><td>LAN8720</td><td>TMC2209 winch + 4 × LED</td></tr>
+          <tr><td>XDMX v1.4</td><td>Axon</td><td>LAN8720</td><td>RS-485 DMX + 2 × LED + OLED</td></tr>
+          <tr><td>Generic ESP32 DevKit</td><td>Elyon (test)</td><td>—</td><td>bring-up / signal analyzer</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="wrap">
+    <h2>Flash it in 2 minutes — right from the browser</h2>
+    <p>Connect your board via USB, pick your fixture, click install. No toolchain, no drivers hunt, no command line. Works in Chrome and Edge.</p>
+    <a class="btn btn-primary" href="install.html">⚡ Open the installer</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="docs/getting-started.html">Documentation</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

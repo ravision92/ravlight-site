@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orion — motorized winch — RavLight docs</title>
+<meta name="description" content="Orion fixture guide: DMX-controlled motorized winch with TMC2209 sensorless homing, setup wizard and safety options.">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="../getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="../getting-started.html">Getting started</a>
+      <a href="../wled-migration.html">Migrating from WLED</a>
+      <a href="../faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="veyron.html">Veyron — pixel bar</a>
+      <a href="elyon.html">Elyon — LED controller</a>
+      <a href="orion.html" class="active">Orion — winch</a>
+      <a href="axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="../boards.html">Supported boards</a>
+      <a href="../protocols.html">Protocols</a>
+      <a href="../web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Orion — motorized winch</h1>
+    <p class="lede">Orion is a DMX-controlled kinetic fixture: a TMC2209-driven winch (LED Lifter v5 board) with sensorless homing, an adaptive stall-detection calibration wizard, and optional LED outputs rendered alongside the motor. Status: alpha.</p>
+
+    <div class="note"><b>Safety first.</b> Orion moves loads overhead. RavLight provides stall detection, soft limits and watchdogs, but rigging, load ratings and safeties are the operator's responsibility. Never stand under a moving load, and always use secondary suspension where people are below.</div>
+
+    <h2 id="hw">Motor stack</h2>
+    <p>A <b>TMC2209</b> driver, configured over single-wire UART, with step generation by <b>FastAccelStepper</b>. Homing is <b>sensorless</b>: StallGuard4 reads the motor's back-EMF load signal, so the winch finds its home position by gently driving into the mechanical stop — no endstop switch required. Mechanical calibration (drum diameter, steps per revolution, gear ratio) converts steps to real distance, with a cm/inch selector in the UI.</p>
+
+    <h2 id="wizard">Setup wizard</h2>
+    <p>A guided 7-step wizard in the fixture section walks a new rig from zero to calibrated:</p>
+    <ol>
+      <li><b>Mechanical</b> — drum diameter, steps/rev, gear ratio.</li>
+      <li><b>Motor electrical</b> — run/hold currents and speed/acceleration limits.</li>
+      <li><b>Homing direction</b> — which way is "toward home" for your rig.</li>
+      <li><b>Home position</b> — manual-first: jog to the reference point and set it, before trusting sensorless homing.</li>
+      <li><b>Travel limits</b> — soft limits the motor will never cross.</li>
+      <li><b>Profile sweep</b> — automatic StallGuard characterization (below).</li>
+      <li><b>Safety</b> — watchdog and recovery behavior.</li>
+    </ol>
+
+    <h2 id="sweep">StallGuard profile sweep</h2>
+    <p>StallGuard readings vary with speed and direction, so a fixed threshold either misses real stalls or trips on phantom ones. The sweep runs the motor through <b>8 speed bins × 2 directions</b>, records the load signal profile, and auto-derives an operational stall threshold. A <b>confidence selector</b> sets how many standard deviations of margin you want — from <b>Aggressive (2σ)</b> for fast stall response to <b>Very tolerant (5σ)</b> for mechanically noisy rigs that would otherwise false-trigger.</p>
+
+    <h2 id="modes">Operating options</h2>
+    <ul>
+      <li><b>Manual mode</b> — bypasses all stall safety, for rigs whose load profile can't be measured reliably. Use with care.</li>
+      <li><b>Auto-home at boot</b> — for direct-drive rigs where the load drops when power is removed; the fixture re-homes itself before accepting positions.</li>
+      <li><b>Keep home after stall</b> — for worm-gear rigs that physically cannot lose position; skips re-homing after an operational stall.</li>
+      <li><b>Stall recovery</b> — <i>auto-rehome</i> (re-run homing in place, max 3 retries) or <i>drop &amp; rehome</i>, chosen per rig.</li>
+    </ul>
+
+    <h2 id="dmx">DMX control</h2>
+    <p>Personalities of 4–6 channels: <b>position</b> in 8-bit or <b>16-bit</b> (coarse + fine) flavors, plus <b>speed</b>, <b>acceleration</b> and a <b>function channel</b> (home, e-stop, clear fault and similar commands triggered from the console). Position maps between the calibrated travel limits.</p>
+
+    <h2 id="watchdog">DMX-loss watchdog</h2>
+    <p>If the DMX source disappears (per-universe detection), Orion executes a configured action: <b>e-stop</b>, <b>return home</b>, or <b>do nothing</b> (hold position). Pick per installation — a hanging prop over a stage wants different behavior than a warehouse test bench.</p>
+
+    <h2 id="leds">Optional LED outputs</h2>
+    <p>The LED Lifter v5 board exposes 4 optional pixel outputs (GPIO 4, 5, 15, 16) rendered Elyon-style alongside the motor — a lit element on the moving load, driven from the same universe pool. Board details on the <a href="../boards.html#lifter">boards page</a>.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

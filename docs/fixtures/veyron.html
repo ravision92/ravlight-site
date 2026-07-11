@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veyron — pixel bar — RavLight docs</title>
+<meta name="description" content="Veyron fixture guide: WS2811 pixel bar with P9813 accents on the XDMX rev2.2 board — personalities, patch, dimming curves.">
+<link rel="icon" type="image/png" href="../../assets/img/favicon.png">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="../getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="../getting-started.html">Getting started</a>
+      <a href="../wled-migration.html">Migrating from WLED</a>
+      <a href="../faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="veyron.html" class="active">Veyron — pixel bar</a>
+      <a href="elyon.html">Elyon — LED controller</a>
+      <a href="orion.html">Orion — winch</a>
+      <a href="axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="../boards.html">Supported boards</a>
+      <a href="../protocols.html">Protocols</a>
+      <a href="../web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Veyron — pixel bar</h1>
+    <p class="lede">Veyron is RavLight's original fixture: a pixel bar driven by the XDMX rev2.2 board, built for console-controlled shows rather than standalone effects. Status: stable.</p>
+
+    <h2 id="hw">Hardware</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Element</th><th>Detail</th><th>Pin</th></tr></thead>
+      <tbody>
+        <tr><td>Main strip</td><td>WS2811 RGB COB strip, 40 pixels</td><td>GPIO 5</td></tr>
+        <tr><td>Accent pixels</td><td>P9813 clocked chipset (white accents)</td><td>GPIO 2 (data) / GPIO 4 (clock)</td></tr>
+        <tr><td>Temperature</td><td>LM35 analog sensor, exposed on <code>/temperature</code></td><td>GPIO 32</td></tr>
+        <tr><td>Controller</td><td><a href="../boards.html#xdmx2">XDMX rev2.2</a> (WT32-ETH01) — Ethernet + WiFi, RS-485 DMX in/out</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p>The WS2811 strip is driven natively over RMT at 800&nbsp;kHz with pre-encoded buffers; the P9813 accents are clocked out over GPIO. No external LED libraries.</p>
+
+    <h2 id="personalities">DMX personalities</h2>
+    <p>Veyron ships <b>5 personalities</b>, selectable in the fixture section, ranging from a compact dimmer-style footprint to full per-pixel control. The active personality defines which channels the fixture consumes from its start address — check the <b>DMX monitor</b> page, where the occupied channels are highlighted.</p>
+
+    <h2 id="patch">Patch addresses</h2>
+    <p>Three independent start addresses map blocks of the personality onto the DMX universe:</p>
+    <ul>
+      <li><b>RGBW start</b> (<code>rgbwStart</code>) — first channel of the color block for the main strip.</li>
+      <li><b>White start</b> (<code>whiteStart</code>) — channel driving the P9813 white accent pixels.</li>
+      <li><b>Strobe start</b> (<code>strobeStart</code>) — channel for the strobe engine.</li>
+    </ul>
+    <p>This lets you place the color, white and strobe controls anywhere in the universe instead of forcing one contiguous block — handy when patching several bars into an existing show file.</p>
+
+    <h2 id="dimming">Dimming curves</h2>
+    <p>Per-fixture dimming curves (linear plus perceptual options) shape how DMX levels translate to LED output, so fades from the console look smooth at the bottom end instead of stepping. Selected in the fixture section and stored with the fixture config.</p>
+
+    <h2 id="strobe">Strobe and highlight</h2>
+    <p>The strobe channel runs a dedicated engine on-device — RGB strobe and white strobe variants are also available as effect extras. The <b>highlight</b> function (from the Devices panel or <code>/highlight</code>) runs a short identification animation so you can tell which physical bar you're configuring in a rig of identical units.</p>
+
+    <div class="note">Veyron builds also include the DMX recorder (4 slots × 10 s @ 40 fps) and physical DMX512 in/out via the XDMX RS-485 port — see <a href="../protocols.html">Protocols</a>.</div>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

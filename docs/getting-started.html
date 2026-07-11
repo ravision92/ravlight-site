@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started — RavLight docs</title>
+<meta name="description" content="Flash RavLight, connect the board to your network and send it DMX — first steps guide.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#boards">Boards</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html" class="active">Getting started</a>
+      <a href="wled-migration.html">Migrating from WLED</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Getting started</h1>
+    <p class="lede">From a blank board to receiving DMX over the network in about five minutes.</p>
+
+    <h2 id="flash">1 · Flash the firmware</h2>
+    <p>The fastest path is the <a href="../install.html">web installer</a>: connect the board via USB, pick your fixture and board, click Install. It writes the full 4&nbsp;MB image — bootloader, firmware and web UI — in one pass. Chrome or Edge required.</p>
+
+    <h3 id="esptool">Alternative: esptool (command line)</h3>
+    <p>Download the merged image for your board from <a href="https://github.com/ravision92/ravlight-core/tree/master/release/latest" target="_blank" rel="noopener">release/latest</a>, then:</p>
+    <pre><code>pip install esptool
+esptool --chip esp32 --port COM5 --baud 460800 write_flash 0x0 elyon_quinled_octa.bin</code></pre>
+    <p>Replace <code>COM5</code> with your serial port (<code>/dev/ttyUSB0</code> on Linux) and the file name with your board's image.</p>
+
+    <div class="note">Boards without native USB (e.g. the WT32-ETH01 on XDMX) need a USB-TTL adapter on TX0/RX0/GND, with GPIO0 tied to GND during power-up to enter the bootloader.</div>
+
+    <h2 id="network">2 · Connect to the network</h2>
+    <p>On first boot the board starts a WiFi access point named <code>RavLight-XXXX</code>. Connect to it and open <code>http://4.3.2.1</code> in a browser — the web UI loads.</p>
+    <ol>
+      <li>Open the <b>Network</b> section.</li>
+      <li><b>Ethernet boards</b>: plug the cable — DHCP is used by default; a static IP can be set in the same panel.</li>
+      <li><b>WiFi</b>: pick your SSID from the scan list, enter the password, save.</li>
+      <li>The board restarts and the page redirects to its new address (also reachable as <code>ravXXXX.local</code> via mDNS).</li>
+    </ol>
+
+    <h2 id="dmx">3 · Send it DMX</h2>
+    <p>Open the <b>DMX</b> section and pick the input source:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Source</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Art-Net</td><td>Default. Listens on UDP 6454, answers ArtPoll — the board shows up automatically in Resolume, xLights, QLC+, MadMapper…</td></tr>
+        <tr><td>sACN (E1.31)</td><td>Multicast per universe, priority handling. Works over WiFi too.</td></tr>
+        <tr><td>Wired DMX</td><td>Boards with an RS-485 port (XDMX) accept a physical DMX512 chain.</td></tr>
+        <tr><td>Auto scene</td><td>Loops a scene recorded with the built-in DMX recorder — standalone shows with no console.</td></tr>
+        <tr><td>Effects</td><td>Built-in generators (rainbow, chase, fire…) rendered on-device.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Set the start universe and channel to match your patch, then check the live <b>DMX monitor</b> page to verify data is arriving — fixture channels are highlighted in the grid.</p>
+
+    <h2 id="fixture">4 · Configure your fixture</h2>
+    <p>Each fixture adds its own section to the web UI. See the dedicated guides: <a href="fixtures/veyron.html">Veyron</a>, <a href="fixtures/elyon.html">Elyon</a>, <a href="fixtures/orion.html">Orion</a>, <a href="fixtures/axon.html">Axon</a>.</p>
+
+    <h2 id="update">Updating later</h2>
+    <p>Once on the network, updates are OTA: <b>Settings → Update</b> accepts the <code>_fw_</code> (firmware) and <code>_fs_</code> (web UI) binaries from the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">release page</a> — no USB needed.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
