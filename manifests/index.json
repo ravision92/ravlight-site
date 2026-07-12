@@ -1,5 +1,5 @@
 {
-  "version": "2.21.0",
+  "version": "2.22.0",
   "boards": [
     {
       "id": "axon_xdmx_v1_4",
@@ -35,6 +35,11 @@
       "id": "elyon_quinled_penta_plus",
       "fixture": "Elyon",
       "board": "QuinLED Penta+"
+    },
+    {
+      "id": "elyon_xdmx_v3",
+      "fixture": "elyon_xdmx_v3",
+      "board": "elyon_xdmx_v3"
     },
     {
       "id": "orion_led_lifter_v5",

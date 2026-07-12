@@ -1,0 +1,16 @@
+{
+  "name": "RavLight elyon_xdmx_v3 \u2014 elyon_xdmx_v3",
+  "version": "2.22.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "../firmware/elyon_xdmx_v3.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
