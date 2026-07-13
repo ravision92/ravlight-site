@@ -1,15 +1,10 @@
 {
-  "version": "2.22.0",
+  "version": "2.22.1",
   "boards": [
     {
       "id": "axon_xdmx_v1_4",
       "fixture": "Axon",
       "board": "XDMX v1.4"
-    },
-    {
-      "id": "elyon_generic_esp32_test",
-      "fixture": "Elyon",
-      "board": "Generic ESP32 DevKit (test)"
     },
     {
       "id": "elyon_gledopto_elite2d",
@@ -25,21 +20,6 @@
       "id": "elyon_quinled_octa",
       "fixture": "Elyon",
       "board": "QuinLED Dig-Octa"
-    },
-    {
-      "id": "elyon_quinled_penta_deca",
-      "fixture": "Elyon",
-      "board": "QuinLED Penta Deca"
-    },
-    {
-      "id": "elyon_quinled_penta_plus",
-      "fixture": "Elyon",
-      "board": "QuinLED Penta+"
-    },
-    {
-      "id": "elyon_xdmx_v3",
-      "fixture": "elyon_xdmx_v3",
-      "board": "elyon_xdmx_v3"
     },
     {
       "id": "orion_led_lifter_v5",
