@@ -1,5 +1,5 @@
 {
-  "version": "2.22.1",
-  "notes": "Over-the-air updates; Manual firmware update; Single-file firmware; Firmware panel",
+  "version": "2.23.0",
+  "notes": "Over-the-air updates; Manual firmware update; Single-file firmware; Failsafe update page; Recovery over serial (USB); Firmware panel",
   "url": "https://ravlight.com/firmware/orion_led_lifter_v5_fw.bin"
 }
