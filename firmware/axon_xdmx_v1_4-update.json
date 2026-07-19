@@ -1,5 +1,5 @@
 {
-  "version": "2.23.1",
-  "notes": "More reliable \"check for updates\"",
+  "version": "2.23.2",
+  "notes": "Simpler, always-reliable updates; download link",
   "url": "https://ravlight.com/firmware/axon_xdmx_v1_4_fw.bin"
 }
