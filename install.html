@@ -103,6 +103,8 @@
         <a href="https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers" target="_blank" rel="noopener">CP210x</a> or
         <a href="https://www.wch-ic.com/downloads/CH341SER_ZIP.html" target="_blank" rel="noopener">CH340</a>.</li>
       <li>Boards without native USB (e.g. WT32-ETH01) need a USB-TTL adapter wired to TX/RX/GND with GPIO0 held low at power-up.</li>
+      <li><b>Boards without auto-reset</b> (e.g. LED Lifter, or any board wired without DTR/RTS to EN/IO0): the browser can't reset them for you. To enter flashing mode, <b>hold the BOOT / IO0 button</b> (or fit the boot jumper) while connecting. When flashing finishes, <b>power-cycle the board</b> — unplug and replug USB — to boot the new firmware; it won't restart on its own.</li>
+      <li>The browser flasher runs at a conservative speed. For the fastest flashing, use the <a href="docs/getting-started.html#esptool">esptool command line</a> with <code>--baud 921600</code>.</li>
       <li>After flashing, the board opens a <b>RavLight-XXXX</b> WiFi access point — connect and open <code>http://4.3.2.1</code> to configure the network.</li>
     </ul>
   </div>

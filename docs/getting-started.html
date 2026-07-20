@@ -59,7 +59,8 @@
     <h3 id="esptool">Alternative: esptool (command line)</h3>
     <p>Download the merged image for your board from <a href="https://github.com/ravision92/ravlight-core/tree/master/release/latest" target="_blank" rel="noopener">release/latest</a>, then:</p>
     <pre><code>pip install esptool
-esptool --chip esp32 --port COM5 --baud 460800 write_flash 0x0 elyon_quinled_octa.bin</code></pre>
+esptool --chip esp32 --port COM5 --baud 921600 write_flash 0x0 elyon_quinled_octa.bin</code></pre>
+    <p style="color:var(--txt3);font-size:13.5px">Flash the <b>merged</b> image (<code>&lt;board&gt;.bin</code>) at <code>0x0</code> — it already contains the bootloader, partition table and app. The <code>_fw_</code> file is the app only: use it for over-the-air updates, or with esptool at offset <code>0x10000</code> on a board that already has the bootloader. If the connection drops mid-flash, retry with <code>--baud 460800</code>.</p>
     <p>Replace <code>COM5</code> with your serial port (<code>/dev/ttyUSB0</code> on Linux) and the file name with your board's image.</p>
 
     <div class="note">Boards without native USB (e.g. the WT32-ETH01 on XDMX) need a USB-TTL adapter on TX0/RX0/GND, with GPIO0 tied to GND during power-up to enter the bootloader.</div>
