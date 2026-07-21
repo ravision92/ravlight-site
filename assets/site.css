@@ -79,6 +79,20 @@ pre code { background: none; border: 0; padding: 0; }
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
 }
+
+/* Landing page only: the hero already carries the wordmark, so the nav
+   stays hidden until the visitor scrolls down past it, then slides in
+   as a fixed overlay instead of pushing the layout. */
+body.home .nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  transform: translateY(-100%);
+  transition: transform .35s ease;
+}
+body.home .nav.nav-visible { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  body.home .nav { transition: none; }
+}
 .nav-inner {
   max-width: var(--max);
   margin: 0 auto;

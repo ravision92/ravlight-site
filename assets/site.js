@@ -37,3 +37,23 @@
     if (e.key === 'Escape') close();
   });
 })();
+
+// Landing page: reveal the fixed nav only once the visitor scrolls down
+// past the hero; hide it again near the top. See body.home .nav in site.css.
+(function () {
+  if (!document.body.classList.contains('home')) return;
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+
+  var SHOW_AFTER = 10; // px scrolled before the nav appears
+  var ticking = false;
+
+  function update() {
+    nav.classList.toggle('nav-visible', window.scrollY > SHOW_AFTER);
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+})();
