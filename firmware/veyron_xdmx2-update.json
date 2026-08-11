@@ -1,5 +1,5 @@
 {
-  "version": "2.23.6",
-  "notes": "Set up WiFi from the browser",
+  "version": "2.23.14",
+  "notes": "9 DMX personalities (Shutter, Master Dimmer/Intensity, Macro), status LED",
   "url": "https://ravlight.com/firmware/veyron_xdmx2_fw.bin"
 }

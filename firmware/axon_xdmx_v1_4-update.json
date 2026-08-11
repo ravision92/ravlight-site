@@ -1,5 +1,5 @@
 {
-  "version": "2.23.6",
-  "notes": "Set up WiFi from the browser",
+  "version": "2.23.14",
+  "notes": "RDM improvements, OTA output suspend + update screen",
   "url": "https://ravlight.com/firmware/axon_xdmx_v1_4_fw.bin"
 }

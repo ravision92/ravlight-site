@@ -1,5 +1,5 @@
 {
-  "version": "2.23.6",
-  "notes": "Set up WiFi from the browser",
+  "version": "2.23.14",
+  "notes": "Device discovery ESP-NOW/network split, RDM improvements",
   "url": "https://ravlight.com/firmware/elyon_quinled_octa_fw.bin"
 }
