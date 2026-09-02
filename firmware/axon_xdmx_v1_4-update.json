@@ -1,5 +1,5 @@
 {
-  "version": "2.23.14",
-  "notes": "RDM improvements, OTA output suspend + update screen",
+  "version": "2.24.0",
+  "notes": "mDNS device announcements, breathing status LED, correct MAC in Art-Net discovery replies",
   "url": "https://ravlight.com/firmware/axon_xdmx_v1_4_fw.bin"
 }

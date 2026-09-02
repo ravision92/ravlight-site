@@ -1,5 +1,5 @@
 {
-  "version": "2.23.14",
-  "notes": "9 DMX personalities (Shutter, Master Dimmer/Intensity, Macro), status LED",
+  "version": "2.24.0",
+  "notes": "mDNS device announcements, breathing status LED, Macro Speed fixed on the +Macro personalities",
   "url": "https://ravlight.com/firmware/veyron_xdmx2_fw.bin"
 }
