@@ -107,7 +107,7 @@
       <li><b>Boards without auto-reset</b> (e.g. LED Lifter, or any board wired without DTR/RTS to EN/IO0): the browser can't reset them for you. To enter flashing mode, <b>hold the BOOT / IO0 button</b> (or fit the boot jumper) while connecting. When flashing finishes, <b>power-cycle the board</b> — unplug and replug USB — to boot the new firmware; it won't restart on its own.</li>
       <li>The browser flasher runs at a conservative speed. For the fastest flashing, use the <a href="docs/getting-started.html#esptool">esptool command line</a> with <code>--baud 921600</code>.</li>
       <li>After flashing, the installer offers to <b>set up WiFi from the browser</b> over the same USB connection — pick the network, type the password, and the board joins it before you ever open its page. Skip it on Ethernet boards, or if you would rather configure everything in the web UI.</li>
-      <li>If you skip that, the board opens a <b>RavLight-XXXX</b> WiFi access point — connect and open <code>http://4.3.2.1</code> to configure the network.</li>
+      <li>If you skip that, the board opens a WiFi access point named after its fixture — <b>Veyron-RVXXXX</b>, <b>Elyon-RVXXXX</b>, <b>Orion-RVXXXX</b> or <b>Axon-RVXXXX</b>. Connect to it with the password <code>123456789</code> and open <code>http://192.168.4.1</code> to configure the network.</li>
     </ul>
 
     <h2 style="font-size:20px;font-weight:700;margin:44px 0 12px">Already running RavLight?</h2>

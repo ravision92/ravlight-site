@@ -83,13 +83,13 @@
 
     <h2 id="settings">Settings</h2>
     <ul>
-      <li><b>OTA update</b> — upload the <code>_fw_</code> and <code>_fs_</code> binaries from a release; the board reboots after each.</li>
+      <li><b>OTA update</b> — upload the <code>_fw_</code> binary from a release and the board reboots onto it. One file: the web UI is compiled into the firmware image, so there is no separate filesystem upload. <i>Check for updates</i> asks ravlight.com whether a newer release exists and gives you the download link.</li>
       <li><b>Backup / restore</b> — export the full configuration as JSON and re-import it later or onto a replacement board.</li>
       <li><b>Fixture ID</b> — the name used for the SoftAP, mDNS hostname and discovery.</li>
       <li><b>Restart</b> and <b>factory reset</b> actions.</li>
     </ul>
     <img class="doc-shot" src="../assets/img/ui/settings.png" alt="Web UI — Settings section" loading="lazy">
-    <div class="note">The config lives in NVS, not in the filesystem — it survives OTA and filesystem updates. Saving network or ID changes shows a 10-second countdown overlay and redirects to the board's new address automatically.</div>
+    <div class="note">The config lives in NVS, not in the filesystem, so an OTA update never touches it. A USB flash of the merged image does wipe it — see the <a href="faq.html#survive">FAQ</a>. Saving network or ID changes shows a 10-second countdown overlay and redirects to the board's new address automatically.</div>
   </main>
 </div>
 

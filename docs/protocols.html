@@ -90,7 +90,7 @@
 
     <h2 id="other">Supporting protocols</h2>
     <ul>
-      <li><b>mDNS</b> — every node is reachable as <code>ravXXXX.local</code> (not on Android — use the IP).</li>
+      <li><b>mDNS</b> — every node is reachable as <code>ravXXXX.local</code> (not on Android — use the IP). Nodes also publish a <code>_ravlight._tcp</code> service record carrying device name, fixture type, board and firmware version, so home automation systems and network browsers can list them without being given an address.</li>
       <li><b>UDP broadcast + ESP-NOW discovery</b> — nodes find each other on the LAN for the Devices panel; "Send WiFi" pushes credentials to a target device.</li>
     </ul>
   </main>

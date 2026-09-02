@@ -71,7 +71,7 @@ esptool --chip esp32 --port COM5 --baud 921600 write_flash 0x0 elyon_quinled_oct
     <div class="note">Boards without native USB (e.g. the WT32-ETH01 on XDMX) need a USB-TTL adapter on TX0/RX0/GND, with GPIO0 tied to GND during power-up to enter the bootloader.</div>
 
     <h2 id="network">2 · Connect to the network</h2>
-    <p>On first boot the board starts a WiFi access point named <code>RavLight-XXXX</code>. Connect to it and open <code>http://4.3.2.1</code> in a browser — the web UI loads.</p>
+    <p>On first boot the board starts a WiFi access point named after its fixture and device ID — <code>Veyron-RVXXXX</code>, <code>Elyon-RVXXXX</code>, <code>Orion-RVXXXX</code> or <code>Axon-RVXXXX</code>. Connect to it (password <code>123456789</code>) and open <code>http://192.168.4.1</code> in a browser — the web UI loads.</p>
     <ol>
       <li>Open the <b>Network</b> section.</li>
       <li><b>Ethernet boards</b>: plug the cable — DHCP is used by default; a static IP can be set in the same panel.</li>
