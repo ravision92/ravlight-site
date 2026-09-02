@@ -22,6 +22,7 @@
       <a href="#features">Features</a>
       <a href="projects.html">Projects</a>
       <a href="#boards">Boards</a>
+      <a href="/#polaris">Polaris</a>
       <a href="docs/getting-started.html">Docs</a>
       <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
       <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a>
@@ -84,7 +85,12 @@
       <div class="card">
         <div class="ico">🔄</div>
         <h3>OTA updates</h3>
-        <p>Update firmware and web assets over the network. First install happens right from this site, via USB, in your browser.</p>
+        <p>One file, over the network — the web UI travels inside the firmware image. First install happens right from this site, via USB, in your browser.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔍</div>
+        <h3>Found, not configured</h3>
+        <p>Devices announce themselves over mDNS with name, fixture, board and version, so home automation systems and network browsers list them without being told an address.</p>
       </div>
     </div>
   </div>
@@ -122,8 +128,8 @@
       <div class="card fixture-card" style="background: var(--bg);">
         <span class="status stable">Stable</span>
         <h3>Veyron</h3>
-        <p>Professional pixel bar — WS2811 COB strip plus P9813 accent channels, five DMX personalities, dimming curves, strobe and highlight.</p>
-        <div class="chips"><span class="chip">XDMX rev2.2</span><span class="chip">40+2 px</span><span class="chip">5 personalities</span></div>
+        <p>Professional pixel bar — 40-pixel WS2811 COB strip plus six independent white accents, nine DMX personalities tiered like a commercial fixture, shutter, master dimmer, macros and dimming curves.</p>
+        <div class="chips"><span class="chip">XDMX rev2.2</span><span class="chip">40 px + 6 white</span><span class="chip">9 personalities</span></div>
       </div>
       <div class="card fixture-card" style="background: var(--bg);">
         <span class="status alpha">Alpha</span>
@@ -144,6 +150,33 @@
         <div class="chips"><span class="chip">XDMX v1.4</span><span class="chip">RS-485 out</span><span class="chip">OLED</span></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="polaris">
+  <div class="wrap">
+    <div class="showcase">
+      <div class="txt">
+        <div class="sec-label">Polaris · preview</div>
+        <h2 class="sec-title">One rig, one list</h2>
+        <p class="sec-sub">A fixture's own web page is all you need to manage one fixture. Polaris is for managing forty — a service on a PC and a browser interface on top of it, reachable from that PC or from a phone on the same network. It manages devices; it never sends DMX, so your console keeps that job.</p>
+        <ul>
+          <li>Discovery across several subnets, including routed lighting VLANs</li>
+          <li>One row per fixture — personality, address, universes, DHCP or static</li>
+          <li>Patch a whole group at once: it proposes, you review, then it writes</li>
+          <li>A project file carrying the fleet and the patch — prepared at the workshop, opened in the venue</li>
+          <li>Firmware fetched once and served to the fleet over the LAN</li>
+        </ul>
+        <div class="hero-ctas" style="justify-content:flex-start;margin-top:26px">
+          <a class="btn btn-ghost" href="docs/polaris.html">Read the Polaris guide</a>
+        </div>
+      </div>
+      <div class="shots">
+        <img src="assets/img/polaris/devices.png" alt="Polaris device list — Elyon, Veyron and Orion fixtures grouped, with universe, DMX source and personality per row" loading="lazy">
+        <div class="shot-cap">A mixed fleet in Polaris — offline units keep their place in the patch</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:34px">Polaris is in preview and not published for download yet — the <a href="docs/polaris.html">guide</a> covers what it does and what it needs from a device.</div>
   </div>
 </section>
 

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polaris — fleet manager — RavLight docs</title>
+<meta name="description" content="Polaris is the RavLight fleet manager: one service on a PC that discovers, patches and updates a whole rig of fixtures from a browser on the local network.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="../projects.html">Projects</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#polaris">Polaris</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Tools</div>
+      <a href="polaris.html" class="active">Polaris — fleet manager</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Polaris — fleet manager</h1>
+    <p class="lede">Every RavLight fixture serves its own web page, which is all you need to manage one. Polaris is for managing forty: one service on a PC, a browser interface on top of it, and the whole rig in a single list. Status: preview.</p>
+
+    <div class="note">Polaris is in <b>preview</b> and not published for download yet. This page documents what it does and how it works, so you know what is coming — <a href="mailto:dav_rav@hotmail.it">get in touch</a> if you want to try a build on a real rig.</div>
+
+    <h2 id="what">What it does — and what it does not</h2>
+    <p>Polaris manages devices: inventory, configuration, DMX patch, firmware updates, diagnostics. It <b>does not transmit Art-Net or sACN</b> and it is not a lighting console — your console keeps that job. Nothing in Polaris takes part in running a show; it is the tool for everything you do before and after one.</p>
+    <p>It is a local-network tool by design. Reaching a rig from another site is not a goal.</p>
+
+    <h2 id="why">Why a service, and not just a web page</h2>
+    <p>A browser page cannot manage RavLight devices on its own, for three reasons that have nothing to do with preference:</p>
+    <ul>
+      <li><b>No CORS headers.</b> A page served from anywhere other than the device itself is not allowed to call that device's API. Something has to proxy.</li>
+      <li><b>No discovery from a browser.</b> Finding fixtures means UDP broadcast, and a browser cannot send one.</li>
+      <li><b>No push.</b> Every device endpoint is polled. One process absorbing that polling for the whole fleet is far kinder to an ESP32's async web server than fifty browser tabs each opening their own connections.</li>
+    </ul>
+    <p>So Polaris runs as a service on one machine and serves the interface from there — open it on that PC, or from a phone or tablet on the same network.</p>
+
+    <h2 id="install">Installing</h2>
+    <p>On Windows the installer registers the service so Polaris starts at boot, adds the firewall rules, and leaves a shortcut that opens the interface. It creates three inbound rules on the private and domain profiles, and removes them again on uninstall:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Rule</th><th>Port</th><th>What breaks without it</th></tr></thead>
+      <tbody>
+        <tr><td>Device discovery</td><td>UDP 4211</td><td>Every scan comes back empty and looks like a network fault</td></tr>
+        <tr><td>Interface</td><td>TCP 8420</td><td>The interface is unreachable from a phone or tablet</td></tr>
+        <tr><td>Device pages</td><td>TCP 8500-8599</td><td>A fixture's own web page cannot be opened through Polaris</td></tr>
+      </tbody>
+    </table></div>
+    <div class="warn">The UDP 4211 rule is not optional. Devices reply to a <b>fixed</b> port rather than to the port a probe came from, so a blocked inbound 4211 means discovery finds nothing while everything else appears to work.</div>
+    <p>That same fixed reply port means <b>only one scanner can run per host</b>. If the port is already busy, it is almost always an older Polaris still running, or a RavLight device acting as a discovery master.</p>
+    <p>For a laptop you carry to a venue, no installer is needed — the binary serves the interface on its own:</p>
+    <pre><code>polaris serve -data ./data</code></pre>
+    <p>To stop Polaris without uninstalling it, switch it off in the interface or from the tray icon. That needs no administrator rights, unlike changing a service's start type: it stops probing and closes its discovery sockets while staying reachable, so it can be switched back on the same way.</p>
+
+    <h2 id="subnets">Several subnets</h2>
+    <p>Fixtures are often spread across more than one subnet. The intended setup is to give the machine running Polaris an address on each of them — several addresses on one adapter is fine, and is what this is built for.</p>
+    <p>Polaris probes from every address it holds and picks the source address whose subnet contains the target: the firmware replies to the probe's source address, so a probe sent from the wrong one produces an answer that cannot come back. The Network page lists every address this machine holds, grouped by adapter, and lets you choose which interfaces to probe and which extra subnets to sweep.</p>
+    <p>Broadcast does not cross a router. Where it does not reach, Polaris probes specific addresses directly or sweeps a subnet host by host. It also warns about fixtures sitting on segments this machine has no address on, saying which are reachable by routing and which are not reachable at all.</p>
+    <div class="note">Running a console or a media server on the same machine? The Art-Net and sACN listener — which Polaris uses only to <i>watch</i> traffic, never to send it — can be turned off so the other application can have UDP 6454.</div>
+
+    <h2 id="devices">Devices</h2>
+    <p>One searchable list of everything that answered, showing what each fixture is actually set to. A fixture can be edited from its row or its panel — personality, universe, start channel, DMX input source and its IP address — and written straight to it. A device that is switched off keeps the setting in Polaris until there is hardware to send it to.</p>
+    <ul>
+      <li><b>Download</b> and <b>upload configuration</b>, under the same names the fixture's own page uses. A file for the wrong fixture type is refused.</li>
+      <li><b>Identify</b> runs the highlight animation on that fixture, so you can tell which physical unit a row is.</li>
+      <li><b>Replace</b> swaps a dead fixture for a spare, carrying the configuration across.</li>
+      <li><b>Placeholders</b> let you place fixtures that are not on the network yet, with a full configuration, so binding one to real hardware later sends the right settings rather than somebody else's.</li>
+    </ul>
+
+    <h2 id="groups">Groups and patching</h2>
+    <p>A group is a list of fixtures with one row each, showing personality, start address, footprint, the universes it occupies, the address it answers on and whether that address is held by DHCP.</p>
+    <img class="doc-shot" style="max-width:100%" src="../assets/img/polaris/groups.png" alt="A Polaris group of 19 Veyron bars, one row per fixture, with personality set for all of them at once" loading="lazy">
+    <div class="doc-shot-cap">Nineteen bars in one group — drag them into the order they hang and the addresses follow</div>
+    <p>Start addresses are fields you type in: setting the first one lays the rest out from it, each by its own size — a Veyron's from its personality's section table, an Elyon output's from its pixel count and grouping. <b>Plan</b> asks how DMX reaches the group, where addresses start and what should happen at the end of a universe, then fills in what it proposes; <b>Send it</b> shows every change fixture by fixture before writing anything.</p>
+    <p>Where a fixture takes DMX from — Art-Net, sACN or the five-pin line — is set here too. An <a href="fixtures/orion.html">Orion</a> counts as two fixtures in one box: a winch addressed from the device universe, and LED outputs carrying their own, so it gets a row each.</p>
+
+    <h2 id="projects">Projects</h2>
+    <p>A project is everything Polaris holds for a production — the fleet and the patch — and it saves to a file and opens from one. Prepared at the workshop, opened in the venue.</p>
+    <p>A fixture in the file that this machine has never met is recorded as <i>expected</i>, with the configuration the file remembers, so the patch reads correctly before anything answers; discovery decides the rest. What never travels with a project: telemetry, the event log, the firmware cache and this machine's settings — those are facts about a PC on a LAN, not about a production.</p>
+
+    <h2 id="firmware">Firmware updates</h2>
+    <p>A fixture can check <code>ravlight.com</code> for a newer release on its own, but that is all it does: it hands you a download link, and you upload the file to it by hand. That is the right behavior for one fixture and unworkable for thirty — every one of them needs a route to the internet just to answer the question, and you still carry the same file to each in turn. Polaris fetches each release once and pushes it to the fleet from the LAN, re-hashing the image before every flash.</p>
+    <p>Selecting a device narrows the image list to that fixture's build. Firmware older than <b>2.23.15</b> does not report which build it takes, so for those you name the build explicitly — and a wrong binary does not come back over the network.</p>
+    <p>A rollout is deliberately unhurried. A fixture <b>goes dark for the whole flash</b> — the firmware suspends DMX while it writes — so Polaris updates a couple at a time rather than the whole rig at once, and sends the <b>first one on its own</b>: if an image is wrong, it takes one fixture and not the lot. Before it starts, it names the fixtures that are currently receiving DMX, in case somebody is using them.</p>
+    <div class="warn"><b>Devices below firmware 2.23.3 need one USB flash first.</b> The partition table changed in 2.23.3, and a partition table is the one thing an over-the-air update cannot replace — OTA writes into a slot that has to already exist. Flash the merged image over USB once with the <a href="../install.html">web installer</a>; every update after that, in Polaris or from the device's own page, goes over the network. From 2.23.3 onwards there is nothing to do.</div>
+
+    <h2 id="requirements">What Polaris needs from a device</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Firmware</th><th>What works</th></tr></thead>
+      <tbody>
+        <tr><td>below 2.23.3</td><td>Discovery, configuration and patching — but one USB flash is needed before any network update</td></tr>
+        <tr><td>2.23.3 and up</td><td>Everything, except that the build has to be named by hand for a firmware update</td></tr>
+        <tr><td>2.23.15 and up</td><td>Everything, with the device reporting its own build so updates need no guesswork</td></tr>
+      </tbody>
+    </table></div>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="mailto:dav_rav@hotmail.it">Contact</a> ·
+      <a href="../privacy.html">Privacy</a>
+    </span>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>

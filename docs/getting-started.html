@@ -18,6 +18,7 @@
       <a href="/#features">Features</a>
       <a href="../projects.html">Projects</a>
       <a href="/#fixtures">Fixtures</a>
+      <a href="/#polaris">Polaris</a>
       <a href="/#boards">Boards</a>
       <a href="getting-started.html">Docs</a>
       <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
@@ -40,6 +41,10 @@
       <a href="fixtures/elyon.html">Elyon — LED controller</a>
       <a href="fixtures/orion.html">Orion — winch</a>
       <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Tools</div>
+      <a href="polaris.html">Polaris &mdash; fleet manager</a>
     </div>
     <div class="group">
       <div class="group-lbl">Reference</div>
@@ -92,7 +97,12 @@ esptool --chip esp32 --port COM5 --baud 921600 write_flash 0x0 elyon_quinled_oct
     <p>Each fixture adds its own section to the web UI. See the dedicated guides: <a href="fixtures/veyron.html">Veyron</a>, <a href="fixtures/elyon.html">Elyon</a>, <a href="fixtures/orion.html">Orion</a>, <a href="fixtures/axon.html">Axon</a>.</p>
 
     <h2 id="update">Updating later</h2>
-    <p>Once on the network, updates are OTA: <b>Settings → Update</b> accepts the <code>_fw_</code> (firmware) and <code>_fs_</code> (web UI) binaries from the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">release page</a> — no USB needed.</p>
+    <p>Once on the network, updates are over the air and take <b>one file</b>: <b>Settings → Update</b> accepts the <code>_fw_</code> binary from the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">release page</a> — no USB needed. The web UI travels inside that image, so there is no separate filesystem upload any more. The same panel can <b>check</b> <code>ravlight.com</code> for a newer release and hand you the download link — the device deliberately does not fetch and install it by itself, because a secure download can fail on a unit that has been running for weeks, while a file you upload always works. For a whole rig at once, <a href="polaris.html">Polaris</a> does the fetching and the flashing for you.</p>
+
+    <h3 id="partitions">The one time you need USB again</h3>
+    <p>Boards still running firmware <b>older than 2.23.3</b> need a single USB flash before over-the-air updates work. Version 2.23.3 unified the partition table across every board, and a partition table is the one thing an update cannot replace over the network: OTA writes into an application slot that has to already exist, so it cannot move the slots themselves.</p>
+    <p>Flash the merged image once with the <a href="../install.html">web installer</a> (or esptool at <code>0x0</code>) and that is the end of it — every update after that is over the network. Devices on <b>2.23.3 or newer already have the current layout</b> and need nothing. The running version is in the Info popup of the web UI.</p>
+    <div class="warn"><b>Export your configuration before this one.</b> Unlike an over-the-air update, flashing the merged image writes the whole 4&nbsp;MB of flash — including the region the configuration lives in — so the board comes back on factory defaults with a fresh device ID. Use <b>Settings → Download configuration</b> first and upload it again afterwards. Over-the-air updates never touch it.</div>
   </main>
 </div>
 

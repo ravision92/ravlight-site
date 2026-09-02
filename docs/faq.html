@@ -18,6 +18,7 @@
       <a href="/#features">Features</a>
       <a href="../projects.html">Projects</a>
       <a href="/#fixtures">Fixtures</a>
+      <a href="/#polaris">Polaris</a>
       <a href="/#boards">Boards</a>
       <a href="getting-started.html">Docs</a>
       <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
@@ -42,6 +43,10 @@
       <a href="fixtures/axon.html">Axon — DMX bridge</a>
     </div>
     <div class="group">
+      <div class="group-lbl">Tools</div>
+      <a href="polaris.html">Polaris &mdash; fleet manager</a>
+    </div>
+    <div class="group">
       <div class="group-lbl">Reference</div>
       <a href="boards.html">Supported boards</a>
       <a href="protocols.html">Protocols</a>
@@ -63,10 +68,11 @@
     <p>The WT32-ETH01 has no USB port. Connect a USB-TTL adapter to TX0/RX0/GND, tie <b>GPIO0 to GND</b>, then power the board up — it boots into the serial bootloader. Flash normally, remove the GPIO0 strap, and power-cycle.</p>
 
     <h2 id="reset">How do I factory reset?</h2>
-    <p>Boards with a physical reset button (e.g. XDMX): hold it for 10 seconds — the config is wiped and the defaults from <code>default_config.json</code> are loaded, including a fresh MAC-based device ID. Boards without a button: re-flash the filesystem (<code>_fs_</code> binary) and erase the flash if you also need to clear NVS, or use the restart/reset actions in the web UI Settings while it's still reachable.</p>
+    <p>Boards with a physical reset button (e.g. XDMX): hold it for 10 seconds — the config is wiped and the defaults are loaded, including a fresh MAC-based device ID. Boards without a button: use the reset action in the web UI Settings while it is still reachable, or flash the merged image over USB, which clears the configuration as a side effect.</p>
 
     <h2 id="survive">Does my config survive firmware updates?</h2>
-    <p>Yes. The runtime config lives in <b>NVS</b> (flash key-value storage), not in the filesystem — it survives both OTA firmware updates and filesystem (<code>uploadfs</code> / <code>_fs_</code> OTA) updates. Only a full-chip erase or a factory reset clears it. You can also export/import the config as JSON from Settings.</p>
+    <p>Over the air, yes. The runtime config lives in <b>NVS</b> (flash key-value storage) rather than in the filesystem, so an OTA firmware update leaves it alone.</p>
+    <p>It does <b>not</b> survive a USB flash of the merged image, which is what the web installer writes: that image covers the whole 4&nbsp;MB of flash including the NVS region, so the board comes back on factory defaults with a fresh device ID. Same for a full-chip erase or a factory reset. Export the config as JSON from Settings before any USB flash and upload it again afterwards.</p>
 
     <h2 id="artnet">Art-Net data isn't arriving</h2>
     <p>Check in this order:</p>
@@ -81,10 +87,18 @@
     <p>mDNS works out of the box on Windows, macOS, Linux and iOS, but <b>Android does not resolve .local hostnames</b> in the browser. On Android use the board's IP address directly — it's shown in the Info popup and in your router's DHCP client list.</p>
 
     <h2 id="binaries">Where do I download release binaries?</h2>
-    <p>From the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">GitHub releases page</a>, grouped per fixture in <code>release/{veyron,elyon,orion}/vX.Y.Z/</code>. Each board gets three files: the <b>merged</b> binary for first flash at <code>0x0</code>, plus <code>_fw_</code> and <code>_fs_</code> binaries for OTA updates.</p>
+    <p>From the <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">GitHub releases page</a>, grouped per fixture in <code>release/{veyron,elyon,orion}/vX.Y.Z/</code>. Each board gets <b>two</b> files, and which one you want depends only on whether the board has RavLight on it already:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>File</th><th>Use it for</th></tr></thead>
+      <tbody>
+        <tr><td><code>&lt;board&gt;.bin</code> (merged)</td><td>First flash or recovery, over USB at offset <code>0x0</code>. Contains bootloader, partition table and application — and wipes the configuration.</td></tr>
+        <tr><td><code>&lt;board&gt;_fw_v&lt;version&gt;.bin</code></td><td>Every update after that: upload it in the web UI, or esptool at <code>0x10000</code>. Keeps the configuration.</td></tr>
+      </tbody>
+    </table></div>
+    <p>There is no longer a separate <code>_fs_</code> filesystem binary: the web UI is compiled into the firmware image, so one file is the whole update.</p>
 
-    <h2 id="ota">Why does OTA need two files?</h2>
-    <p>ElegantOTA flashes one partition at a time: upload <code>_fw_</code> as "Firmware" and <code>_fs_</code> as "Filesystem". Firmware first is recommended so the web UI matches the backend. The board reboots after each upload.</p>
+    <h2 id="ota">Can I always update over the air?</h2>
+    <p>Yes, with one historical exception: a board still running firmware <b>older than 2.23.3</b> needs a single USB flash of the merged image first. Version 2.23.3 unified the partition table, and an over-the-air update writes into an application slot that has to already exist — it cannot move the slots themselves. Once a board is on 2.23.3 or newer, it never needs USB again. See <a href="getting-started.html#partitions">Getting started</a> for the details.</p>
 
     <h2 id="bugs">How do I report a bug?</h2>
     <p>Open an issue on <a href="https://github.com/ravision92/ravlight-core/issues" target="_blank" rel="noopener">GitHub</a>. Include the board, fixture, firmware version (Info popup), and what you were sending it (Art-Net/sACN source and universe layout) — that's usually enough to reproduce.</p>

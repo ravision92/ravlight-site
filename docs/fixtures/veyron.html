@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Veyron — pixel bar — RavLight docs</title>
-<meta name="description" content="Veyron fixture guide: WS2811 pixel bar with P9813 accents on the XDMX rev2.2 board — personalities, patch, dimming curves.">
+<meta name="description" content="Veyron fixture guide: 40-pixel WS2811 bar with six white accents on the XDMX rev2.2 board — nine DMX personalities, shutter, macros, patch and dimming curves.">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
@@ -18,6 +18,7 @@
       <a href="/#features">Features</a>
       <a href="../../projects.html">Projects</a>
       <a href="/#fixtures">Fixtures</a>
+      <a href="/#polaris">Polaris</a>
       <a href="/#boards">Boards</a>
       <a href="../getting-started.html">Docs</a>
       <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
@@ -42,6 +43,10 @@
       <a href="axon.html">Axon — DMX bridge</a>
     </div>
     <div class="group">
+      <div class="group-lbl">Tools</div>
+      <a href="../polaris.html">Polaris &mdash; fleet manager</a>
+    </div>
+    <div class="group">
       <div class="group-lbl">Reference</div>
       <a href="../boards.html">Supported boards</a>
       <a href="../protocols.html">Protocols</a>
@@ -58,30 +63,73 @@
       <thead><tr><th>Element</th><th>Detail</th><th>Pin</th></tr></thead>
       <tbody>
         <tr><td>Main strip</td><td>WS2811 RGB COB strip, 40 pixels</td><td>GPIO 5</td></tr>
-        <tr><td>Accent pixels</td><td>P9813 clocked chipset (white accents)</td><td>GPIO 2 (data) / GPIO 4 (clock)</td></tr>
+        <tr><td>White accents</td><td>6 independent white LEDs on a P9813 clocked pair</td><td>GPIO 2 (data) / GPIO 4 (clock)</td></tr>
         <tr><td>Temperature</td><td>LM35 analog sensor, exposed on <code>/temperature</code></td><td>GPIO 32</td></tr>
         <tr><td>Controller</td><td><a href="../boards.html#xdmx2">XDMX rev2.2</a> (WT32-ETH01) — Ethernet + WiFi, RS-485 DMX in/out</td><td>—</td></tr>
       </tbody>
     </table></div>
-    <p>The WS2811 strip is driven natively over RMT at 800&nbsp;kHz with pre-encoded buffers; the P9813 accents are clocked out over GPIO. No external LED libraries.</p>
+    <p>The WS2811 strip is driven natively over RMT at 800&nbsp;kHz with pre-encoded buffers; the six white accents are clocked out over GPIO. No external LED libraries.</p>
 
     <h2 id="personalities">DMX personalities</h2>
-    <p>Veyron ships <b>5 personalities</b>, selectable in the fixture section, ranging from a compact dimmer-style footprint to full per-pixel control. The active personality defines which channels the fixture consumes from its start address — check the <b>DMX monitor</b> page, where the occupied channels are highlighted.</p>
+    <p>Veyron ships <b>9 personalities</b>, tiered the way a commercial fixture is: each pixel layout comes as a <b>bare</b> pair — color channels and nothing else — and a <b>rich</b> one that adds shutter, master dimmer and macros on top. Pick the layout you want to patch, then pick how much control you want with it.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>Personality</th><th>Channels</th><th>Strip control</th><th>Extras</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Full Pixel (Legacy)</td><td>128</td><td>40 px individually, 3 ch each</td><td>Shutter ×2</td></tr>
+        <tr><td>2</td><td>Full Pixel + Macro</td><td>133</td><td>40 px individually, 3 ch each</td><td>Shutter ×2, Master Dimmer ×2, Pixel Macro, White Macro, Speed</td></tr>
+        <tr><td>3</td><td>Full Pixel</td><td>126</td><td>40 px individually, 3 ch each</td><td>—</td></tr>
+        <tr><td>4</td><td>Mirror + Macro</td><td>73</td><td>20 zones mirrored around the centre</td><td>Shutter ×2, Master Dimmer ×2, Zone Macro, White Macro, Speed</td></tr>
+        <tr><td>5</td><td>Mirror</td><td>66</td><td>20 zones mirrored around the centre</td><td>—</td></tr>
+        <tr><td>6</td><td>Grouped 2px + Macro</td><td>73</td><td>20 zones of 2 adjacent pixels</td><td>Shutter ×2, Master Dimmer ×2, Zone Macro, White Macro, Speed</td></tr>
+        <tr><td>7</td><td>Grouped 2px</td><td>66</td><td>20 zones of 2 adjacent pixels</td><td>—</td></tr>
+        <tr><td>8</td><td>RGBW + Macro</td><td>10</td><td>Whole bar as one color</td><td>Shutter ×2, Master Intensity, RGB Macro, White Macro, Speed</td></tr>
+        <tr><td>9</td><td>RGBW</td><td>4</td><td>Whole bar as one color</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p>Every personality except 8 and 9 carries the <b>six white accents as six separate channels</b>. Personalities 8 and 9 collapse them to one.</p>
+    <div class="note"><b>Personality 1 is frozen on purpose.</b> It is the original layout, kept exactly as it was so consoles already patched against it are not broken by the richer tier that replaced it. For anything new, patch <b>Full Pixel + Macro</b> instead — same pixels, plus dimmer and macros.</div>
+    <p>The active personality decides which channels the fixture consumes from its start address. The fixture section of the web UI draws the channel map for whichever one is selected, and the <b>DMX monitor</b> page highlights the occupied channels in the live universe.</p>
+
+    <h2 id="macros">Macros</h2>
+    <p>The macro channels run animations on the fixture itself, so a bar can do something without a console driving every pixel. What makes them useful rather than a gimmick is that most of them <b>keep the color you patched</b>:</p>
+    <ul>
+      <li><b>Pixel Macro</b> (personality 2) and <b>Zone Macro</b> (4 and 6) apply a moving brightness mask over the colors already on the channels — chase, twinkle, fade, slide and mirror move across the bar in whatever colors your console is sending, per pixel or per zone.</li>
+      <li><b>RGB Macro</b> (personality 8) has one color to work with, so it uses the Strip Color channels as the base for the pattern. With the macro idle, those channels simply light the bar as normal.</li>
+      <li><b>Rainbow</b> and <b>Fire</b> are the exception in every case: they color themselves and ignore what is patched.</li>
+      <li><b>White Macro</b> drives the six accents on their own — a monochrome set including a scanner and a smooth sweep, plus rainbow and fire bridged from the effects engine.</li>
+    </ul>
+    <p>One <b>Macro Speed</b> channel paces whichever macros are running.</p>
 
     <h2 id="patch">Patch addresses</h2>
-    <p>Three independent start addresses map blocks of the personality onto the DMX universe:</p>
+    <p>Three independent start addresses map the blocks of a personality onto the universe:</p>
     <ul>
-      <li><b>RGBW start</b> (<code>rgbwStart</code>) — first channel of the color block for the main strip.</li>
-      <li><b>White start</b> (<code>whiteStart</code>) — channel driving the P9813 white accent pixels.</li>
-      <li><b>Strobe start</b> (<code>strobeStart</code>) — channel for the strobe engine.</li>
+      <li><b>RGBW start</b> — first channel of the color block for the main strip.</li>
+      <li><b>White start</b> — first channel of the white accent block.</li>
+      <li><b>Function start</b> — first channel of the function block: shutter, master dimmer or intensity, macros and macro speed.</li>
     </ul>
-    <p>This lets you place the color, white and strobe controls anywhere in the universe instead of forcing one contiguous block — handy when patching several bars into an existing show file.</p>
+    <p>This lets you place color, white and functions anywhere in the universe instead of forcing one contiguous block — handy when patching several bars into an existing show file. Leave them consecutive and you get the plain footprint from the table above.</p>
+    <div class="note">Older firmware called the third one <b>Strobe start</b>, back when shutter was the only thing in that block. It is the same address; the name caught up with what the block actually holds.</div>
 
     <h2 id="dimming">Dimming curves</h2>
     <p>Per-fixture dimming curves (linear plus perceptual options) shape how DMX levels translate to LED output, so fades from the console look smooth at the bottom end instead of stepping. Selected in the fixture section and stored with the fixture config.</p>
 
-    <h2 id="strobe">Strobe and highlight</h2>
-    <p>The strobe channel runs a dedicated engine on-device — RGB strobe and white strobe variants are also available as effect extras. The <b>highlight</b> function (from the Devices panel or <code>/highlight</code>) runs a short identification animation so you can tell which physical bar you're configuring in a rig of identical units.</p>
+    <h2 id="shutter">Shutter</h2>
+    <p>The rich personalities carry two shutter channels — one for the strip, one for the accents — laid out the way a moving head does it: a single byte where the value picks both the function and its speed. Open sits at both ends, so a channel parked at 0 or at full is simply open, and the four functions occupy wide bands with roughly 60 steps of speed each.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>DMX value</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>0 – 10</td><td>Open</td></tr>
+        <tr><td>11 – 70</td><td>Strobe — thin flash, slow to fast</td></tr>
+        <tr><td>71 – 130</td><td>Random strobe — same flash, the wait re-rolled each cycle</td></tr>
+        <tr><td>131 – 190</td><td>Pulse open — 50% square wave, opening first</td></tr>
+        <tr><td>191 – 249</td><td>Pulse close — the same, closing first</td></tr>
+        <tr><td>250 – 255</td><td>Open</td></tr>
+      </tbody>
+    </table></div>
+    <p>Rates follow a curve rather than a straight line, so the slow end of each band is usable instead of being crushed into the first few steps.</p>
+
+    <h2 id="highlight">Highlight</h2>
+    <p>The <b>highlight</b> function — from the Devices panel, from <a href="../polaris.html">Polaris</a>, or on <code>/highlight</code> — runs a short identification animation so you can tell which physical bar you are configuring in a rig of identical units.</p>
 
     <div class="note">Veyron builds also include the DMX recorder (4 slots × 10 s @ 40 fps) and physical DMX512 in/out via the XDMX RS-485 port — see <a href="../protocols.html">Protocols</a>.</div>
   </main>
