@@ -1,0 +1,120 @@
+RavLight Polaris — End User Licence Agreement
+=============================================
+
+Copyright (c) 2026 Ravision. All rights reserved.
+
+This is a preview release. Read this before installing or running it.
+
+By installing, copying or running RavLight Polaris ("the Software") you agree
+to the terms below. If you do not agree, do not install or run it.
+
+
+1. What you may do
+------------------
+
+You are granted a non-exclusive, royalty-free, revocable licence to install and
+use the Software, free of charge, for any purpose — including commercial and
+professional work such as lighting installations, hire stock and productions.
+You may install it on as many computers as you need. You may keep and restore
+your own backup copies.
+
+
+2. What you may not do
+----------------------
+
+You may not:
+
+  a) redistribute, publish, resell, rent, lend or sublicense the Software, or
+     make it available to third parties, in whole or in part. Point people at
+     https://ravlight.com instead — that way everybody gets the current build;
+
+  b) reverse engineer, decompile or disassemble the Software, or attempt to
+     derive its source code, except to the extent this restriction cannot
+     lawfully be excluded;
+
+  c) modify the Software, or create derivative works from it;
+
+  d) remove or alter any copyright, trademark or licence notice it carries.
+
+
+3. Ownership
+------------
+
+The Software is licensed, not sold. Ravision retains all right, title and
+interest in it. This agreement grants you no rights to the RavLight or Ravision
+names, logos or trademarks.
+
+The Software includes third-party open-source components, each under its own
+licence. Those licences are reproduced in THIRD-PARTY-NOTICES.txt and, where
+they grant you rights broader than this agreement in respect of that component,
+those licences govern that component.
+
+RavLight Core — the firmware that runs on the devices Polaris manages — is a
+separate work under a separate licence (AGPLv3 or commercial). This agreement
+does not cover it.
+
+
+4. Preview software
+-------------------
+
+This is a preview. It is incomplete, it will change, and it may contain defects.
+In particular:
+
+  - The Software writes configuration to lighting devices and can install
+    firmware on them. A firmware image intended for different hardware can
+    leave a device unreachable over the network and needing a USB recovery.
+
+  - Neither the Software nor the devices it manages implement any
+    authentication. The security model is the network the equipment sits on,
+    not a login. Do not expose either to an untrusted network.
+
+  - You are responsible for verifying the behaviour of your equipment before
+    relying on it in a production, and for any safety-critical decision about
+    equipment that moves, carries load, or is rigged above people.
+
+The terms of this agreement may differ in future releases. Terms accepted for
+one version do not extend to another.
+
+
+5. No warranty
+--------------
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT.
+
+
+6. Limitation of liability
+--------------------------
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL RAVISION
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY — WHETHER IN CONTRACT,
+TORT OR OTHERWISE — ARISING FROM OR IN CONNECTION WITH THE SOFTWARE OR ITS USE,
+INCLUDING WITHOUT LIMITATION ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR
+CONSEQUENTIAL DAMAGES, LOSS OF DATA, LOSS OF PROFIT, DAMAGE TO EQUIPMENT, OR
+INTERRUPTION OF A PERFORMANCE OR INSTALLATION.
+
+Nothing in this agreement excludes or limits liability which cannot lawfully be
+excluded or limited, including liability for death or personal injury caused by
+negligence.
+
+
+7. Termination
+--------------
+
+This licence terminates automatically if you breach any of its terms. On
+termination you must stop using the Software and delete all copies of it. You
+may terminate it at any time by doing the same.
+
+
+8. Governing law
+----------------
+
+This agreement is governed by the laws of Italy. The courts of Italy have
+exclusive jurisdiction over any dispute arising from it.
+
+
+Contact
+-------
+
+Ravision — https://ravlight.com — dav_rav@hotmail.it

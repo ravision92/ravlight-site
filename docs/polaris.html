@@ -57,7 +57,38 @@
     <h1>Polaris — fleet manager</h1>
     <p class="lede">Every RavLight fixture serves its own web page, which is all you need to manage one. Polaris is for managing forty: one service on a PC, a browser interface on top of it, and the whole rig in a single list. Status: preview.</p>
 
-    <div class="note">Polaris is in <b>preview</b> and not published for download yet. This page documents what it does and how it works, so you know what is coming — <a href="mailto:dav_rav@hotmail.it">get in touch</a> if you want to try a build on a real rig.</div>
+    <div class="note">Polaris is in <b>preview</b>: it works, it has run against real rigs, and it will still change. Feedback is the point of this build — <a href="mailto:dav_rav@hotmail.it">tell us what breaks</a>.</div>
+
+    <h2 id="download">Download</h2>
+    <p>Two builds of the same program, for the two ways of running it. Windows 64-bit; version <b>0.3.2</b>.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Build</th><th>Use it when</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Installer</b><br><span style="color:var(--txt4);font-size:12.5px">6.9 MB</span></td>
+          <td>The machine stays with the rig. Registers Polaris as a service so it starts at boot, adds the firewall rules, and leaves a tray icon and a shortcut. Needs administrator rights once.</td>
+          <td><a class="btn btn-primary" style="white-space:nowrap" href="../polaris/polaris-setup-0.3.2.exe">Download installer</a></td>
+        </tr>
+        <tr>
+          <td><b>Portable</b><br><span style="color:var(--txt4);font-size:12.5px">8.9 MB · zip</span></td>
+          <td>A laptop you carry to a venue. Unzip and double-click <code>polaris.exe</code> — nothing is installed, no administrator rights, and everything it stores lives in a <code>data</code> folder beside the binary. Delete the folder and it is as if it never ran.</td>
+          <td><a class="btn btn-ghost" style="white-space:nowrap" href="../polaris/polaris-0.3.2-windows-portable.zip">Download portable</a></td>
+        </tr>
+      </tbody>
+    </table></div>
+    <p style="color:var(--txt3);font-size:13.5px">Either way the interface is at <code>http://localhost:8420</code>. Free to use, including commercially — <a href="../polaris/polaris-licence.txt">licence</a>, <a href="../polaris/THIRD-PARTY-NOTICES.txt">third-party notices</a>. Please link people here rather than passing the file on, so everybody gets the current build.</p>
+    <div class="warn"><b>These builds are not code-signed</b>, so Windows SmartScreen will warn about an unknown publisher — and an installer that registers a service and opens firewall ports is exactly the shape it warns hardest about. Choose <i>More info → Run anyway</i>, or check the file against its SHA-256 first:
+      <pre style="margin:10px 0 0;font-size:12px"><code>Get-FileHash .\polaris-setup-0.3.2.exe
+
+polaris-setup-0.3.2.exe
+  b1f924352defd9a40fecfe1d9b199a0fc746e674edf5e328d312d8fd52ddb054
+polaris-0.3.2-windows-portable.zip
+  99f3446f123c6d0402ffed178e4b1422bd372d66e8620cd1fe36d275ad70cac8</code></pre>
+    </div>
+    <p>The portable build also carries <code>fakedevice.exe</code>, a simulator that puts a rig of fixtures on <b>loopback addresses only</b> — never on your network — so you can try the whole thing without hardware:</p>
+    <pre><code>fakedevice.exe -mix veyron=6,orion=6,elyon=4 -base 20
+polaris.exe serve -data ./data -loopback</code></pre>
+    <div class="note"><b>Before pointing it at a real rig:</b> there is no authentication anywhere — not in Polaris, not in the devices. The security model is the network the equipment sits on, a lighting VLAN rather than a login. Polaris writes device configuration when you tell it to, and it has not been through a show.</div>
 
     <h2 id="what">What it does — and what it does not</h2>
     <p>Polaris manages devices: inventory, configuration, DMX patch, firmware updates, diagnostics. It <b>does not transmit Art-Net or sACN</b> and it is not a lighting console — your console keeps that job. Nothing in Polaris takes part in running a show; it is the tool for everything you do before and after one.</p>
