@@ -62,30 +62,30 @@
     <div class="note">Polaris is in <b>preview</b>: it works, it has run against real rigs, and it will still change. Feedback is the point of this build — <a href="mailto:dav_rav@hotmail.it">tell us what breaks</a>.</div>
 
     <h2 id="download">Download</h2>
-    <p>Two builds of the same program, for the two ways of running it. Windows 64-bit; version <b>0.3.2</b>.</p>
+    <p>Two builds of the same program, for the two ways of running it. Windows 64-bit; version <b>0.3.3</b>.</p>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Build</th><th>Use it when</th><th></th></tr></thead>
       <tbody>
         <tr>
           <td><b>Installer</b><br><span style="color:var(--txt4);font-size:12.5px">6.9 MB</span></td>
           <td>The machine stays with the rig. Registers Polaris as a service so it starts at boot, adds the firewall rules, and leaves a tray icon and a shortcut. Needs administrator rights once.</td>
-          <td><a class="btn btn-primary" style="white-space:nowrap" href="../polaris/polaris-setup-0.3.2.exe">Download installer</a></td>
+          <td><a class="btn btn-primary" style="white-space:nowrap" href="../polaris/polaris-setup-0.3.3.exe">Download installer</a></td>
         </tr>
         <tr>
           <td><b>Portable</b><br><span style="color:var(--txt4);font-size:12.5px">8.9 MB · zip</span></td>
           <td>A laptop you carry to a venue. Unzip and double-click <code>polaris.exe</code> — nothing is installed, no administrator rights, and everything it stores lives in a <code>data</code> folder beside the binary. Delete the folder and it is as if it never ran.</td>
-          <td><a class="btn btn-ghost" style="white-space:nowrap" href="../polaris/polaris-0.3.2-windows-portable.zip">Download portable</a></td>
+          <td><a class="btn btn-ghost" style="white-space:nowrap" href="../polaris/polaris-0.3.3-windows-portable.zip">Download portable</a></td>
         </tr>
       </tbody>
     </table></div>
     <p style="color:var(--txt3);font-size:13.5px">Either way the interface is at <code>http://localhost:8420</code>. Free to use, including commercially — <a href="../polaris/polaris-licence.txt">licence</a>, <a href="../polaris/THIRD-PARTY-NOTICES.txt">third-party notices</a>. Please link people here rather than passing the file on, so everybody gets the current build.</p>
     <div class="warn"><b>These builds are not code-signed</b>, so Windows SmartScreen will warn about an unknown publisher — and an installer that registers a service and opens firewall ports is exactly the shape it warns hardest about. Choose <i>More info → Run anyway</i>, or check the file against its SHA-256 first:
-      <pre style="margin:10px 0 0;font-size:12px"><code>Get-FileHash .\polaris-setup-0.3.2.exe
+      <pre style="margin:10px 0 0;font-size:12px"><code>Get-FileHash .\polaris-setup-0.3.3.exe
 
-polaris-setup-0.3.2.exe
-  b1f924352defd9a40fecfe1d9b199a0fc746e674edf5e328d312d8fd52ddb054
-polaris-0.3.2-windows-portable.zip
-  99f3446f123c6d0402ffed178e4b1422bd372d66e8620cd1fe36d275ad70cac8</code></pre>
+polaris-setup-0.3.3.exe
+  393008affee3c62fa8abc6db91be84cf2134bb59c396478a3f61a997bbf0f633
+polaris-0.3.3-windows-portable.zip
+  e90bd2b2c21615c7a894e43eddb9b58b3d303c45158934e9a2be078744cd70c1</code></pre>
     </div>
     <p>The portable build also carries <code>fakedevice.exe</code>, a simulator that puts a rig of fixtures on <b>loopback addresses only</b> — never on your network — so you can try the whole thing without hardware:</p>
     <pre><code>fakedevice.exe -mix veyron=6,orion=6,elyon=4 -base 20
@@ -149,6 +149,7 @@ polaris.exe serve -data ./data -loopback</code></pre>
 
     <h2 id="firmware">Firmware updates</h2>
     <p>A fixture can check <code>ravlight.com</code> for a newer release on its own, but that is all it does: it hands you a download link, and you upload the file to it by hand. That is the right behavior for one fixture and unworkable for thirty — every one of them needs a route to the internet just to answer the question, and you still carry the same file to each in turn. Polaris fetches each release once and pushes it to the fleet from the LAN, re-hashing the image before every flash.</p>
+    <p>Very old fixtures are handled too: firmware before <b>2.23.0</b> predates the current update endpoint and speaks an older protocol, which Polaris uses automatically when it sees such a device — so a rig that has not been touched in a long time can still be brought forward over the network.</p>
     <p>Selecting a device narrows the image list to that fixture's build. Firmware older than <b>2.23.15</b> does not report which build it takes, so for those you name the build explicitly — and a wrong binary does not come back over the network.</p>
     <p>A rollout is deliberately unhurried. A fixture <b>goes dark for the whole flash</b> — the firmware suspends DMX while it writes — so Polaris updates a couple at a time rather than the whole rig at once, and sends the <b>first one on its own</b>: if an image is wrong, it takes one fixture and not the lot. Before it starts, it names the fixtures that are currently receiving DMX, in case somebody is using them.</p>
     <div class="warn"><b>Devices below firmware 2.23.3 need one USB flash first.</b> The partition table changed in 2.23.3, and a partition table is the one thing an over-the-air update cannot replace — OTA writes into a slot that has to already exist. Flash the merged image over USB once with the <a href="../install.html">web installer</a>; every update after that, in Polaris or from the device's own page, goes over the network. From 2.23.3 onwards there is nothing to do.</div>
