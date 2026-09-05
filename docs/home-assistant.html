@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Assistant integration — RavLight docs</title>
+<meta name="description" content="The RavLight Home Assistant integration: controllers found automatically over mDNS, DMX activity, temperature and firmware surfaced as entities — for seasonal displays and installations that stay up.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="../assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="../projects.html">Projects</a>
+      <a href="/#fixtures">Fixtures</a>
+      <a href="/#polaris">Polaris</a>
+      <a href="/#home-assistant">Home Assistant</a>
+      <a href="getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a>
+      <a class="cta" href="../install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<div class="docs-shell">
+  <aside class="docs-side">
+    <div class="group">
+      <div class="group-lbl">Start here</div>
+      <a href="getting-started.html">Getting started</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Fixtures</div>
+      <a href="fixtures/veyron.html">Veyron — pixel bar</a>
+      <a href="fixtures/elyon.html">Elyon — LED controller</a>
+      <a href="fixtures/orion.html">Orion — winch</a>
+      <a href="fixtures/axon.html">Axon — DMX bridge</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Tools</div>
+      <a href="polaris.html">Polaris — fleet manager</a>
+      <a href="home-assistant.html" class="active">Home Assistant</a>
+    </div>
+    <div class="group">
+      <div class="group-lbl">Reference</div>
+      <a href="boards.html">Supported boards</a>
+      <a href="protocols.html">Protocols</a>
+      <a href="web-ui.html">Web UI guide</a>
+    </div>
+  </aside>
+
+  <main class="docs-body">
+    <h1>Home Assistant integration</h1>
+    <p class="lede">A free, open-source integration that brings every RavLight controller into Home Assistant — discovered on its own, with no addresses typed in. It watches the rig; it does not drive it.</p>
+
+    <img class="doc-shot" style="max-width:100%" src="../assets/img/ha/device-page.png" alt="The device page of a RavLight Elyon in Home Assistant: device info with firmware and MAC, and sensors reporting DMX active, 60 fps, Art-Net, 8 active outputs and 2400 pixels" loading="lazy">
+    <div class="doc-shot-cap">An eight-output Elyon while a show is running into it — 2,400 pixels on one controller</div>
+
+    <div class="note">The integration <b>does not send pixel data</b>. Your sequencer, media server or console keeps that job, over sACN or Art-Net, exactly as before. What Home Assistant adds is everything around the show: whether data is arriving, how warm the hardware is, what firmware is on it, and which physical run a given output drives.</div>
+
+    <h2 id="who">Who this is for</h2>
+    <p>Two audiences, the same integration.</p>
+    <p><b>Seasonal displays.</b> A Halloween or Christmas display that has outgrown one controller is a small distributed system on the outside of a house: boards under the eaves, in the garden, in a box on the roof, tens of thousands of pixels between them. The sequencer runs the show. What it cannot tell you is that the controller on the garage roof has been sitting at 71 °C since three o'clock, or that one board dropped off the WiFi and a whole roof line went dark twenty minutes ago.</p>
+    <p><b>Installations that stay up.</b> A rig in a venue, a shop, a museum — the same questions, asked all year instead of for six weeks.</p>
+    <p>For the workshop side of the job — inventory, addressing, patching a whole rig at once, firmware for the fleet — use <a href="polaris.html">Polaris</a>. The division is simple: Polaris is what you use while building the rig, Home Assistant is what stays on once it is up.</p>
+
+    <h2 id="install">Installing</h2>
+    <p>Through <a href="https://hacs.xyz" target="_blank" rel="noopener">HACS</a>, as a custom repository. A submission to the HACS default store is in progress; until it lands, adding the repository by hand takes about a minute.</p>
+    <ol>
+      <li>HACS → the three-dot menu → <b>Custom repositories</b></li>
+      <li>Paste <code>https://github.com/Q-Squared-Systems/ha-ravlight</code>, type <b>Integration</b>, Add</li>
+      <li>Search for <b>RavLight</b>, Download</li>
+      <li>Restart Home Assistant</li>
+    </ol>
+    <p>Devices running current firmware then announce themselves: a <b>Discovered — RavLight</b> card appears in Settings → Devices &amp; services, and accepting it is the whole setup. If nothing appears, add it manually and either scan the network or enter one controller's address.</p>
+    <div class="note">The integration itself runs on any recent Home Assistant. Version <b>2026.3</b> or newer is only needed for the RavLight icon to appear, since that is when Home Assistant began serving brand images that ship inside an integration.</div>
+
+    <h2 id="discovery">How devices are found</h2>
+    <p>Four routes, so that a controller is found whatever the network looks like:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Route</th><th>Needs</th><th>Finds</th></tr></thead>
+      <tbody>
+        <tr><td><b>mDNS</b></td><td>current firmware</td><td>Controllers already running, automatically — and follows them when their address changes</td></tr>
+        <tr><td><b>DHCP hostname</b></td><td>any firmware</td><td>Controllers as they take or renew a lease</td></tr>
+        <tr><td><b>Network scan</b></td><td>Home Assistant on host networking</td><td>Anything that answers a broadcast probe, on demand from the setup dialog</td></tr>
+        <tr><td><b>Through a controller</b></td><td>one reachable device</td><td>Fixtures on subnets Home Assistant sees no broadcast from</td></tr>
+      </tbody>
+    </table></div>
+    <p>Devices are identified by their hardware MAC, not by the name you gave them, so renaming a controller in its web UI does not create a second device or orphan its history.</p>
+    <div class="warn">The network scan needs Home Assistant to be on <b>host networking</b>, and needs UDP port 4211 to be free on that machine. RavLight devices reply to a fixed port rather than to the port a probe came from, so a container behind NAT never receives the answers — and a Polaris instance on the same machine already holds that port. The other three routes are unaffected; the setup dialog says so rather than reporting an empty network.</div>
+
+    <h2 id="entities">What you get</h2>
+    <p>Entities are built from what each device reports about itself, so a controller only ever gets the ones it actually has — no unavailable rows for hardware that is not there.</p>
+
+    <h3>Every fixture</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Entity</th><th>What it is good for</th></tr></thead>
+      <tbody>
+        <tr><td>DMX active · DMX frame rate</td><td>Whether show data is arriving, and how fast. The pair an automation watches to know a show really started</td></tr>
+        <tr><td>DMX source · Universe</td><td>sACN, Art-Net, wired DMX, a recorded scene or the on-board effects — and which universe the device starts at</td></tr>
+        <tr><td>Temperature</td><td>Where the board has a sensor. The one that matters in a sealed enclosure in the sun</td></tr>
+        <tr><td>WiFi signal · Connection · IP address</td><td>Wired or wireless, how good the link is, where the device is</td></tr>
+        <tr><td>Uptime · Total hours</td><td>A controller that reboots on its own shows up as an uptime that keeps resetting</td></tr>
+        <tr><td>Online</td><td>Reachability, kept reporting even while the device is unreachable</td></tr>
+        <tr><td>Firmware</td><td>An update entity fed by the device's own update check</td></tr>
+        <tr><td>Identify · Restart · Check for update</td><td>Buttons. Identify runs the fixture's visual identification sequence</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>LED controllers — Elyon, Axon</h3>
+    <p>Active outputs and total pixel count, with a per-output breakdown in the attributes: protocol, pixel count, universe and start channel for each one. Every configured output also gets its own <b>identify</b> button, which wipes that run white — the fastest way to work out which physical string a row in your patch actually drives, from the ground, on a phone.</p>
+    <img class="doc-shot" style="max-width:420px" src="../assets/img/ha/diagnostic.png" alt="Diagnostic entities of an eight-output Elyon: check for firmware update, configuration revision, connection, firmware, identify fixture, identify output 1 to 8, IP address, online, total hours and uptime" loading="lazy">
+    <div class="doc-shot-cap">One identify button per configured output, alongside the diagnostics</div>
+
+    <h3>Orion winches</h3>
+    <p>Motor state, position in centimetres with its travel limits, driver temperature, fault flags, StallGuard reading, homed, moving and manual override — plus run homing, emergency stop, clear fault and release DMX override.</p>
+
+    <h2 id="automations">Automations worth having</h2>
+    <p>Two that earn their place on the first evening of a season.</p>
+
+    <h3>The show did not start</h3>
+    <p>The sequencer is a PC that can fail to wake, a service that can fail to launch, a network link that can come up half-configured. The controllers know within a second whether frames are arriving:</p>
+    <pre><code>alias: Display — no data after showtime
+triggers:
+  - trigger: numeric_state
+    entity_id: sensor.rvd008_dmx_frame_rate
+    below: 1
+    for: "00:05:00"
+conditions:
+  - condition: time
+    after: "17:30:00"
+    before: "23:00:00"
+actions:
+  - action: notify.mobile_app_phone
+    data:
+      title: Display fault
+      message: >-
+        No show data reaching RVD008 for five minutes.
+        Check the sequencer.</code></pre>
+
+    <h3>A controller is cooking</h3>
+    <p>Southern-hemisphere Christmas is a summer problem: a sealed enclosure in direct sun runs far hotter than the same board on a bench in December in Europe.</p>
+    <pre><code>alias: Display — controller too hot
+triggers:
+  - trigger: numeric_state
+    entity_id: sensor.rvd008_temperature
+    above: 70
+    for: "00:10:00"
+actions:
+  - action: notify.mobile_app_phone
+    data:
+      title: Controller overheating
+      message: "RVD008 has been above 70 °C for ten minutes."</code></pre>
+    <p>Both are per-controller as written. For a display with a dozen boards, point the same automation at a group, or template over the devices — the entity names follow the device name you set in the fixture's own web UI.</p>
+
+    <h2 id="limits">What it does not do</h2>
+    <ul>
+      <li><b>No pixel control.</b> Home Assistant is not in the show path, by design. Nothing here transmits sACN or Art-Net, and a dropped Home Assistant does not touch a running display.</li>
+      <li><b>No configuration writing.</b> Addressing, patching and per-output setup stay in the device's web UI and in <a href="polaris.html">Polaris</a>. The integration reads configuration to describe the device; it does not change it.</li>
+      <li><b>Polling, not push.</b> State refreshes every 15 seconds. Frame rate and DMX activity are near-live at that cadence; they are not a substitute for a console's own monitoring.</li>
+      <li><b>Local only.</b> One config entry per controller, on your own network. No cloud, no account, no bridge.</li>
+      <li><b>Destructive actions are deliberately absent</b> — no factory reset, no firmware upload, no winch jog. Those need an operator watching the hardware.</li>
+    </ul>
+
+    <h2 id="credits">Credits</h2>
+    <p>Open source under the MIT licence, originally written by <a href="https://github.com/gmint" target="_blank" rel="noopener">George Qualley IV</a>. Issues and pull requests are welcome on <a href="https://github.com/Q-Squared-Systems/ha-ravlight" target="_blank" rel="noopener">GitHub</a>.</p>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="mailto:dav_rav@hotmail.it">Contact</a> ·
+      <a href="../privacy.html">Privacy</a>
+    </span>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>

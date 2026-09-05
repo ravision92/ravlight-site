@@ -23,6 +23,7 @@
       <a href="projects.html">Projects</a>
       <a href="#boards">Boards</a>
       <a href="/#polaris">Polaris</a>
+      <a href="/#home-assistant">Home Assistant</a>
       <a href="docs/getting-started.html">Docs</a>
       <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
       <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a>
@@ -178,6 +179,57 @@
       </div>
     </div>
     <div class="note" style="margin-top:34px">Windows, free to use — an <b>installer</b> for the machine that stays with the rig, or a <b>portable</b> build for a laptop you carry to a venue. Still a preview, and the builds are not code-signed, so Windows will warn about an unknown publisher.</div>
+  </div>
+</section>
+
+<section id="home-assistant" style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="showcase">
+      <div class="txt">
+        <div class="sec-label">Home Assistant · new</div>
+        <h2 class="sec-title">Your rig, on the house dashboard</h2>
+        <p class="sec-sub">A free Home Assistant integration puts every RavLight controller in your home automation system — found on its own, no addresses typed in. It does not send pixels: your sequencer or console keeps that job. It tells you whether the show is actually running, and how the hardware is holding up while it does.</p>
+        <ul>
+          <li>Devices announce themselves over mDNS — accept the notification and they are set up</li>
+          <li>Is data arriving? DMX active, frame rate, source and universe, per controller</li>
+          <li>Controller temperature, link quality, uptime and lifetime hours</li>
+          <li>Outputs and pixel counts, with an identify button per output</li>
+          <li>Firmware updates surfaced as an update entity</li>
+          <li>Everything local — no cloud, no account, no bridge</li>
+        </ul>
+        <div class="hero-ctas" style="justify-content:flex-start;margin-top:26px">
+          <a class="btn btn-primary" href="docs/home-assistant.html">Read the guide</a>
+          <a class="btn btn-ghost" href="https://github.com/Q-Squared-Systems/ha-ravlight" target="_blank" rel="noopener">Integration on GitHub</a>
+        </div>
+      </div>
+      <div class="shots">
+        <img src="assets/img/ha/device-page.png" alt="A RavLight Elyon controller in Home Assistant — device info, and sensors showing DMX active, frame rate, source, active outputs and total pixels" loading="lazy">
+        <div class="shot-cap">An eight-output controller in Home Assistant, with a show running into it</div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:52px">
+      <div class="card" style="background: var(--bg);">
+        <div class="ico">🎃</div>
+        <h3>Built for displays that outgrew one controller</h3>
+        <p>Halloween and Christmas displays run tens of thousands of pixels across a house — eaves, roof lines, arches, a matrix on the garage. Elyon drives eight outputs from one board, 2,400 pixels on our bench unit, and speaks the sACN and Art-Net your sequencer already outputs.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="ico">🌡️</div>
+        <h3>The failures you cannot see from the driveway</h3>
+        <p>A controller in a sealed box on a roof in an Australian December is a thermal problem, not a lighting one. Home Assistant watches temperature, signal and uptime on every board, so a unit that is cooking or dropping off the WiFi tells you before a section of the display goes dark.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="ico">⏱️</div>
+        <h3>Did the show actually start?</h3>
+        <p>Every controller reports whether DMX is arriving and at what frame rate. That is an automation you can act on: if the frame rate is zero five minutes after the schedule started, the sequencer never came up — and you hear about it from a notification, not from the neighbours.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="ico">📋</div>
+        <h3>Polaris for the build, Home Assistant for the season</h3>
+        <p>Two tools, two jobs. <a href="docs/polaris.html">Polaris</a> is the workshop side — inventory, addressing, patching a whole rig, firmware. Home Assistant is what stays on once the display is up: schedule, monitoring, and one dashboard the whole household can look at.</p>
+      </div>
+    </div>
   </div>
 </section>
 
