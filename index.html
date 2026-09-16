@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://ravlight.com/assets/img/icon.png">
 <meta property="og:url" content="https://ravlight.com">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=2">
 </head>
 <body class="home">
 
@@ -41,6 +41,12 @@
     <a class="btn btn-ghost" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">View on GitHub</a>
   </div>
 </header>
+
+<a class="announce" href="xdmx-v3.html">
+  <span class="announce-tag">Hardware preview</span>
+  <span class="announce-txt"><b>XDMX v3</b> — one board for the whole fixture: two Ethernet ports that keep the run alive when a fixture loses power, two isolated DMX ports, up to fourteen outputs.</span>
+  <span class="announce-go">Take a look →</span>
+</a>
 
 <section id="features">
   <div class="wrap">
@@ -238,10 +244,21 @@
     <div class="sec-label">Hardware</div>
     <h2 class="sec-title">Supported boards</h2>
     <p class="sec-sub">Off-the-shelf controllers and open RavLight boards — all ESP32 based.</p>
+    <a class="board-teaser" href="xdmx-v3.html">
+      <span class="board-teaser-img"><img src="assets/img/xdmx-v3/iso.webp" width="1400" height="998" alt="XDMX v3 board — three-quarter render" loading="lazy"></span>
+      <span class="board-teaser-txt">
+        <span class="status planned">Coming soon</span>
+        <b>XDMX v3</b>
+        <span>The next RavLight board, designed as one piece: two Ethernet ports with a power-fail bypass so a chain survives a dark fixture, two optically isolated DMX ports, up to fourteen buffered 5 V outputs, a card slot and an expansion header.</span>
+        <span class="board-teaser-go">See the board →</span>
+      </span>
+    </a>
+
     <div class="tbl-wrap">
       <table>
         <thead><tr><th>Board</th><th>Fixture</th><th>Ethernet</th><th>Outputs</th></tr></thead>
         <tbody>
+          <tr><td><a href="xdmx-v3.html">XDMX v3</a> <span class="chip" style="margin-left:6px">coming soon</span></td><td>Veyron / Elyon / Axon</td><td>2 × port, switched</td><td>8–14 × 5 V, 2 × DMX</td></tr>
           <tr><td>XDMX rev2.2 (WT32-ETH01)</td><td>Veyron</td><td>LAN8720</td><td>WS2811 + P9813, RS-485 DMX</td></tr>
           <tr><td>QuinLED Dig-Octa</td><td>Elyon</td><td>LAN8720A</td><td>8 × LED</td></tr>
           <tr><td>Gledopto Elite 4D (GL-C-618WL)</td><td>Elyon</td><td>LAN8720</td><td>4 × LED</td></tr>
