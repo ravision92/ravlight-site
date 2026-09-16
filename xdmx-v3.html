@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XDMX v3 — one board for the whole fixture | RavLight</title>
+<meta name="description" content="XDMX v3 is the next RavLight controller board: two Ethernet ports that keep the chain alive when a node loses power, two isolated DMX ports, up to fourteen 5 V outputs, a card slot and an expansion header. Coming soon.">
+<meta property="og:title" content="XDMX v3 — one board for the whole fixture">
+<meta property="og:description" content="Dual Ethernet with power-fail bypass, dual isolated DMX, up to fourteen 5 V outputs, card slot, expansion header. The next RavLight board.">
+<meta property="og:image" content="https://ravlight.com/assets/img/xdmx-v3/top.webp">
+<meta property="og:url" content="https://ravlight.com/xdmx-v3.html">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* ── XDMX v3 launch page — technical annotation layer over the site system ──
+   Page-local classes are prefixed x3- so nothing here can collide with
+   site.css. Colours come from the site tokens; only the drawing ink and the
+   two link states are new. */
+:root {
+  --x3-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, monospace;
+  --x3-ink:  #6f7266;   /* dimension lines, labels at rest — olive-grey, biased to the accent */
+  --x3-ink2: #45483f;
+  --x3-live: #22cc55;
+  --x3-dead: #b8452f;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.x3-hero {
+  padding: 92px 24px 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% -20%, rgba(233,255,0,.09), transparent),
+    var(--bg);
+}
+.x3-hero-inner { max-width: var(--max); margin: 0 auto; }
+.x3-eyebrow {
+  font-family: var(--x3-mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--x3-ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+.x3-eyebrow .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,153,0,.15);
+}
+.x3-eyebrow b { color: var(--orange); font-weight: 500; }
+
+.x3-hero h1 {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0;
+  line-height: 1;
+}
+.x3-hero h1 img {
+  width: min(420px, 62vw);
+  height: auto;
+}
+.x3-hero h1 .v {
+  font-size: clamp(30px, 5vw, 54px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--acc);
+}
+.x3-hero .x3-tagline {
+  font-size: clamp(20px, 2.7vw, 28px);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--txt);
+  margin: 26px 0 14px;
+  max-width: 19ch;
+  text-wrap: balance;
+}
+.x3-hero .x3-lede {
+  color: var(--txt3);
+  font-size: 16.5px;
+  max-width: 56ch;
+  margin-bottom: 30px;
+}
+.x3-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1.1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+/* Render plate — corner ticks, like a drawing frame */
+.x3-plate { position: relative; padding: 22px; }
+.x3-plate::before, .x3-plate::after {
+  content: "";
+  position: absolute;
+  width: 26px; height: 26px;
+  border: 1px solid var(--x3-ink2);
+}
+/* Top-right / bottom-left: the top-LEFT corner sat level with the headline
+   and read as a stray mark attached to it. */
+.x3-plate::before { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+.x3-plate::after  { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.x3-plate img { width: 100%; height: auto; }
+/* the caption sits outside the frame, clear of the corner ticks */
+.x3-plate + .x3-cap { margin-left: 22px; }
+.x3-cap {
+  font-family: var(--x3-mono);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  color: var(--x3-ink);
+  margin-top: 12px;
+}
+
+/* Stat rail under the hero */
+.x3-rail {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.x3-rail > div {
+  padding: 20px 4px 20px 0;
+  border-right: 1px solid var(--line);
+}
+.x3-rail > div:last-child { border-right: 0; }
+.x3-rail .k {
+  font-family: var(--x3-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--x3-ink);
+  margin-bottom: 7px;
+}
+.x3-rail .v {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+}
+.x3-rail .v small { font-size: 13px; font-weight: 500; color: var(--txt3); }
+
+/* ── Two-column prose ─────────────────────────────────────────────────── */
+.x3-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 34px 48px;
+}
+.x3-cols p { color: var(--txt2); font-size: 15.5px; margin-bottom: 14px; }
+.x3-cols p:last-child { margin-bottom: 0; }
+
+/* ── Board map ────────────────────────────────────────────────────────── */
+.x3-map-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, .95fr);
+  gap: 28px;
+  align-items: start;
+}
+.x3-map {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 26px 26px 18px;
+}
+.x3-map-img { position: relative; aspect-ratio: 1400 / 976; }
+.x3-map-img img { width: 100%; height: 100%; object-fit: contain; }
+
+.x3-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 32px; height: 32px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.x3-pin i {
+  display: block;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: rgba(10,10,10,.55);
+  border: 1.5px solid var(--acc);
+  box-shadow: 0 0 0 4px rgba(10,10,10,.35);
+  transition: transform .14s ease, background .14s ease;
+}
+.x3-pin:hover i { transform: scale(1.25); background: var(--acc); }
+.x3-pin:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; border-radius: 50%; }
+.x3-pin[aria-pressed="true"] i {
+  background: var(--acc);
+  transform: scale(1.35);
+  box-shadow: 0 0 0 4px rgba(233,255,0,.18), 0 0 14px rgba(233,255,0,.5);
+}
+.x3-pin::after {
+  content: attr(data-ref);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  font-family: var(--x3-mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--acc);
+  background: rgba(10,10,10,.85);
+  border: 1px solid var(--acc-deep);
+  border-radius: 4px;
+  padding: 1px 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .14s ease;
+}
+.x3-pin:hover::after,
+.x3-pin:focus-visible::after,
+.x3-pin[aria-pressed="true"]::after { opacity: 1; }
+
+/* Dimension callouts drawn on the map */
+.x3-dim {
+  position: absolute;
+  font-family: var(--x3-mono);
+  font-size: 11px;
+  color: var(--x3-ink);
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.x3-dim.w { left: 0; right: 0; bottom: -14px; }
+.x3-dim.w::before, .x3-dim.w::after {
+  content: ""; flex: 1; height: 1px; background: var(--x3-ink2);
+}
+/* The height callout is a plain hairline with the figure sitting on it —
+   flex plus vertical writing-mode fought each other and drew nothing. */
+.x3-dim.h {
+  display: block;
+  top: 0; bottom: 0; right: -16px; left: auto;
+  width: 1px;
+  background: var(--x3-ink2);
+}
+.x3-dim.h span {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  background: var(--bg);
+  padding: 0 6px;
+  white-space: nowrap;
+}
+
+/* Detail panel */
+.x3-detail {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 24px;
+  position: sticky;
+  top: 80px;
+}
+.x3-detail .ref {
+  font-family: var(--x3-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 10px;
+}
+.x3-detail h3 { font-size: 19px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 10px; }
+.x3-detail p { color: var(--txt2); font-size: 14.5px; }
+.x3-detail .part {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--x3-mono);
+  font-size: 12px;
+  color: var(--x3-ink);
+  letter-spacing: .03em;
+}
+.x3-hint {
+  font-family: var(--x3-mono);
+  font-size: 11.5px;
+  color: var(--x3-ink);
+  letter-spacing: .05em;
+  margin-top: 16px;
+}
+.x3-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 20px;
+}
+.x3-legend button {
+  font-family: var(--x3-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  background: var(--s2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  transition: color .14s ease, border-color .14s ease;
+}
+.x3-legend button:hover { color: var(--acc); border-color: var(--acc-deep); }
+.x3-legend button[aria-pressed="true"] { color: #111; background: var(--acc); border-color: var(--acc); }
+
+/* ── Diagrams ─────────────────────────────────────────────────────────── */
+.x3-diagram {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 26px 26px 20px;
+  overflow-x: auto;
+}
+.x3-diagram svg { width: 100%; min-width: 560px; height: auto; display: block; }
+.x3-dlegend {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-family: var(--x3-mono);
+  font-size: 11.5px;
+  color: var(--x3-ink);
+  letter-spacing: .04em;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.x3-dlegend span { display: inline-flex; align-items: center; gap: 8px; }
+.x3-swatch { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+/* ── Split feature rows ───────────────────────────────────────────────── */
+.x3-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px 48px;
+  align-items: start;
+}
+.x3-split h3 { font-size: 21px; font-weight: 700; letter-spacing: -.015em; margin-bottom: 12px; }
+.x3-split p { color: var(--txt2); font-size: 15.5px; margin-bottom: 13px; }
+.x3-split p:last-child { margin-bottom: 0; }
+
+/* Routing modes (wired DMX) */
+.x3-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+.x3-mode {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.x3-mode h4 { font-size: 16.5px; font-weight: 700; }
+.x3-mode p { color: var(--txt3); font-size: 14.5px; }
+.x3-mode svg { width: 100%; height: auto; display: block; margin-top: auto; }
+
+/* ── Fixture cards (this page labels the fixture, not a release state) ─── */
+.x3-role {
+  font-family: var(--x3-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 10px;
+}
+.x3-role.muted { color: var(--x3-ink); }
+
+/* ── Timeline (a real sequence, so it is numbered) ────────────────────── */
+.x3-steps { display: grid; gap: 0; }
+.x3-step {
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  gap: 20px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.x3-step:first-child { border-top: 1px solid var(--line); }
+.x3-step .n {
+  font-family: var(--x3-mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--x3-ink);
+}
+.x3-step h4 { font-size: 16.5px; font-weight: 700; margin-bottom: 5px; }
+.x3-step p { color: var(--txt3); font-size: 14.5px; }
+.x3-state {
+  font-family: var(--x3-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.x3-state.done { color: var(--green); background: rgba(34,204,85,.10); border: 1px solid rgba(34,204,85,.28); }
+.x3-state.now  { color: var(--orange); background: rgba(255,153,0,.10); border: 1px solid rgba(255,153,0,.3); }
+.x3-state.next { color: var(--txt4); background: var(--s2); border: 1px solid var(--line2); }
+.x3-step.pending h4, .x3-step.pending .n { color: var(--txt4); }
+
+/* ── Spec table ───────────────────────────────────────────────────────── */
+.x3-spec td:first-child {
+  font-family: var(--x3-mono);
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: .03em;
+  color: var(--x3-ink);
+  text-transform: uppercase;
+  width: 28%;
+  vertical-align: top;
+}
+.x3-spec td { font-size: 14.5px; }
+
+/* ── Gallery ──────────────────────────────────────────────────────────── */
+.x3-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+.x3-shot {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* Both figures sit in the same box, whatever shape the render is. */
+.x3-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  min-height: 0;
+  border-radius: var(--rm);
+}
+/* min-height:auto on a flex item let the taller render override the ratio,
+   so the two figure boxes came out different sizes. */
+.x3-zoom img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.x3-zoom::after {
+  content: "\2921";
+  position: absolute;
+  right: 8px; bottom: 8px;
+  width: 26px; height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: var(--txt3);
+  background: rgba(10,10,10,.7);
+  border: 1px solid var(--line2);
+  border-radius: var(--r);
+  opacity: 0;
+  transition: opacity .14s ease;
+}
+.x3-zoom:hover::after, .x3-zoom:focus-visible::after { opacity: 1; }
+.x3-zoom:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+
+/* Full-screen view */
+.x3-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(8,8,8,.95);
+  backdrop-filter: blur(6px);
+}
+.x3-lightbox[hidden] { display: none; }
+.x3-lightbox img { max-width: min(1200px, 94vw); max-height: 84vh; width: auto; height: auto; }
+.x3-lb-close {
+  position: absolute;
+  top: 18px; right: 20px;
+  width: 42px; height: 42px;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--txt);
+  background: var(--s2);
+  border: 1px solid var(--line2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.x3-lb-close:hover { color: var(--acc); border-color: var(--acc); }
+.x3-lb-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 20px;
+  text-align: center;
+  font-family: var(--x3-mono);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  color: var(--x3-ink);
+  padding: 0 24px;
+}
+
+/* ── Stay informed ────────────────────────────────────────────────────── */
+.x3-signup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 24px 48px;
+  align-items: start;
+}
+.x3-form {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rl);
+  padding: 26px;
+  display: grid;
+  gap: 18px;
+}
+.x3-form button { margin-top: 2px; }
+.x3-field { display: grid; gap: 7px; }
+.x3-field label {
+  font-family: var(--x3-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--x3-ink);
+}
+.x3-field label span { color: var(--txt4); }
+.x3-field input,
+.x3-field textarea {
+  background: var(--bg);
+  border: 1px solid var(--line2);
+  border-radius: var(--rm);
+  color: var(--txt);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  width: 100%;
+  resize: vertical;
+}
+.x3-field input::placeholder,
+.x3-field textarea::placeholder { color: var(--txt4); }
+.x3-field input:focus,
+.x3-field textarea:focus { outline: 2px solid var(--acc); outline-offset: 1px; border-color: transparent; }
+.x3-form button { justify-content: center; border: 0; cursor: pointer; font-family: inherit; }
+.x3-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.x3-fineprint { font-size: 13px; color: var(--txt4); }
+.x3-formstate {
+  font-size: 14px;
+  border-radius: var(--rm);
+  padding: 12px 14px;
+}
+.x3-formstate.ok   { color: var(--green);  background: rgba(34,204,85,.08);  border: 1px solid rgba(34,204,85,.28); }
+.x3-formstate.err  { color: var(--orange); background: rgba(255,153,0,.08);  border: 1px solid rgba(255,153,0,.3); }
+.x3-full { grid-column: 1 / -1; }
+.x3-channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+.x3-channel { flex-direction: column; gap: 10px; }
+.x3-handle {
+  font-family: var(--x3-mono);
+  font-size: 13px;
+  letter-spacing: .02em;
+  color: var(--acc);
+}
+.x3-channel {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: var(--rm);
+}
+.x3-channel:hover { border-color: var(--line2); }
+.x3-channel[hidden] { display: none; }
+.x3-channel.unwired { opacity: .55; cursor: default; }
+.x3-channel .ico { font-size: 18px; line-height: 1.3; }
+.x3-channel h4 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.x3-channel p { color: var(--txt3); font-size: 13.5px; }
+
+@media (max-width: 900px) {
+  .x3-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .x3-map-wrap { grid-template-columns: 1fr; }
+  .x3-detail { position: static; }
+  .x3-hero { padding-top: 40px; }
+  .x3-rail > div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .x3-rail > div:last-child { border-bottom: 0; }
+  .x3-step { grid-template-columns: 1fr auto; }
+  .x3-step .n { display: none; }
+  .x3-pin { width: 28px; height: 28px; }
+  .x3-hero h1 { flex-wrap: wrap; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x3-pin i, .x3-pin::after, .x3-legend button { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="assets/img/wordmark.png" alt="RavLight"></a>
+    <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="/#features">Features</a>
+      <a href="projects.html">Projects</a>
+      <a href="/#boards">Boards</a>
+      <a href="/#polaris">Polaris</a>
+      <a href="/#home-assistant">Home Assistant</a>
+      <a href="docs/getting-started.html">Docs</a>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>
+      <a class="cta" href="install.html">Install</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<header class="x3-hero">
+  <div class="x3-hero-inner">
+    <div class="x3-eyebrow">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Hardware preview</span>
+      <span>/</span>
+      <b>Coming soon</b>
+    </div>
+
+    <div class="x3-hero-grid">
+      <div>
+        <h1><img src="assets/img/xdmx-v3/logo.png" width="760" height="129" alt="XDMX"><span class="v">v3</span></h1>
+        <p class="x3-tagline">One board for the whole fixture.</p>
+        <p class="x3-lede">One four-layer board with everything on it: two Ethernet ports that keep the run alive when a fixture loses power, two isolated DMX ports, a wall of buffered 5 V outputs, a card slot and a header for whatever comes next. Same firmware, same core — a new board file.</p>
+        <div class="hero-ctas" style="justify-content:flex-start">
+          <a class="btn btn-primary" href="#board-map">Explore the board</a>
+          <a class="btn btn-ghost" href="#feedback">Tell me what you think</a>
+        </div>
+      </div>
+      <div>
+        <div class="x3-plate">
+          <img src="assets/img/xdmx-v3/iso.webp" width="1400" height="998" alt="XDMX v3 board, three-quarter view — processor module, dual Ethernet jacks, two XLR connectors and a row of pluggable terminal blocks along the top edge">
+        </div>
+        <div class="x3-cap">FIG. 1 — PRE-PRODUCTION RENDER OF THE CURRENT LAYOUT</div>
+      </div>
+    </div>
+
+    <div class="x3-rail">
+      <div><div class="k">Board</div><div class="v">130 × 75 <small>mm</small></div></div>
+      <div><div class="k">Ethernet</div><div class="v">2 <small>ports, switched</small></div></div>
+      <div><div class="k">Wired DMX</div><div class="v">2 <small>isolated ports</small></div></div>
+      <div><div class="k">Outputs</div><div class="v">8–14 <small>at 5 V</small></div></div>
+      <div><div class="k">Input</div><div class="v">6–24 <small>V DC</small></div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Why ───────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">The design</div>
+    <h2 class="sec-title">Designed as one piece</h2>
+    <div class="x3-cols" style="margin-top:26px">
+      <div>
+        <p>XDMX v3 is a single four-layer board: the power stage, the network section, both DMX ports, the protection and the output buffering laid out together and assembled by machine on both sides. One set of tolerances instead of three, a low enough stack to disappear into a fixture body, and every signal routed on purpose rather than jumped between modules.</p>
+        <p>That integration is what pays for the rest of this page — <b>a second network port</b>, so fixtures chain to each other instead of back to a switch, and <b>a bypass that bridges those two ports when the board has no power</b>, so one dark fixture doesn't take the rest of the run with it.</p>
+      </div>
+      <div>
+        <p>The rest of the decisions follow from where these boards end up: on a truss, in a rack, inside something that has to come down at the end of the night. Connectors grouped on one edge so they can face a panel. Pluggable blocks, so a fixture unplugs without being unwired. Six to twenty-four volts in, fused and protected, because an installation rarely offers a clean supply.</p>
+        <p>The processor is the one RavLight has always run on — the classic ESP32, the only one in the family with a hardware Ethernet controller. So v3 is new hardware running firmware that already exists: a board file, not a rewrite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Board map ─────────────────────────────────────────────────────── -->
+<section id="board-map" style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">The board</div>
+    <h2 class="sec-title">A guided tour</h2>
+    <p class="sec-sub">What each part of the board is for. Pick any marker.</p>
+
+    <div class="x3-map-wrap">
+      <div class="x3-map" style="background: var(--bg);">
+        <div class="x3-map-img">
+          <img src="assets/img/xdmx-v3/top.webp" width="1400" height="976" alt="XDMX v3 seen from above: terminal blocks along the top edge, processor module at the right, Ethernet section in the middle, XLR and network jacks along the bottom edge">
+
+          <button class="x3-pin" data-ref="Processor"   style="left:91%; top:25%" aria-pressed="true"  aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Network"     style="left:64%; top:25%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Bypass"      style="left:65%; top:56%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="ETH ports"   style="left:67%; top:78%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="DMX in"      style="left:40%; top:76%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="DMX out"     style="left:13%; top:76%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Outputs"     style="left:42%; top:8%"  aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="5 V buffers" style="left:34%; top:29%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Power in"    style="left:9%;  top:24%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Expansion"   style="left:77%; top:7%"  aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Sensing"     style="left:88%; top:50%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+          <button class="x3-pin" data-ref="Card slot"   style="left:94%; top:67%" aria-pressed="false" aria-controls="x3-detail"><i></i></button>
+
+          <div class="x3-dim w" aria-hidden="true"><span>130.0 mm</span></div>
+          <div class="x3-dim h" aria-hidden="true"><span>75.0 mm</span></div>
+        </div>
+        <div class="x3-cap" style="margin-top:22px">FIG. 2 — COMPONENT SIDE · CONNECTORS GROUPED ON ONE EDGE FOR PANEL MOUNTING</div>
+      </div>
+
+      <div class="x3-detail" id="x3-detail" aria-live="polite">
+        <div class="ref" data-slot="ref">Processor</div>
+        <h3 data-slot="title">The processor</h3>
+        <p data-slot="body">A classic ESP32 — the only one in the family with a hardware Ethernet controller, which is why RavLight is built on it and why v3 keeps it. Wired network first, WiFi and its own access point as fallback, and an external antenna connector so the radio still works from inside a metal fixture body.</p>
+        <div class="part" data-slot="part">Wired Ethernet · WiFi · Bluetooth</div>
+        <div class="x3-hint">↖ 12 markers · click, or tab through them</div>
+        <div class="x3-legend" role="group" aria-label="Board areas"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Ethernet + failover ───────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">Ethernet</div>
+    <h2 class="sec-title">Chain the fixtures. Then unplug one.</h2>
+    <p class="sec-sub">Two ports and a switch inside turn a star into a run — and a bypass makes sure a run survives a fixture that goes dark.</p>
+
+    <div class="x3-split" style="margin-bottom:38px">
+      <div>
+        <h3>One address per fixture, no switch per position</h3>
+        <p>A switch sits between the two jacks and the processor: one jack is the inlet, the other passes through to the next fixture, and the processor hangs off the same switch. The fixture is a node on the run, not a leaf on a star, and it still takes exactly one address on the network.</p>
+        <p>For a truss of ten bars that is one cable up and nine short jumpers, instead of ten drops back to a switch that has to live somewhere.</p>
+      </div>
+      <div>
+        <h3>The bypass is the point</h3>
+        <p>Daisy-chaining anything has one classic failure: the chain is only as good as its weakest node. v3 answers that in hardware. At rest, two relays hold the two jacks wired straight to each other. Power the board and they open, so the switch handles traffic normally.</p>
+        <p>Kill the power — blown fuse, pulled cable, dead supply — and they fall closed again. The fixture goes dark; the run behind it does not.</p>
+      </div>
+    </div>
+
+    <div class="x3-diagram">
+      <svg viewBox="0 0 900 236" role="img" aria-labelledby="x3-diagtitle x3-diagdesc">
+        <title id="x3-diagtitle">Ethernet daisy chain with power-fail bypass</title>
+        <desc id="x3-diagdesc">Four fixtures chained from a console. The second one has lost power: its bypass closes and links the two jacks directly, so data still reaches the fixtures after it.</desc>
+
+        <line x1="112" y1="96" x2="788" y2="96" stroke="#22cc55" stroke-width="3" stroke-linecap="round"/>
+
+        <rect x="16" y="68" width="96" height="56" rx="8" fill="#1b1b1b" stroke="#2c2c2c"/>
+        <text x="64" y="94" text-anchor="middle" fill="#c7c9ab" font-family="'JetBrains Mono',monospace" font-size="11">CONSOLE</text>
+        <text x="64" y="110" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="10">Art-Net</text>
+
+        <rect x="188" y="60" width="132" height="72" rx="10" fill="#131313" stroke="#2c2c2c"/>
+        <circle cx="206" cy="78" r="4" fill="#22cc55"/>
+        <text x="254" y="98" text-anchor="middle" fill="#e2e2e2" font-family="'JetBrains Mono',monospace" font-size="11">FIXTURE 1</text>
+        <text x="254" y="116" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="10">passing through</text>
+
+        <rect x="384" y="60" width="132" height="72" rx="10" fill="#0f0f0f" stroke="#b8452f" stroke-dasharray="4 4"/>
+        <circle cx="402" cy="78" r="4" fill="#b8452f"/>
+        <text x="450" y="98" text-anchor="middle" fill="#8a8a8a" font-family="'JetBrains Mono',monospace" font-size="11">NO POWER</text>
+        <text x="450" y="116" text-anchor="middle" fill="#b8452f" font-family="'JetBrains Mono',monospace" font-size="10">bypass closed</text>
+        <path d="M384 140 L384 160 L516 160 L516 140" fill="none" stroke="#22cc55" stroke-width="2"/>
+        <text x="450" y="178" text-anchor="middle" fill="#22cc55" font-family="'JetBrains Mono',monospace" font-size="10">jack to jack, straight through</text>
+
+        <rect x="580" y="60" width="132" height="72" rx="10" fill="#131313" stroke="#2c2c2c"/>
+        <circle cx="598" cy="78" r="4" fill="#22cc55"/>
+        <text x="646" y="98" text-anchor="middle" fill="#e2e2e2" font-family="'JetBrains Mono',monospace" font-size="11">FIXTURE 3</text>
+        <text x="646" y="116" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="10">still patched</text>
+
+        <rect x="776" y="60" width="108" height="72" rx="10" fill="#131313" stroke="#2c2c2c"/>
+        <circle cx="794" cy="78" r="4" fill="#22cc55"/>
+        <text x="830" y="102" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="11">…</text>
+
+        <text x="16" y="216" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="10">DATA PATH — UNBROKEN</text>
+        <line x1="196" y1="212" x2="884" y2="212" stroke="#45483f" stroke-width="1" stroke-dasharray="2 4"/>
+      </svg>
+      <div class="x3-dlegend">
+        <span><i class="x3-swatch" style="background:#22cc55"></i> link carrying data</span>
+        <span><i class="x3-swatch" style="background:#b8452f"></i> fixture without power</span>
+        <span>the bypass costs the board no data path — it is wired ahead of everything</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DMX ───────────────────────────────────────────────────────────── -->
+<section style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">Wired DMX</div>
+    <h2 class="sec-title">Two isolated ports, one solder bridge</h2>
+    <p class="sec-sub">Both DMX ports are optically isolated, so nothing on a DMX line finds its way to the processor. A bridge on the board decides what the input is for.</p>
+
+    <div class="x3-modes">
+      <div class="x3-mode">
+        <h4>Fixture on a DMX run</h4>
+        <p>Input and output share one line: the fixture reads it and passes it on, exactly like every other fixture on the chain. The factory default — nothing to set.</p>
+        <svg viewBox="0 0 300 92" role="img" aria-label="DMX in enters the board and continues out of the thru connector, while the fixture reads the same line">
+          <circle cx="22" cy="46" r="9" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="22" y="76" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">IN</text>
+          <line x1="31" y1="46" x2="104" y2="46" stroke="#e9ff00" stroke-width="2"/>
+          <rect x="104" y="22" width="92" height="48" rx="8" fill="#0a0a0a" stroke="#2c2c2c"/>
+          <text x="150" y="50" text-anchor="middle" fill="#c7c9ab" font-family="'JetBrains Mono',monospace" font-size="9">FIXTURE</text>
+          <line x1="196" y1="46" x2="269" y2="46" stroke="#e9ff00" stroke-width="2"/>
+          <circle cx="278" cy="46" r="9" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="278" y="76" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">THRU</text>
+          <text x="150" y="16" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">one universe</text>
+        </svg>
+      </div>
+
+      <div class="x3-mode">
+        <h4>Two independent universes</h4>
+        <p>The input moves to the second port on its own line. The board becomes a two-port node: one universe in, a different one out — wire to wire, or network to wire.</p>
+        <svg viewBox="0 0 300 92" role="img" aria-label="One universe enters on the input port and a different universe leaves on the output port">
+          <circle cx="22" cy="30" r="8" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="22" y="16" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">IN</text>
+          <line x1="30" y1="30" x2="104" y2="30" stroke="#e9ff00" stroke-width="2"/>
+          <rect x="104" y="14" width="92" height="64" rx="8" fill="#0a0a0a" stroke="#2c2c2c"/>
+          <text x="150" y="50" text-anchor="middle" fill="#c7c9ab" font-family="'JetBrains Mono',monospace" font-size="9">NODE</text>
+          <line x1="196" y1="62" x2="270" y2="62" stroke="#bfd100" stroke-width="2"/>
+          <circle cx="278" cy="62" r="8" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="278" y="84" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">OUT</text>
+          <text x="63" y="46" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">universe A</text>
+          <text x="236" y="48" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">universe B</text>
+        </svg>
+      </div>
+
+      <div class="x3-mode">
+        <h4>Network to wire</h4>
+        <p>Fed from the network instead, one board becomes a two-universe Art-Net or sACN gateway — the job the Axon node already does, without a second box in the rack.</p>
+        <svg viewBox="0 0 300 92" role="img" aria-label="Art-Net arrives over Ethernet and leaves as two DMX universes on the two wired ports">
+          <rect x="10" y="34" width="24" height="24" rx="4" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="22" y="76" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">LAN</text>
+          <line x1="34" y1="46" x2="104" y2="46" stroke="#22cc55" stroke-width="2"/>
+          <rect x="104" y="14" width="92" height="64" rx="8" fill="#0a0a0a" stroke="#2c2c2c"/>
+          <text x="150" y="50" text-anchor="middle" fill="#c7c9ab" font-family="'JetBrains Mono',monospace" font-size="9">GATEWAY</text>
+          <path d="M196 46 L232 46 L232 24 L270 24" fill="none" stroke="#e9ff00" stroke-width="2"/>
+          <path d="M196 46 L232 46 L232 68 L270 68" fill="none" stroke="#bfd100" stroke-width="2"/>
+          <circle cx="278" cy="24" r="8" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <circle cx="278" cy="68" r="8" fill="none" stroke="#6f7266" stroke-width="1.5"/>
+          <text x="150" y="88" text-anchor="middle" fill="#6f7266" font-family="'JetBrains Mono',monospace" font-size="9">two universes out</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="x3-split" style="margin-top:34px">
+      <div>
+        <h3>XLR only if you want it</h3>
+        <p>The two panel connectors are optional. Both ports are also brought out on internal headers, so a fixture that puts its own connectors on the enclosure — or has no XLR at all — takes the board without them and wires the line straight to the loom.</p>
+      </div>
+      <div>
+        <h3>Same trade on the network side</h3>
+        <p>The Ethernet jacks sit on the board for a rack build, and a short internal lead takes a port out to a locking connector on the panel when the fixture needs one. End-of-line termination for DMX is set on the board, not with a plug.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Outputs and expansion ─────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">Outputs &amp; expansion</div>
+    <h2 class="sec-title">What you can hang off it</h2>
+    <div class="grid" style="margin-top:34px">
+      <div class="card">
+        <div class="ico">⚡</div>
+        <h3>Eight outputs, or fourteen</h3>
+        <p>Eight buffered outputs in the standard build — and up to fourteen if you trade away functions you are not using on that job. Addressable strips, PWM dimmers or relays, all leaving the board at a clean 5 V.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📏</div>
+        <h3>5 V that survives the cable</h3>
+        <p>Every data line is buffered up from 3.3 V before it leaves the board, with real drive behind it. That is the difference between a strip that works at three metres and one that works at the far end of a truss.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔩</div>
+        <h3>Screw or plug, your choice</h3>
+        <p>Pluggable blocks for install work — wire them on the bench, unplug the fixture without unwiring it — each doubled with an internal header footprint for loom-built fixtures. The pin name is printed next to every pole.</p>
+      </div>
+      <div class="card">
+        <div class="ico">💾</div>
+        <h3>A card slot on board</h3>
+        <p>For the scene manager: record a look from any source, leave the card in, and the fixture runs the show on its own with nothing else on the network.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🧱</div>
+        <h3>A header for what's next</h3>
+        <p>An expansion header carrying the serial buses, spare signals and both supply rails, ready for a board stacked on top. The motor module for the Orion winch is the first thing meant to sit there.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🌡️</div>
+        <h3>Sensors, buttons, inputs</h3>
+        <p>On-board temperature reported to the web UI and Home Assistant, a plug-in port for any other sensor, two analogue inputs and a panel-button header — a fixture in a sealed box on a roof is a thermal problem worth watching.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What it turns into ────────────────────────────────────────────── -->
+<section style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">Where it goes</div>
+    <h2 class="sec-title">One board, as many products as you flash</h2>
+    <p class="sec-sub">The fixture layer is firmware. These are the ones that exist today — with two DMX ports, fourteen possible outputs, an expansion header and a card slot, they are nowhere near the limit.</p>
+    <div class="grid">
+      <div class="card" style="background: var(--bg);">
+        <div class="x3-role">Runs Veyron</div>
+        <h3>The brain of a pixel bar</h3>
+        <p>A pixel strip with independent white accents, nine DMX personalities, shutter and dimming curves — the fixture RavLight was built around, now with a second network port so a row of bars chains bar to bar, and data that survives the run to the far end of the truss.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="x3-role">Runs Elyon</div>
+        <h3>A controller for a big display</h3>
+        <p>Outputs with their own universe mapping, pixel count and colour order, fed from sACN or Art-Net over wired Ethernet. For the holiday display that outgrew one controller and the installation that cannot rely on WiFi.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="x3-role">Runs Axon</div>
+        <h3>A node at the end of a cable run</h3>
+        <p>Two universes of wired DMX out of a network drop, with the chain passing through to the next node and the bypass behind it. The unglamorous box that makes the rest of the rig work — and the one that must never be the reason a run goes quiet.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="x3-role">Runs Orion</div>
+        <h3>A winch, once the module lands</h3>
+        <p>The expansion header carries everything a motor driver needs. The plan is a daughter board with the stepper stage on it, so the controller that runs the lights and the one that runs the lift stop being two devices in the rig.</p>
+      </div>
+      <div class="card" style="background: var(--bg);">
+        <div class="x3-role muted">Runs yours</div>
+        <h3>And the ones nobody has built yet</h3>
+        <p>A DMX merger. A relay box on a truss. A sensor node that reports back over the same network the lights are on. Nothing about the board is specific to lighting past the two DMX ports — the fixture layer is where a new product gets written, and that part is open.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Specs ─────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="sec-label">Specification</div>
+    <h2 class="sec-title">On paper</h2>
+    <p class="sec-sub">Pre-production. Anything here can still move before the first run comes back.</p>
+    <div class="tbl-wrap">
+      <table class="x3-spec">
+        <tbody>
+          <tr><td>Processor</td><td>ESP32, dual core, with hardware Ethernet, WiFi, Bluetooth and an external antenna connector</td></tr>
+          <tr><td>Ethernet</td><td>Two 10/100 ports through an on-board switch — one address per fixture, daisy chain without external hardware; link indicator per port</td></tr>
+          <tr><td>Bypass</td><td>The two ports are bridged whenever the board is unpowered, so the chain survives a dead fixture</td></tr>
+          <tr><td>Wired DMX</td><td>Two optically isolated ports; XLR connectors optional, both ports also on internal headers; input routed to either port by solder bridge; selectable end-of-line termination</td></tr>
+          <tr><td>Network protocols</td><td>Art-Net and sACN / E1.31 received natively, up to 32 universes, discovery reply, mDNS announcement</td></tr>
+          <tr><td>Outputs</td><td>Eight buffered 5 V lines in the standard build, up to fourteen when unused functions are traded away; pluggable blocks doubled with internal header footprints, plus a servo header</td></tr>
+          <tr><td>Storage</td><td>microSD, with card detect</td></tr>
+          <tr><td>Expansion</td><td>Stack header with serial buses, spare signals and both supply rails · plug-in sensor port · two analogue inputs · panel-button header</td></tr>
+          <tr><td>Sensing</td><td>On-board temperature, reported to the web UI and Home Assistant</td></tr>
+          <tr><td>Power</td><td>6–24 V DC on a pluggable block; fuse, reverse-polarity and surge protection; 5 V and 3.3 V generated on board</td></tr>
+          <tr><td>Board</td><td>130 × 75 mm, four layers, four M3 mounting holes, assembly both sides</td></tr>
+          <tr><td>Firmware</td><td>RavLight core, unchanged — Veyron, Elyon and Axon fixtures, web UI, OTA, DMX recorder, device discovery</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gallery ───────────────────────────────────────────────────────── -->
+<section style="background: var(--s1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">Renders</div>
+    <h2 class="sec-title">Before the solder paste</h2>
+    <p class="sec-sub">Generated from the layout as it stands today. Every part is in its real place; only the colours are the renderer's idea.</p>
+    <div class="x3-gallery">
+      <div class="x3-shot">
+        <button class="x3-zoom" type="button" aria-label="Enlarge figure 3">
+          <img src="assets/img/xdmx-v3/profile.webp" width="1400" height="581" alt="XDMX v3 at eye level: the XLR connectors and the two network jacks standing along the front edge, terminal blocks and headers behind them">
+        </button>
+        <div class="x3-cap">FIG. 3 — FRONT EDGE · CONNECTORS ON ONE FACE FOR PANEL MOUNTING</div>
+      </div>
+      <div class="x3-shot">
+        <button class="x3-zoom" type="button" aria-label="Enlarge figure 4">
+          <img src="assets/img/xdmx-v3/iso.webp" width="1400" height="998" alt="XDMX v3 three-quarter view showing component heights across the board">
+        </button>
+        <div class="x3-cap">FIG. 4 — COMPONENT HEIGHTS · THE NETWORK JACKS ARE THE TALLEST PART</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stay informed ─────────────────────────────────────────────────── -->
+<section id="feedback">
+  <div class="wrap">
+    <div class="sec-label">Feedback</div>
+    <h2 class="sec-title">Would you use one?</h2>
+    <p class="sec-sub">The first run is small, and what goes on the second one depends on what people say they need. Tell me what you would build with it — or what you would change about this board before it gets made.</p>
+
+    <div class="x3-signup">
+      <!-- Mailing list — switched off until the list exists. To bring it back:
+           remove this comment wrapper and set SUBSCRIBE_URL in the script below.
+      <form class="x3-form" id="x3-notify" novalidate>
+        <div class="x3-field">
+          <label for="x3-email">Email</label>
+          <input id="x3-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="x3-field">
+          <label for="x3-message">What would you use it for? <span>optional</span></label>
+          <textarea id="x3-message" name="message" rows="3" placeholder="Fixtures I build, a rig I maintain, a display that outgrew its controller…"></textarea>
+        </div>
+        <input class="x3-hp" type="text" name="website" id="x3-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary" type="submit" id="x3-submit">Keep me posted</button>
+        <p class="x3-formstate" id="x3-state" role="status" hidden></p>
+        <p class="x3-fineprint">One message when there is something real to say — the prototype results, then availability. No sharing, no third parties, unsubscribe from any email.</p>
+      </form>
+      -->
+
+      <div class="x3-full">
+        <div class="x3-channels">
+          <a class="x3-channel" href="#" id="x3-discord" target="_blank" rel="noopener">
+            <span class="ico" aria-hidden="true">💬</span>
+            <span>
+              <h4>Discord — <span class="x3-handle">ravision92</span></h4>
+              <p>The quickest way to ask something, argue with a design decision, or watch the bring-up go wrong in real time.</p>
+            </span>
+          </a>
+          <a class="x3-channel" href="https://github.com/ravision92/ravlight-core/discussions" target="_blank" rel="noopener">
+            <span class="ico" aria-hidden="true">🐙</span>
+            <span>
+              <h4>Technical feedback on GitHub</h4>
+              <p>Pin assignments, connector choices, what you would have done differently. Public, so the next person reads it too.</p>
+            </span>
+          </a>
+          <a class="x3-channel" href="install.html">
+            <span class="ico" aria-hidden="true">⚡</span>
+            <span>
+              <h4>Try the firmware today</h4>
+              <p>v3 is not ready to order, but what it will run is. Flash it onto a board you already own — the web UI is the one you will know.</p>
+            </span>
+          </a>
+        </div>
+        <div class="note" style="margin-top:12px">
+          <b>Preview, not a product page.</b> The board has not been manufactured yet. Images are renders of the current layout, specifications are pre-production, and there is no price, stock or ship date. A list you can join for the prototype results is coming.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="x3-lightbox" id="x3-lightbox" role="dialog" aria-modal="true" aria-label="Enlarged render" hidden>
+  <button class="x3-lb-close" type="button" id="x3-lb-close" aria-label="Close">×</button>
+  <img id="x3-lb-img" src="" alt="">
+  <div class="x3-lb-cap" id="x3-lb-cap"></div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 Ravision — RavLight, Limitless Creations</span>
+    <span>
+      <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://github.com/ravision92/ravlight-core/releases" target="_blank" rel="noopener">Releases</a> ·
+      <a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="mailto:dav_rav@hotmail.it">Contact</a> ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="docs/getting-started.html">Documentation</a>
+    </span>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+/* ── Page configuration ────────────────────────────────────────────────
+   Fill these two in and the page is live:
+     SUBSCRIBE_URL — the POST endpoint of the mailing-list form
+                     (MailerLite / Buttondown / Brevo embedded-form action).
+                     The form itself is commented out in the markup above
+                     until the list exists — uncomment it and fill this in.
+     DISCORD_URL   — the invite link (discord.gg/…). Left empty, the card
+                     still shows the handle but does not link anywhere.      */
+var SUBSCRIBE_URL = "";
+var DISCORD_URL   = "https://discord.gg/Dh46SZbMx";
+
+/* Board map — markers and the legend drive one shared selection.
+   The panel ships filled, so the section reads fine without JS. */
+(function () {
+  var AREAS = {
+    "Processor": {
+      t: "The processor",
+      p: "A classic ESP32 — the only one in the family with a hardware Ethernet controller, which is why RavLight is built on it and why v3 keeps it. Wired network first, WiFi and its own access point as fallback, and an external antenna connector so the radio still works from inside a metal fixture body.",
+      c: "Wired Ethernet · WiFi · Bluetooth"
+    },
+    "Network": {
+      t: "Two ports, one address",
+      p: "A small switch sits between the two jacks and the processor. One jack is the inlet, the other passes through to the next fixture, and the processor hangs off the same switch — so a fixture joins the run without a switch at every position, and still takes a single address on the network.",
+      c: "10/100 · daisy chain · one address per fixture"
+    },
+    "Bypass": {
+      t: "Power-fail bypass",
+      p: "At rest, this pair holds the two network jacks wired straight to each other. Powered, they open and the switch takes over. Lose power mid-show and they fall closed again: the fixture goes dark, and everything after it on the run keeps receiving data.",
+      c: "Closed when unpowered · wired ahead of the electronics"
+    },
+    "ETH ports": {
+      t: "Network in and thru",
+      p: "Both ports in one shielded housing on the front edge, each with its own link indicator. For a panel-mount build, a short internal lead takes a port out to a locking connector on the fixture body.",
+      c: "2 × RJ45 · shielded · indicator per port"
+    },
+    "DMX in": {
+      t: "DMX input",
+      p: "The one connector whose meaning you choose: a bridge on the board sends it either to the first port — classic in and thru on one line — or to the second one, making it an independent universe. The XLR itself is optional; the same signals are on an internal header for fixtures that mount their connectors on the panel.",
+      c: "Isolated · XLR optional · internal header alternative"
+    },
+    "DMX out": {
+      t: "DMX output",
+      p: "The outgoing port, with end-of-line termination selectable on the board rather than with a plug. Both DMX ports are optically isolated and separately supplied, so a ground fault out on the line stays out there.",
+      c: "Isolated · termination on board · XLR optional"
+    },
+    "Outputs": {
+      t: "The output blocks",
+      p: "Pluggable blocks along the top edge: wire them on the bench, then unplug the fixture without unwiring it. Each is doubled with an internal header footprint for loom-built fixtures, and the pin name is printed next to every pole so the label matches what you type in the firmware.",
+      c: "Pluggable blocks · internal header alternative · servo header"
+    },
+    "5 V buffers": {
+      t: "5 V buffering",
+      p: "Every output line leaves the board converted from 3.3 V to a solid 5 V with real drive behind it — what lets a data line survive a long run to a strip at the far end of a truss instead of dying halfway. Eight lines in the standard build, up to fourteen when unused functions are traded away.",
+      c: "8 standard · 14 maximum · strips, dimmers or relays"
+    },
+    "Power in": {
+      t: "Protected power input",
+      p: "6 to 24 V in, through a fuse, reverse-polarity protection and a surge clamp before it reaches anything that matters. Then 5 V with headroom for the strips, and 3.3 V for the logic.",
+      c: "6–24 V DC · fused · reverse-polarity and surge protected"
+    },
+    "Expansion": {
+      t: "Stack header",
+      p: "Serial buses, spare signals and both supply rails, level-shifted and ready for a board that sits on top. The motor driver for the Orion winch is what it was laid out for; anything else that needs a processor with a network on it can use the same seat.",
+      c: "Serial buses · spare signals · 5 V and 3.3 V"
+    },
+    "Sensing": {
+      t: "Sensing and inputs",
+      p: "On-board temperature, reported to the web UI and to Home Assistant — a fixture in a sealed box is a thermal problem worth watching. Beside it, a plug-in port for any other sensor and a header with the board's two analogue inputs.",
+      c: "Temperature · plug-in sensor port · 2 analogue inputs"
+    },
+    "Card slot": {
+      t: "microSD slot",
+      p: "For the scene manager: record a look from any DMX source, leave the card in, and the fixture plays the show back on its own with nothing else on the network.",
+      c: "microSD · card detect"
+    }
+  };
+
+  var panel = document.getElementById('x3-detail');
+  if (!panel) return;
+  var slots = {
+    ref:   panel.querySelector('[data-slot="ref"]'),
+    title: panel.querySelector('[data-slot="title"]'),
+    body:  panel.querySelector('[data-slot="body"]'),
+    part:  panel.querySelector('[data-slot="part"]')
+  };
+  var pins = Array.prototype.slice.call(document.querySelectorAll('.x3-pin'));
+  var legend = panel.querySelector('.x3-legend');
+  var chips = [];
+
+  function select(ref) {
+    var area = AREAS[ref];
+    if (!area) return;
+    slots.ref.textContent = ref;
+    slots.title.textContent = area.t;
+    slots.body.textContent = area.p;
+    slots.part.textContent = area.c;
+    pins.concat(chips).forEach(function (el) {
+      el.setAttribute('aria-pressed', el.dataset.ref === ref ? 'true' : 'false');
+    });
+  }
+
+  chips = pins.map(function (pin) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.ref = pin.dataset.ref;
+    b.textContent = pin.dataset.ref;
+    b.setAttribute('aria-pressed', pin.getAttribute('aria-pressed'));
+    b.addEventListener('click', function () { select(b.dataset.ref); });
+    legend.appendChild(b);
+    return b;
+  });
+
+  pins.forEach(function (pin) {
+    pin.type = 'button';
+    pin.setAttribute('aria-label', pin.dataset.ref);
+    pin.addEventListener('click', function () { select(pin.dataset.ref); });
+    pin.addEventListener('mouseenter', function () { select(pin.dataset.ref); });
+  });
+})();
+
+/* Renders — click a figure to see it full screen. */
+(function () {
+  var box = document.getElementById('x3-lightbox');
+  if (!box) return;
+  var img = document.getElementById('x3-lb-img');
+  var cap = document.getElementById('x3-lb-cap');
+  var close = document.getElementById('x3-lb-close');
+  var opener = null;
+
+  function open(btn) {
+    var source = btn.querySelector('img');
+    var caption = btn.parentNode.querySelector('.x3-cap');
+    img.src = source.currentSrc || source.src;
+    img.alt = source.alt;
+    cap.textContent = caption ? caption.textContent : '';
+    opener = btn;
+    box.hidden = false;
+    close.focus();
+  }
+  function shut() {
+    box.hidden = true;
+    img.src = '';
+    if (opener) { opener.focus(); opener = null; }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.x3-zoom'), function (btn) {
+    btn.addEventListener('click', function () { open(btn); });
+  });
+  close.addEventListener('click', shut);
+  box.addEventListener('click', function (e) { if (e.target !== img) shut(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !box.hidden) shut();
+  });
+})();
+
+/* Discord card — links out once an invite is configured, shows the handle either way. */
+(function () {
+  var discord = document.getElementById('x3-discord');
+  if (!discord) return;
+  if (DISCORD_URL) {
+    discord.href = DISCORD_URL;
+  } else {                                    // no invite link yet
+    discord.removeAttribute('href');
+    discord.removeAttribute('target');
+    discord.classList.add('unwired');
+  }
+})();
+
+/* Mailing list — posts to the configured endpoint without leaving the page.
+   Dormant while the form above is commented out. */
+(function () {
+  var form = document.getElementById('x3-notify');
+  if (!form) return;
+  var email  = document.getElementById('x3-email');
+  var msg    = document.getElementById('x3-message');
+  var trap   = document.getElementById('x3-website');
+  var button = document.getElementById('x3-submit');
+  var state  = document.getElementById('x3-state');
+
+  function say(kind, text) {
+    state.hidden = false;
+    state.className = 'x3-formstate ' + kind;
+    state.textContent = text;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (trap.value) return;                      // bot filled the hidden field
+    if (!email.checkValidity() || !email.value) {
+      say('err', 'That address does not look right — check it and try again.');
+      email.focus();
+      return;
+    }
+    button.disabled = true;
+    say('ok', 'Sending…');
+
+    function done() {
+      say('ok', "You're on the list. One message when the prototypes are running.");
+      form.reset();
+      button.disabled = true;
+      button.textContent = 'Done';
+    }
+    function failed() {
+      button.disabled = false;
+      say('err', 'That did not go through. Try again, or reach me on Discord.');
+    }
+
+    if (!SUBSCRIBE_URL) { done(); return; }      // list not wired up yet
+
+    var body = new FormData();
+    body.append('fields[email]', email.value);
+    body.append('email', email.value);
+    body.append('fields[message]', msg.value);
+    body.append('message', msg.value);
+
+    fetch(SUBSCRIBE_URL, { method: 'POST', body: body, mode: 'cors' })
+      .then(function (r) { if (r.ok) { done(); } else { failed(); } })
+      .catch(failed);
+  });
+})();
+</script>
+</body>
+</html>
