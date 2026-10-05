@@ -303,10 +303,11 @@ footer {
   max-width: var(--max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 230px minmax(0, 1fr);   /* minmax: a wide table must not push the column past the screen */
   gap: 48px;
   padding: 40px 24px 80px;
 }
+.docs-body { min-width: 0; }
 .docs-side { position: sticky; top: 84px; align-self: start; }
 .docs-side .group { margin-bottom: 22px; }
 .docs-side .group-lbl {
@@ -374,7 +375,7 @@ footer {
   }
   .nav-links.open { display: flex; }
   .nav-burger { display: block; }
-  .docs-shell { grid-template-columns: 1fr; gap: 22px; }
+  .docs-shell { grid-template-columns: minmax(0, 1fr); gap: 22px; }
   .docs-side { position: static; }
   section { padding: 52px 20px; }
   .hero { padding: 64px 20px 56px; }
