@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products · RavLight</title>
+<meta name="description" content="RavLight hardware, firmware and tools: the Veyron pixel bar, the XDMX v3 board, RavLight Core with its Veyron, Elyon, Orion and Axon fixtures, Polaris and Home Assistant.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/ds.css">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.site-nav').classList.toggle('open')">☰</button>
+  <nav class="site-nav"><a href="products.html" aria-current="page">Products</a><a href="case-studies.html">Case studies</a><a href="docs/getting-started.html">Docs</a>
+    <a class="btn primary small" href="https://ravlight.com/install.html">Install</a>
+    <span class="social">
+      <a class="icon-link" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="icon-link" href="https://instagram.com/ravlight_" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    </span>
+  </nav>
+</div></header>
+<main>
+<div class="wrap">
+  <section class="section">
+    <div class="head-block">
+      <div class="eyebrow">Products</div>
+      <h1>Hardware, firmware and tools</h1>
+      <p class="lede">Fixtures and boards we build, the open firmware that runs them, and the tools to manage a rig.</p>
+    </div>
+    <div class="mini">
+      <div><h3>1 · Hardware</h3><p>Fixtures and boards designed by RavLight. Or a board you already own: the firmware runs on controllers from QuinLED and Gledopto too.</p></div>
+      <div><h3>2 · Firmware</h3><p>RavLight Core installs on the board from the browser. You choose a fixture, and the board becomes that fixture.</p></div>
+      <div><h3>3 · Tools</h3><p>Polaris sets up and updates a whole rig. Home Assistant watches it once the show runs.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="hardware">
+    <div class="head-block">
+      <div class="eyebrow">Hardware</div>
+      <h2>Built by RavLight</h2>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <a class="card-media" href="veyron.html"><img src="assets/veyron-hero.jpg" alt="Veyron pixel bar"></a>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag ok">Available</span><span class="tag">Fixture</span></div>
+          <h3>Veyron</h3>
+          <p>A 1 m pixel bar with two RGB rows and six white segments. Art-Net, sACN and DMX.</p>
+          <div class="card-links"><a href="veyron.html">View product →</a><a href="docs/fixtures/veyron.html">Interactive wiki →</a></div>
+        </div>
+      </div>
+      <a class="card" href="https://ravlight.com/xdmx-v3.html">
+        <div class="card-media"><img src="assets/xdmx-v3.jpg" alt="XDMX v3 board"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag warn">In development</span><span class="tag">Board</span></div>
+          <h3>XDMX v3</h3>
+          <p>One board for a whole fixture. Two Ethernet ports that keep the chain alive if a fixture loses power, two isolated DMX ports, up to 14 outputs.</p>
+          <span class="card-more">View board →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="software">
+    <div class="feature">
+      <div>
+        <div class="eyebrow">Firmware</div>
+        <h3>RavLight Core</h3>
+        <p>Open firmware for ESP32 lighting controllers. Networking, DMX, effects, the web page and updates are shared. Each fixture adds only what its hardware needs.</p>
+        <ul class="ticks">
+          <li>Art-Net and sACN, up to 32 universes, and DMX512 by cable</li>
+          <li>Ethernet first, then WiFi, then its own access point</li>
+          <li>Set up in the browser, updated over the network</li>
+          <li>Recorded shows, built-in effects and signal-loss behaviour</li>
+        </ul>
+        <div class="btn-row"><a class="btn primary" href="https://ravlight.com/install.html">Install</a><a class="btn" href="https://ravlight.com/docs/getting-started.html">Get started</a></div>
+      </div>
+      <div class="feature-media"><img src="assets/core-ui.jpg" alt="RavLight web interface"></div>
+    </div>
+  </section>
+
+  <section class="section" id="fixtures">
+    <div class="head-block">
+      <div class="eyebrow">Fixtures</div>
+      <h2>Four fixtures in the firmware</h2>
+      <p>A fixture is the part of RavLight that knows one kind of hardware: its outputs, its DMX channels and its controls in the web page. You pick it when you install.</p>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <a class="card-media" href="veyron.html"><img src="assets/base-floor.jpg" alt="Veyron bars in pink over a dance floor"></a>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag ok">Stable</span><span class="tag">Pixel bar</span></div>
+          <h3>Veyron</h3>
+          <p>The firmware of our Veyron bar. 40 RGB pixels and 6 white segments.</p>
+          <ul class="ticks">
+            <li>9 DMX personalities, 4 to 133 channels</li>
+            <li>32 RGB macros and 12 white macros</li>
+            <li>Board: XDMX rev2.2</li>
+          </ul>
+          <div class="card-links"><a href="veyron.html">Product →</a><a href="docs/fixtures/veyron.html">Wiki: every channel animated →</a></div>
+        </div>
+      </div>
+      <a class="card" href="https://ravlight.com/docs/fixtures/elyon.html">
+        <div class="card-media"><img src="assets/core-dmx.jpg" alt="DMX settings in the web interface"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag warn">Alpha</span><span class="tag">LED controller</span></div>
+          <h3>Elyon</h3>
+          <p>Turns a multi-output board into an Art-Net and sACN LED node. Each output is set up on its own.</p>
+          <ul class="ticks">
+            <li>2 to 15 outputs, depending on the board</li>
+            <li>WS281x, SK6812, TM181x, APA102, SK9822, P9813, PWM, relay</li>
+            <li>Per output: pixel count, universe, grouping, colour order</li>
+            <li>Boards: QuinLED Dig-Octa, Penta+, Penta Deca, Gledopto Elite 2D and 4D</li>
+          </ul>
+          <span class="card-more">Docs →</span>
+        </div>
+      </a>
+      <a class="card" href="orion-chandeliers.html">
+        <div class="card-media"><img src="assets/orion-shades.jpg" alt="Chandeliers lifted by Orion winches"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag ok">Stable</span><span class="tag ok">In service</span><span class="tag">Winch</span></div>
+          <h3>Orion</h3>
+          <p>A DMX winch that raises and lowers loads. Running twelve chandeliers in a bar in the USA.</p>
+          <ul class="ticks">
+            <li>Homing without a limit switch, with a setup wizard</li>
+            <li>DMX position in 8 or 16 bit, with speed and acceleration</li>
+            <li>Watchdog, travel limits and a safe Enable channel</li>
+            <li>Board: LED Lifter v5 by Q-Squared Systems</li>
+          </ul>
+          <span class="card-more">Case study →</span>
+        </div>
+      </a>
+      <a class="card" href="https://ravlight.com/docs/fixtures/axon.html">
+        <div class="card-media"><img src="assets/core-monitor.jpg" alt="DMX monitor in the web interface"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag warn">Alpha</span><span class="tag">DMX node</span></div>
+          <h3>Axon</h3>
+          <p>Brings a network rig to a classic DMX line. Art-Net or sACN in, DMX512 out.</p>
+          <ul class="ticks">
+            <li>Full 512-channel universe on the wire</li>
+            <li>Status display: IP, source, universe, frame rate</li>
+            <li>Two extra LED outputs</li>
+            <li>Board: XDMX v1.4</li>
+          </ul>
+          <span class="card-more">Docs →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="tools">
+    <div class="head-block">
+      <div class="eyebrow">Tools</div>
+      <h2>Manage the rig</h2>
+      <p>Neither tool sends DMX. Your console keeps that job.</p>
+    </div>
+    <div class="grid two">
+      <a class="card" href="polaris.html">
+        <div class="card-media"><img src="assets/polaris.jpg" alt="Polaris device list"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag acc">App for PC</span></div>
+          <h3>Polaris</h3>
+          <p>One list for every fixture on the network. Find them across subnets, patch a whole group, and update the firmware of the rig at once.</p>
+          <span class="card-more">Learn more →</span>
+        </div>
+      </a>
+      <a class="card" href="https://ravlight.com/docs/home-assistant.html">
+        <div class="card-media"><img src="assets/ha.jpg" alt="Home Assistant device page"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="tag acc">Integration</span></div>
+          <h3>Home Assistant</h3>
+          <p>Every RavLight device on the house dashboard. Is DMX arriving, at what frame rate, and how hot is the controller.</p>
+          <span class="card-more">Learn more →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cta-band">
+      <div><h2>See it working</h2><p>Clubs and venues already running RavLight.</p></div>
+      <a class="btn" href="case-studies.html">Case studies</a>
+    </div>
+  </section>
+</div>
+
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+      <p>Open firmware and hardware for stage lighting.</p></div>
+    <div><h4>Products</h4><a href="veyron.html">Veyron</a><a href="https://ravlight.com/xdmx-v3.html">XDMX v3</a><a href="products.html#software">RavLight Core</a><a href="polaris.html">Polaris</a></div>
+    <div><h4>Work</h4><a href="case-studies.html">Case studies</a><a href="base-sistiana.html">BASE, Sistiana</a><a href="new-age.html">New Age, Roncade</a><a href="orion-chandeliers.html">Chandeliers on winches</a></div>
+    <div><h4>Resources</h4><a href="docs/getting-started.html">Docs</a><a href="https://ravlight.com/install.html">Install</a><a href="styleguide.html">Design system</a><a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+  <div class="foot-note"><span>© 2026 Ravision · RavLight, Limitless Creations</span><span>Ravision92 · Davide Ravenna · +39 346 018 2462</span></div>
+</div></footer>
+<script>
+(function () {
+  // A new page opens at the top. Section links (#...) and Back keep their own position.
+  // A host frame can restore its own scroll after load, so repeat until the reader scrolls.
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (!location.hash && !(nav && nav.type === 'back_forward')) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var userMoved = false;
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { userMoved = true; }, { passive: true, once: true });
+    });
+    var top = function () { if (!userMoved) window.scrollTo(0, 0); };
+    top();
+    document.addEventListener('DOMContentLoaded', top);
+    window.addEventListener('load', function () { top(); setTimeout(top, 60); setTimeout(top, 300); setTimeout(top, 800); });
+  }
+  var lb;
+  function close() { if (lb) { lb.classList.remove('open'); document.body.style.overflow = ''; } }
+  document.querySelectorAll('main img').forEach(function (img) {
+    if (!img.closest('a') && !img.classList.contains('hero-logo') && !img.classList.contains('no-zoom')) img.classList.add('zoomable');
+  });
+  document.addEventListener('click', function (e) {
+    var img = e.target.closest && e.target.closest('img.zoomable');
+    if (!img) return;
+    if (!lb) {
+      lb = document.createElement('div'); lb.className = 'lightbox';
+      lb.innerHTML = '<button aria-label="Close">×</button><img alt="">';
+      document.body.appendChild(lb); lb.addEventListener('click', close);
+    }
+    var big = lb.querySelector('img'); big.src = img.currentSrc || img.src; big.alt = img.alt;
+    lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  if (document.body.classList.contains('home')) {
+    var head = document.querySelector('.site-head');
+    var upd = function () { head.classList.toggle('visible', window.scrollY > 10); };
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  }
+})();
+</script>
+</body>
+</html>

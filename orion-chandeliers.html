@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twelve chandeliers on winches · RavLight case study</title>
+<meta name="description" content="Twelve LED Lifter v5 boards running RavLight Orion raise and lower twelve chandeliers over a bar in the USA, each on its own stepper motor.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/ds.css">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.site-nav').classList.toggle('open')">☰</button>
+  <nav class="site-nav"><a href="products.html">Products</a><a href="case-studies.html" aria-current="page">Case studies</a><a href="docs/getting-started.html">Docs</a>
+    <a class="btn primary small" href="https://ravlight.com/install.html">Install</a>
+    <span class="social">
+      <a class="icon-link" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="icon-link" href="https://instagram.com/ravlight_" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    </span>
+  </nav>
+</div></header>
+<main>
+<div class="wrap">
+  <section class="section">
+    <div class="eyebrow">Case study · Bar · USA</div>
+    <h1>Twelve chandeliers on winches</h1>
+    <p class="lede">Twelve RavLight winch controllers raise and lower the chandeliers over a bar, each one on its own stepper motor.</p>
+    <div class="facts">
+      <div><span>Venue</span><b>Bar and lounge, USA</b></div>
+      <div><span>Winches</span><b>12 Orion</b></div>
+      <div><span>Board</span><b>LED Lifter v5 by Q-Squared Systems</b></div>
+      <div><span>Motors</span><b>12 steppers, TMC2209</b></div>
+      <div><span>Control</span><b>MadMapper</b></div>
+      <div><span>Firmware</span><b>RavLight Core</b></div>
+    </div>
+  </section>
+
+  <video class="hero-video" src="assets/orion-chandeliers.mp4" poster="assets/orion-chandeliers-poster.jpg" autoplay muted loop playsinline controls aria-label="The chandeliers moving over the bar"></video>
+
+  <section class="section">
+    <div class="feature">
+      <div>
+        <div class="eyebrow">The winch</div>
+        <h3>Out of sight above the ceiling</h3>
+        <p>Each chandelier hangs from a thin line wound on a small drum. The board and the motor sit above the ceiling. Only the line moves.</p>
+        <p>The LED Lifter v5 board carries an ESP32, Ethernet and a TMC2209 stepper driver. RavLight Orion is its firmware.</p>
+        <p>The show runs from MadMapper, which moves all twelve chandeliers over the network.</p>
+      </div>
+      <div class="feature-media"><img src="assets/orion-winch.jpg" alt="LED Lifter board, stepper motor and drum mounted above the ceiling"></div>
+    </div>
+    <div class="feature flip">
+      <div>
+        <div class="eyebrow">Homing</div>
+        <h3>No limit switch</h3>
+        <p>The driver senses the motor load and stops at the top of travel. No switch and no cable on the moving part.</p>
+        <p>A setup wizard measures the motor at eight speeds in both directions, so every winch knows its own load.</p>
+      </div>
+      <div class="feature-media"><img src="assets/orion-shades.jpg" alt="Twelve drum chandeliers hanging over the bar"></div>
+    </div>
+    <div class="feature">
+      <div>
+        <div class="eyebrow">Safety</div>
+        <h3>Still unless told to move</h3>
+        <ul class="ticks">
+          <li>An Enable channel at 0 keeps the motor off</li>
+          <li>When DMX stops, a watchdog notices within 5 seconds</li>
+          <li>Travel limits clamp any position outside them</li>
+          <li>Position in centimetres or inches, set from the drum size</li>
+        </ul>
+      </div>
+      <div class="feature-media"><img src="assets/orion-chandeliers-poster.jpg" alt="Chandeliers over the bar, lit"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="head-block">
+      <div class="eyebrow">Collaboration</div>
+      <h2>Their board, our firmware</h2>
+      <p>George Qualley and his brother designed the LED Lifter board at Q-Squared Systems and needed firmware for it. RavLight became that firmware, refined on the bench and in the venue.</p>
+      <p>The same collaboration produced the Home Assistant integration for RavLight devices.</p>
+    </div>
+    <div class="credits">
+      <a class="credit-card" href="https://github.com/gmint" target="_blank" rel="noopener">
+        <img src="assets/george.png" alt="" width="56" height="56">
+        <span><b>George Qualley</b>LED Lifter hardware · Home Assistant integration<em>github.com/gmint</em></span>
+      </a>
+      <a class="credit-card" href="https://github.com/cutmoney" target="_blank" rel="noopener">
+        <img src="assets/brother.png" alt="" width="56" height="56">
+        <span><b>George's brother</b>LED Lifter hardware and board support<em>github.com/cutmoney</em></span>
+      </a>
+      <a class="credit-card" href="https://qsquaredsystems.com" target="_blank" rel="noopener">
+        <span class="avatar-ph">Q²</span>
+        <span><b>Q-Squared Systems</b>Hardware design<em>qsquaredsystems.com</em></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="head-block"><div class="eyebrow">Products used</div><h2>What runs the chandeliers</h2></div>
+    <div class="grid">
+      <a class="card" href="products.html#software"><div class="card-media"><img src="assets/core-ui.jpg" alt="RavLight Core"></div><div class="card-body"><h3>RavLight Core · Orion</h3><p>Winch firmware with homing, setup wizard and DMX position control.</p><span class="card-more">Product →</span></div></a>
+      <a class="card" href="https://ravlight.com/docs/home-assistant.html"><div class="card-media"><img src="assets/ha.jpg" alt="Home Assistant"></div><div class="card-body"><h3>Home Assistant</h3><p>Integration born from this project.</p><span class="card-more">Product →</span></div></a>
+    </div>
+  </section>
+</div>
+
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+      <p>Open firmware and hardware for stage lighting.</p></div>
+    <div><h4>Products</h4><a href="veyron.html">Veyron</a><a href="https://ravlight.com/xdmx-v3.html">XDMX v3</a><a href="products.html#software">RavLight Core</a><a href="polaris.html">Polaris</a></div>
+    <div><h4>Work</h4><a href="case-studies.html">Case studies</a><a href="base-sistiana.html">BASE, Sistiana</a><a href="new-age.html">New Age, Roncade</a><a href="orion-chandeliers.html">Chandeliers on winches</a></div>
+    <div><h4>Resources</h4><a href="docs/getting-started.html">Docs</a><a href="https://ravlight.com/install.html">Install</a><a href="styleguide.html">Design system</a><a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+  <div class="foot-note"><span>© 2026 Ravision · RavLight, Limitless Creations</span><span>Ravision92 · Davide Ravenna · +39 346 018 2462</span></div>
+</div></footer>
+<script>
+(function () {
+  // A new page opens at the top. Section links (#...) and Back keep their own position.
+  // A host frame can restore its own scroll after load, so repeat until the reader scrolls.
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (!location.hash && !(nav && nav.type === 'back_forward')) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var userMoved = false;
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { userMoved = true; }, { passive: true, once: true });
+    });
+    var top = function () { if (!userMoved) window.scrollTo(0, 0); };
+    top();
+    document.addEventListener('DOMContentLoaded', top);
+    window.addEventListener('load', function () { top(); setTimeout(top, 60); setTimeout(top, 300); setTimeout(top, 800); });
+  }
+  var lb;
+  function close() { if (lb) { lb.classList.remove('open'); document.body.style.overflow = ''; } }
+  document.querySelectorAll('main img').forEach(function (img) {
+    if (!img.closest('a') && !img.classList.contains('hero-logo') && !img.classList.contains('no-zoom')) img.classList.add('zoomable');
+  });
+  document.addEventListener('click', function (e) {
+    var img = e.target.closest && e.target.closest('img.zoomable');
+    if (!img) return;
+    if (!lb) {
+      lb = document.createElement('div'); lb.className = 'lightbox';
+      lb.innerHTML = '<button aria-label="Close">×</button><img alt="">';
+      document.body.appendChild(lb); lb.addEventListener('click', close);
+    }
+    var big = lb.querySelector('img'); big.src = img.currentSrc || img.src; big.alt = img.alt;
+    lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  if (document.body.classList.contains('home')) {
+    var head = document.querySelector('.site-head');
+    var upd = function () { head.classList.toggle('visible', window.scrollY > 10); };
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  }
+})();
+</script>
+</body>
+</html>

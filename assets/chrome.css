@@ -1,0 +1,42 @@
+/* Header and footer of the new design, for pages still on site.css (install, privacy,
+   XDMX v3). Every rule and token is scoped to .site-head / .site-foot so nothing else on
+   those pages changes. Pages built on ds.css do not load this file. */
+
+.site-head, .site-foot {
+  --c-bg: #0a0a0a; --c-s2: #1b1b1b; --c-line: rgba(255,255,255,.08); --c-line2: rgba(255,255,255,.14);
+  --c-acc: #e9ff00; --c-acc-dim: #c4d600; --c-txt: #ececec; --c-txt2: #b9b9b9; --c-txt3: #7d7d7d;
+  --c-head: 64px; --c-max: 1160px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.site-head .wrap, .site-foot .wrap { max-width: var(--c-max); margin: 0 auto; padding-inline: 24px; }
+
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 100; background: rgba(10,10,10,.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--c-line); }
+.site-head .wrap { height: var(--c-head); display: flex; align-items: center; gap: 32px; }
+.site-head .logo img { height: 22px; width: auto; display: block; }
+.site-head .site-nav { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+.site-head .site-nav a { font-size: 15px; font-weight: 500; color: var(--c-txt2); text-decoration: none; }
+.site-head .site-nav a:hover { color: var(--c-txt); }
+.site-head .btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 6px; font-size: 14px; font-weight: 600; background: var(--c-acc); border: 1px solid var(--c-acc); color: #0a0a0a; transform: none; }
+.site-head .site-nav a.btn { color: #0a0a0a; }
+.site-head .btn:hover { background: var(--c-acc-dim); transform: none; }
+.site-head .social { display: flex; gap: 8px; }
+.site-head .icon-link { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; color: var(--c-txt2); }
+.site-head .icon-link:hover { color: var(--c-acc); background: var(--c-s2); }
+.site-head .icon-link svg { width: 18px; height: 18px; }
+.site-head .burger { display: none; margin-left: auto; background: none; border: 1px solid var(--c-line2); color: var(--c-txt); border-radius: 6px; width: 40px; height: 36px; font-size: 18px; cursor: pointer; }
+
+.site-foot { border-top: 1px solid var(--c-line); margin-top: 72px; padding: 48px 0; color: var(--c-txt2); font-size: 15px; }
+.site-foot .foot-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; }
+.site-foot h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--c-txt3); margin: 0 0 12px; }
+.site-foot a { display: block; color: var(--c-txt2); padding: 3px 0; text-decoration: none; }
+.site-foot a:hover { color: var(--c-acc); }
+.site-foot p { margin: 0; color: var(--c-txt2); }
+.site-foot .logo img { height: 22px; width: auto; margin-bottom: 12px; }
+.site-foot .foot-note { margin-top: 32px; font-size: 13px; color: var(--c-txt3); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 900px) { .site-foot .foot-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) {
+  .site-head .burger { display: block; }
+  .site-head .site-nav { display: none; position: absolute; top: var(--c-head); left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; background: var(--c-bg); border-bottom: 1px solid var(--c-line); }
+  .site-head .site-nav.open { display: flex; }
+}
