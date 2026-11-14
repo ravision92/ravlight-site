@@ -13,6 +13,7 @@
   <a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
   <button class="burger" aria-label="Menu" onclick="document.querySelector('.site-nav').classList.toggle('open')">☰</button>
   <nav class="site-nav"><a href="products.html" aria-current="page">Products</a><a href="case-studies.html">Case studies</a><a href="docs/getting-started.html">Docs</a>
+    <a class="btn small" href="contact.html">Contact</a>
     <a class="btn primary small" href="https://ravlight.com/install.html">Install</a>
     <span class="social">
       <a class="icon-link" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
@@ -104,11 +105,25 @@
   </section>
 
   <section class="section" id="downloads">
-    <div class="head-block"><div class="eyebrow">Downloads</div><h2>Everything to get started</h2></div>
-    <div class="grid">
+    <div class="head-block"><div class="eyebrow">Downloads</div><h2>Firmware, console profiles and manual</h2></div>
+
+    <h3>Firmware 2.24.0</h3>
+    <div class="grid two">
+      <a class="card" href="https://ravlight.com/install.html"><div class="card-body"><h3>First install</h3><p>Flash a new bar over USB from the browser. Chrome or Edge.</p><span class="card-more">Open the installer →</span></div></a>
+      <a class="card" href="firmware/veyron_xdmx2_fw.bin" download><div class="card-body"><h3>Update file</h3><p>For a bar already running RavLight. Upload it from the bar's web page or with Polaris.</p><span class="card-more">Download .bin →</span></div></a>
+    </div>
+
+    <h3>Console profiles</h3>
+    <div class="grid two">
+      <a class="card" href="downloads/RavLight_Veyron.d4" download><div class="card-body"><h3>Avolites Titan</h3><p>All nine personalities. RGB and white are separate cells, so you map them independently.</p><span class="card-more">Download .d4 →</span></div></a>
+      <a class="card" href="downloads/RavLight_Veyron.Fixture" download><div class="card-body"><h3>Onyx</h3><p>All nine personalities, one mode each.</p><span class="card-more">Download .Fixture →</span></div></a>
+    </div>
+    <p class="note-line">Made from firmware 2.24.0. Reimport them if you change the firmware.</p>
+
+    <h3>Documents</h3>
+    <div class="grid two">
+      <a class="card" href="docs/manuals/RavLight_Veyron_Manual_EN.pdf"><div class="card-body"><h3>User manual</h3><p>Installation, safety, wiring and full DMX tables. PDF.</p><span class="card-more">Download →</span></div></a>
       <a class="card" href="docs/fixtures/veyron.html"><div class="card-body"><h3>Interactive wiki</h3><p>Every channel and macro, animated by the bar's own firmware.</p><span class="card-more">Open →</span></div></a>
-      <a class="card" href="https://ravlight.com/docs/manuals/RavLight_Veyron_Manual_EN.pdf"><div class="card-body"><h3>User manual</h3><p>Installation, safety, wiring and full DMX tables. PDF.</p><span class="card-more">Download →</span></div></a>
-      <a class="card" href="https://ravlight.com/downloads/RavLight_Veyron.d4"><div class="card-body"><h3>Console profiles</h3><p>Avolites Titan and Onyx, every personality.</p><span class="card-more">Download →</span></div></a>
     </div>
   </section>
 

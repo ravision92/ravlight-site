@@ -304,3 +304,8 @@ main img.zoomable { cursor: zoom-in; }
 .contact-side h3 { font-size: var(--t-s); margin-bottom: var(--sp-2); }
 .contact-side p { color: var(--txt2); font-size: 15px; }
 @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: var(--sp-6); } }
+
+/* sub-groups inside a section (downloads) */
+.section > h3 { margin: var(--sp-6) 0 var(--sp-4); }
+.head-block + h3 { margin-top: 0; }
+.note-line { color: var(--txt3); font-size: var(--t-xs); margin-top: var(--sp-3); }
