@@ -285,3 +285,22 @@ main img.zoomable { cursor: zoom-in; }
   .section { padding-block: var(--sp-7); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+
+/* contact form */
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-7); align-items: start; }
+.form { display: grid; gap: var(--sp-4); }
+.field { display: grid; gap: var(--sp-2); }
+.field label { font-size: 14px; font-weight: 600; color: var(--txt2); }
+.field input, .field select, .field textarea { width: 100%; font: inherit; font-size: var(--t-s); color: var(--txt); background: var(--s1); border: 1px solid var(--line2); border-radius: var(--r); padding: 11px 14px; }
+.field textarea { min-height: 160px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--acc); outline-offset: 1px; border-color: transparent; }
+.field-check { display: flex; gap: var(--sp-3); align-items: flex-start; font-size: 14px; color: var(--txt2); }
+.field-check input { margin-top: 4px; accent-color: var(--acc); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { min-height: 1.5em; font-size: 15px; }
+.form-status.ok { color: var(--ok); }
+.form-status.err { color: var(--warn); }
+.contact-side { display: grid; gap: var(--sp-5); }
+.contact-side h3 { font-size: var(--t-s); margin-bottom: var(--sp-2); }
+.contact-side p { color: var(--txt2); font-size: 15px; }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: var(--sp-6); } }

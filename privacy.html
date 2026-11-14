@@ -27,35 +27,36 @@
 <div class="docs-shell" style="grid-template-columns:1fr;max-width:760px">
   <main class="docs-body">
     <h1>Privacy &amp; cookies</h1>
-    <p class="lede">ravlight.com is a static website for an open-source firmware project. It sets no cookies, runs no analytics, and collects no personal data. This page explains the little that does happen.</p>
+    <p class="lede">ravlight.com is a static website for an open-source firmware project. It sets no cookies and runs no analytics. The only personal data we receive is what you type into the contact form. This page explains it.</p>
 
     <h2>Cookies</h2>
     <p>This site does <b>not</b> use cookies — no first-party cookies, no analytics, no advertising or profiling. There is nothing to consent to, which is why you don't see a cookie banner.</p>
 
     <h2>Data we collect</h2>
-    <p>We do not run any server of our own and we do not ask you for, store, or process any personal data. There are no contact forms, no accounts and no newsletter.</p>
+    <p>We do not run any server of our own. There are no accounts and no newsletter. If you use the <a href="contact.html">contact form</a>, we receive your name, your email address and your message, plus the topic you choose. We use them only to answer you. We keep the message in our mailbox for as long as the conversation needs, and delete it when you ask.</p>
 
     <h2>Third parties &amp; technical logs</h2>
     <p>Two technical facts are worth stating plainly:</p>
     <ul>
       <li><b>Hosting (GitHub Pages).</b> The site is served by GitHub Pages. Like any web server, GitHub processes standard request metadata (including your IP address) to deliver pages and protect the service against abuse. This is handled under GitHub's own privacy practices.</li>
-      <li><b>Installer script (unpkg CDN).</b> The <a href="install.html">Install</a> page loads the open-source <code>esp-web-tools</code> library from the unpkg content-delivery network (operated via Cloudflare). When that page opens, your browser contacts unpkg and your IP address is therefore visible to it, as with any externally hosted script. No other page loads third-party resources.</li>
+      <li><b>Contact form (Web3Forms).</b> The form sends what you type to Web3Forms, a form service run by Web3Creative in India. It checks the message for spam and forwards it to our mailbox. Web3Forms acts as a data processor under its <a href="https://web3forms.com/dpa" target="_blank" rel="noopener">data processing agreement</a>. Nothing is sent until you press Send.</li>
+      <li><b>Installer script (unpkg CDN).</b> The <a href="install.html">Install</a> page loads the open-source <code>esp-web-tools</code> library from the unpkg content-delivery network (operated via Cloudflare). When that page opens, your browser contacts unpkg and your IP address is therefore visible to it, as with any externally hosted script. No other page loads third-party resources, and the contact form contacts Web3Forms only when you send it.</li>
     </ul>
-    <p>We receive no data from either of these — no logs, no reports, nothing identifiable reaches us.</p>
+    <p>We receive no data from GitHub or unpkg: no logs, no reports, nothing identifiable reaches us.</p>
 
     <h2>Flashing firmware</h2>
     <p>The browser installer talks to your ESP32 board <b>locally over USB</b>, using the Web Serial API built into Chromium-based browsers. The firmware image is downloaded from this site and written straight to the device. Nothing about your board, your network or your configuration is sent back to us or to any third party.</p>
 
     <h2>Your rights</h2>
-    <p>Since we hold no personal data about you, there is nothing to access, correct or delete on our side. If you believe otherwise, or have any privacy question, write to the contact below and we'll respond.</p>
+    <p>You can ask us what we hold about you, have it corrected, or have it deleted, by writing to the address below. If you have never written to us, we hold nothing.</p>
 
     <h2>Contact</h2>
-    <p>Email: <a href="mailto:dav_rav@hotmail.it">dav_rav@hotmail.it</a></p>
+    <p>Email: <a href="mailto:info@ravlight.com">info@ravlight.com</a></p>
 
     <h2>Changes</h2>
-    <p>If the site ever starts using cookies, analytics or any form that collects data, this page will be updated first and — where the law requires it — a consent request will be shown at that point.</p>
+    <p>If the site ever starts using cookies or analytics, this page will be updated first and, where the law requires it, a consent request will be shown at that point.</p>
 
-    <p style="color:var(--txt4);font-size:13px;margin-top:32px">Last updated: July 2026.</p>
+    <p style="color:var(--txt4);font-size:13px;margin-top:32px">Last updated: November 2026.</p>
   </main>
 </div>
 
@@ -65,9 +66,9 @@
       <p>Open firmware and hardware for stage lighting.</p></div>
     <div><h4>Products</h4><a href="veyron.html">Veyron</a><a href="https://ravlight.com/xdmx-v3.html">XDMX v3</a><a href="products.html#software">RavLight Core</a><a href="polaris.html">Polaris</a></div>
     <div><h4>Work</h4><a href="case-studies.html">Case studies</a><a href="base-sistiana.html">BASE, Sistiana</a><a href="new-age.html">New Age, Roncade</a><a href="orion-chandeliers.html">Chandeliers on winches</a></div>
-    <div><h4>Resources</h4><a href="docs/getting-started.html">Docs</a><a href="https://ravlight.com/install.html">Install</a><a href="styleguide.html">Design system</a><a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a></div>
+    <div><h4>Resources</h4><a href="docs/getting-started.html">Docs</a><a href="https://ravlight.com/install.html">Install</a><a href="styleguide.html">Design system</a><a href="contact.html">Contact</a><a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a></div>
   </div>
-  <div class="foot-note"><span>© 2026 Ravision · RavLight, Limitless Creations</span><span>Ravision92 · Davide Ravenna · +39 346 018 2462</span></div>
+  <div class="foot-note"><span>© 2026 Ravision · RavLight, Limitless Creations</span><span>Ravision92 · Davide Ravenna</span></div>
 </div></footer>
 
 <script src="assets/site.js"></script>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · RavLight</title>
+<meta name="description" content="Write to RavLight about Veyron, Ixion, custom builds or the firmware. We answer by email.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/ds.css">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.site-nav').classList.toggle('open')">☰</button>
+  <nav class="site-nav"><a href="products.html">Products</a><a href="case-studies.html">Case studies</a><a href="docs/getting-started.html">Docs</a>
+    <a class="btn primary small" href="https://ravlight.com/install.html">Install</a>
+    <span class="social">
+      <a class="icon-link" href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="icon-link" href="https://instagram.com/ravlight_" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    </span>
+  </nav>
+</div></header>
+<main>
+<div class="wrap">
+  <section class="section">
+    <div class="head-block">
+      <div class="eyebrow">Contact</div>
+      <h1>Write to us</h1>
+      <p class="lede">Questions about a fixture, a custom build or the firmware? Tell us what you need and we reply by email.</p>
+    </div>
+    <div class="contact-grid">
+      <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="9b1b333b-720f-4392-9f95-e8ff01dd11c5">
+        <input type="hidden" name="from_name" value="ravlight.com contact form">
+        <input type="hidden" name="subject" value="RavLight contact">
+        <div class="hp" aria-hidden="true"><input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="f-topic">Topic</label>
+          <select id="f-topic" name="topic">
+            <option>Veyron</option>
+            <option>Ixion</option>
+            <option>Custom build or another fixture</option>
+            <option>Polaris, Core or Home Assistant</option>
+            <option>Something else</option>
+          </select></div>
+        <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required></textarea></div>
+        <label class="field-check"><input type="checkbox" id="f-ok" required><span>I have read the <a href="privacy.html">privacy policy</a>.</span></label>
+        <div class="btn-row" style="margin:0"><button class="btn primary" type="submit" id="f-send">Send message</button></div>
+        <p class="form-status" id="f-status" role="status" aria-live="polite"></p>
+        <noscript><p>The form needs JavaScript. Write to <a href="mailto:info@ravlight.com">info@ravlight.com</a> instead.</p></noscript>
+      </form>
+      <aside class="contact-side">
+        <div><h3>Email</h3><p><a href="mailto:info@ravlight.com">info@ravlight.com</a></p></div>
+        <div><h3>Open source</h3><p>Bugs and feature requests go on <a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a>.</p></div>
+        <div><h3>Follow the builds</h3><p><a href="https://instagram.com/ravlight_" target="_blank" rel="noopener">Instagram</a></p></div>
+      </aside>
+    </div>
+  </section>
+</div>
+<script>
+(function () {
+  var want = new URLSearchParams(location.search).get('topic');
+  if (want) Array.prototype.forEach.call(document.getElementById('f-topic').options, function (o) { if (o.text === want) o.selected = true; });
+  var form = document.getElementById('contact-form'), status = document.getElementById('f-status'), btn = document.getElementById('f-send');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    if (data.get('botcheck')) return;
+    data.set('subject', 'RavLight contact: ' + data.get('topic'));
+    btn.disabled = true; status.className = 'form-status'; status.textContent = 'Sending...';
+    fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: data })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.success) throw new Error(j.message || 'failed');
+        form.reset(); status.className = 'form-status ok'; status.textContent = 'Sent. We will reply by email.';
+      })
+      .catch(function () {
+        status.className = 'form-status err';
+        status.innerHTML = 'It did not go through. Write to <a href="mailto:info@ravlight.com">info@ravlight.com</a> instead.';
+      })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+</script>
+
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="logo" href="./"><img src="assets/wordmark.png" alt="RavLight"></a>
+      <p>Open firmware and hardware for stage lighting.</p></div>
+    <div><h4>Products</h4><a href="veyron.html">Veyron</a><a href="https://ravlight.com/xdmx-v3.html">XDMX v3</a><a href="products.html#software">RavLight Core</a><a href="polaris.html">Polaris</a></div>
+    <div><h4>Work</h4><a href="case-studies.html">Case studies</a><a href="base-sistiana.html">BASE, Sistiana</a><a href="new-age.html">New Age, Roncade</a><a href="orion-chandeliers.html">Chandeliers on winches</a></div>
+    <div><h4>Resources</h4><a href="docs/getting-started.html">Docs</a><a href="https://ravlight.com/install.html">Install</a><a href="styleguide.html">Design system</a><a href="contact.html">Contact</a><a href="https://github.com/ravision92/ravlight-core" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+  <div class="foot-note"><span>© 2026 Ravision · RavLight, Limitless Creations</span><span>Ravision92 · Davide Ravenna</span></div>
+</div></footer>
+<script>
+(function () {
+  // A new page opens at the top. Section links (#...) and Back keep their own position.
+  // A host frame can restore its own scroll after load, so repeat until the reader scrolls.
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (!location.hash && !(nav && nav.type === 'back_forward')) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var userMoved = false;
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { userMoved = true; }, { passive: true, once: true });
+    });
+    var top = function () { if (!userMoved) window.scrollTo(0, 0); };
+    top();
+    document.addEventListener('DOMContentLoaded', top);
+    window.addEventListener('load', function () { top(); setTimeout(top, 60); setTimeout(top, 300); setTimeout(top, 800); });
+  }
+  var lb;
+  function close() { if (lb) { lb.classList.remove('open'); document.body.style.overflow = ''; } }
+  document.querySelectorAll('main img').forEach(function (img) {
+    if (!img.closest('a') && !img.classList.contains('hero-logo') && !img.classList.contains('no-zoom')) img.classList.add('zoomable');
+  });
+  document.addEventListener('click', function (e) {
+    var img = e.target.closest && e.target.closest('img.zoomable');
+    if (!img) return;
+    if (!lb) {
+      lb = document.createElement('div'); lb.className = 'lightbox';
+      lb.innerHTML = '<button aria-label="Close">×</button><img alt="">';
+      document.body.appendChild(lb); lb.addEventListener('click', close);
+    }
+    var big = lb.querySelector('img'); big.src = img.currentSrc || img.src; big.alt = img.alt;
+    lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  if (document.body.classList.contains('home')) {
+    var head = document.querySelector('.site-head');
+    var upd = function () { head.classList.toggle('visible', window.scrollY > 10); };
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  }
+})();
+</script>
+</body>
+</html>
